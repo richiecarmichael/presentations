@@ -94,7 +94,8 @@ featureLayerView.effect = new FeatureEffect({
 ---
 
 ### Filter/Effects Demonstration - TODO
-based on: http://tui/GitHub/richiecarmichael.github.io/quake-map/index.html
+Create sample based on:
+http://tui/GitHub/richiecarmichael.github.io/quake-map/index.html
 
 ---
 
