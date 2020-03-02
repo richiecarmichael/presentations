@@ -7,6 +7,7 @@
 ---
 
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
+
 ### Agenda
 
 - Client-side Layers (U)
@@ -21,19 +22,250 @@
 ---
 
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
-### Client-side Layers 
- - CSVLayer
- - GeoJSONLayer
- - FeatureLayer with collection
- 
+
+### Client-side Layers
+
+- All data available on the client-side.
+- Uniform API
+- Client-side layers
+  - [CSVLayer](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html)
+  - [GeoJSONLayer](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html)
+  - [FeatureLayer with feature collections](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html)
+
+---
+
 ---
 
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
+
+### Client-side layers - CSVLayer
+
+```ts
+const new CSVLayer({
+  url: "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/2.5_week.csv",
+  copyright: "USGS Earthquakes",
+  // SR in which the data will be stored
+  spatialReference: { wkid: 102100 },
+  delimiter: ",",
+  latitudeField: "lat",
+  longitudeField: "lon",
+  // defaults to "__OBJECTID"
+  objectIdField: "myOid"
+})
+```
+
+[API Reference](http://bzh.esri.com/javascript/latest/api-reference/esri-layers-CSVLayer.html)
+| [Sample](http://bzh.esri.com/javascript/latest/sample-code/layers-csv/index.html)
+
+---
+
+---
+
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
+
+### Client-side layers - CSVLayer - Tips
+
+- specify the layer's spatial reference
+  - Otherwise, features are stored in lon, lat... QueryEngine must project the features to the view's spatial reference
+    everytime when query is issued.
+- pass data by a blob url
+
+```ts
+const csv = `
+first_name|Year|latitude|Longitude
+Undral|2020|40.418|20.553
+Richie|2018|-118|35
+`;
+const blob = new Blob([csv], {
+  type: "plain/text"
+});
+let url = URL.createObjectURL(blob);
+
+const layer = new CSVLayer({
+  url: url
+});
+
+await layer.load();
+
+URL.revokeObjectURL(url);
+url = null;
+```
+
+---
+
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
+
+### Client-side layers - FeatureLayer
+
+```ts
+const layer = new FeatureLayer({
+  source: [
+    new Graphic({ attributes: { myOid: 1 }, geometry: { ... } })
+    new Graphic({ attributes: { myOid: 2 }, geometry: { ... } })
+    new Graphic({ attributes: { myOid: 3 }, geometry: { ... } })
+  ],
+
+  // can be inferred from geometries
+  geometryType: "point",
+  // can be inferred from geometries
+  spatialReference: { wkid: 2154 },
+  // can be inferred from fields w/ field.type "oid"
+  objectIdField: "myOid",
+
+  fields: [
+    new Field({
+      name: "myOid",
+      type: "oid"
+    })
+  ]
+})
+```
+
+Supports data in any spatial reference
+
+[Sample](https://developers.arcgis.com/javascript/latest/sample-code/layers-featurelayer-collection/index.html)
+
+---
+
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
+
+### Client-side layers - GeoJSON
+
+```ts
+const geoJSONLayer = new GeoJSONLayer({
+  url:
+    "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson",
+  copyright: "USGS Earthquakes"
+});
+```
+
+[API Reference](http://bzh.esri.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html)
+| [Sample](http://bzh.esri.com/javascript/latest/sample-code/layers-geojson/index.html)
+
+---
+
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
+
+### Client-side layers - GeoJSON - Tips
+
+- specify the layer's spatial reference
+- Limitation at 4.11: create a blob url from GeoJSON object
+
+```ts
+const geojson = `
+{
+  type: "FeatureCollection",
+  features: [
+    {
+      type: "Feature",
+      geometry: { type: "Point", coordinates: [-100, 40] },
+      properties: { name: "none" }
+    }
+  ]
+}
+`;
+
+const blob = new Blob([JSON.stringify(geojson)], {
+  type: "application/json"
+});
+
+let url = URL.createObjectURL(blob);
+
+const layer = new GeoJSONLayer({
+  url
+});
+
+await layer.load();
+
+URL.revokeObjectURL(url);
+url = null;
+```
+
+---
+
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
+
+### Client-side layers - GeoJSON - Tips
+
+- Fix [elevation data](https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php)
+
+```ts
+const url =
+  "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson";
+
+const layer = new GeoJSONLayer({
+  url,
+  title: "USGS Earthquakes",
+  copyright: "USGS",
+  definitionExpression: "type = 'earthquake'",
+
+  elevationInfo = {
+    mode: "absolute-height",
+    unit: "kilometers",
+    featureExpressionInfo: {
+      expression: "Geometry($feature).z * -1"
+    }
+  }
+});
+```
+
+[Plenary Demo](https://ycabon.github.io/2019-devsummit-plenary/2_geojson.html)
+
+---
+
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
+
+### Client-side layers - GeoJSON
+
+- Implementation of the spec [`rfc7946`](https://tools.ietf.org/html/rfc7946)
+- Support for `"Feature"` and `"FeatureCollection"`
+- Support for fixing ring winding order
+- Feature Layer
+- Not supported:
+  - mixed geometry types for consistency with other layers.
+  - `crs` object - only geographic coordinates using WGS84 datum (long/lat)
+  - No Antimeridian crossing
+
+---
+
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
+
+### Client-side layers - GeoJSON
+
+- Not supported, maybe pile:
+  - `"GeometryCollection"` object
+  - TopoJSON
+  - Feature `id` as `string`
+- Not supported yet but will be:
+  - Export back to GeoJSON
+  - updating features using GeoJSON, only through `applyEdits()`
+  - Loading a `GeoJSONLayer` using a `GeoJSON` object
+  - WebMap spec
+  - `queryParameters` and `refresh()`
+
+---
+
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
+
+### Client-side layers
+
+- Each implementation uses the client-side query engine.
+- Pick what's best for your usage.
+- Prefer `GeoJSON` over `CSV`.
+- Proper attribution using `copyright` property.
+- _"With [`GeoJSON`](./demos/geojson_or_featurelayer/geojson.html) I ditch my [`FeatureLayer`](./demos/geojson_or_featurelayer/featureLayer.html)"_ NO!!!
+- [Quantization benefits](https://github.com/ycabon/quantization/)
+
+---
+
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
+
 ### Query
 
 ---
 
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
+
 ### Filters
 
 _Client-side spatial/aspatial/temporal filtering._
@@ -47,6 +279,7 @@ featureLayerView.filter = new FeatureFilter({
   })
 });
 ```
+
 ```js
 // Only show buildings within 10 miles of the mouse cursor.
 mapView.on("pointer-move", function(e) {
@@ -61,6 +294,7 @@ mapView.on("pointer-move", function(e) {
 ---
 
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
+
 ### [Effects](https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-support-FeatureEffect.html)
 
 _Visual effects applied to included/excluded features._
@@ -74,11 +308,13 @@ featureLayerView.effect = new FeatureEffect({
   excludedEffect: "grayscale(100%) opacity(0.5)"
 });
 ```
+
 [Plenary Demo](https://ycabon.github.io/2019-devsummit-plenary/3_filter_effect.html)
 
 ---
 
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
+
 ### Supported Effects (w/ default values)
 
 ```css
@@ -91,17 +327,20 @@ featureLayerView.effect = new FeatureEffect({
 // saturate(30%);
 // sepia(60%);
 ```
+
 [CSS reference](https://developer.mozilla.org/en-US/docs/Web/CSS/filter)
 
 ---
 
 ### Filter/Effects Demonstration - TODO
+
 Create sample based on:
 http://tui/GitHub/richiecarmichael.github.io/quake-map/index.html
 
 ---
 
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-4.png" -->
+
 ### Demonstration - [Century of Quakes](demos/century-of-earthquakes.html)
 
 <img src="image/century-of-earthquakes.gif" style="border:0;background:none;box-shadow:none;width:800px;">
@@ -109,16 +348,19 @@ http://tui/GitHub/richiecarmichael.github.io/quake-map/index.html
 ---
 
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
+
 ### Geometry Engine
 
 ---
 
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
+
 ### Projection Engine
 
 ---
 
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
+
 ### Geodesic Utils
 
 ---
@@ -129,8 +371,6 @@ http://tui/GitHub/richiecarmichael.github.io/quake-map/index.html
 
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-3.png" -->
 <img src="../../reveal.js/img/esri-science-logo-white.png" style="border:0px; background:none;box-shadow:none;">
-
-
 
 <!-- *** LAST YEAR ***
 
@@ -145,8 +385,8 @@ http://tui/GitHub/richiecarmichael.github.io/quake-map/index.html
   - `queryObjectIds()`
   - `queryExtent()`
 
-[Age Pyramid](https://developers.arcgis.com/javascript/latest/sample-code/featurelayerview-query-geometry/live/index.html), 
-[Homicides](https://developers.arcgis.com/javascript/latest/sample-code/featurelayerview-query-distance/live/index.html), 
+[Age Pyramid](https://developers.arcgis.com/javascript/latest/sample-code/featurelayerview-query-geometry/live/index.html),
+[Homicides](https://developers.arcgis.com/javascript/latest/sample-code/featurelayerview-query-distance/live/index.html),
 [3D buildings](https://developers.arcgis.com/javascript/latest/sample-code/layers-scenelayerview-query-stats/live/index.html)
 
 ---
