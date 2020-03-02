@@ -25,7 +25,8 @@
 
 ### Client-side Layers
 
-- All data available on the client-side.
+- Fetch all features at once.
+- All features are available on the client-side.
 - Uniform API
 - Client-side layers
   - [CSVLayer](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html)
@@ -265,6 +266,21 @@ const layer = new GeoJSONLayer({
 
 ---
 
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
+
+### Layers and Layer Views
+
+- Server-side
+  - _(fetch or stream features on demand)_
+  - FeatureLayer
+  - SceneLayer
+  
+- Client-side
+  - CSVLayer
+  - GeoJSONLayer
+  - FeatureLayer (from feature collection)
+
+---
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
 
 ### Query
