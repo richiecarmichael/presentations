@@ -49,7 +49,16 @@ const new CSVLayer({
   latitudeField: "lat",
   longitudeField: "lon",
   // defaults to "__OBJECTID"
-  objectIdField: "myOid"
+  objectIdField: "myOid",
+  // create timeInfo for temporal visualization
+  timeInfo: {
+    startField: "time", // name of the date field
+    interval: {
+      // set time interval to one day
+      unit: "days",
+      value: 1
+    }
+   }
 })
 ```
 
