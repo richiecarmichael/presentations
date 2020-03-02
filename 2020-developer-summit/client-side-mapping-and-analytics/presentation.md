@@ -53,8 +53,8 @@ const new CSVLayer({
 })
 ```
 
-[API Reference](http://bzh.esri.com/javascript/latest/api-reference/esri-layers-CSVLayer.html)
-| [Sample](http://bzh.esri.com/javascript/latest/sample-code/layers-csv/index.html)
+[API Reference](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html)
+| [Sample 1](https://developers.arcgis.com/javascript/latest/sample-code/sandbox/index.html?sample=layers-csv) |[Sample 2](https://developers.arcgis.com/javascript/latest/sample-code/sandbox/index.html?sample=highlight-features-by-geometry)
 
 ---
 
