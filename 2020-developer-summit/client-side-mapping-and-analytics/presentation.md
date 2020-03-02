@@ -30,9 +30,7 @@
 - Client-side layers
   - [CSVLayer](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html)
   - [GeoJSONLayer](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html)
-  - [FeatureLayer with feature collections](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html)
-
----
+  - [FeatureLayer with feature collections](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html).
 
 ---
 
@@ -56,8 +54,6 @@ const new CSVLayer({
 
 [API Reference](http://bzh.esri.com/javascript/latest/api-reference/esri-layers-CSVLayer.html)
 | [Sample](http://bzh.esri.com/javascript/latest/sample-code/layers-csv/index.html)
-
----
 
 ---
 
