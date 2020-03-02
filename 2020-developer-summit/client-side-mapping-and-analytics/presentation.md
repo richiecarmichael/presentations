@@ -36,7 +36,7 @@
 
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
 
-### Client-side layers - CSVLayer
+### CSVLayer
 
 ```ts
 const new CSVLayer({
@@ -59,12 +59,12 @@ const new CSVLayer({
 
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
 
-### Client-side layers - CSVLayer - Tips
+### CSVLayer - Tips
 
-- specify the layer's spatial reference
+- Specify the layer's spatial reference
   - Otherwise, features are stored in lon, lat... QueryEngine must project the features to the view's spatial reference
     everytime when query is issued.
-- pass data by a blob url
+- Pass data by a blob url
 
 ```ts
 const csv = `
@@ -91,7 +91,7 @@ url = null;
 
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
 
-### Client-side layers - FeatureLayer
+### FeatureLayer with feature collections
 
 ```ts
 const layer = new FeatureLayer({
@@ -125,7 +125,17 @@ Supports data in any spatial reference
 
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
 
-### Client-side layers - GeoJSON
+### FeatureLayer with feature collections - Tips
+
+- Specify source only at the time of initialization
+- Use FeatureLayer.applyEdits to add, remove or update features at runtime
+- Call FeatureLayer.queryFeatures to get the update feature collection.
+
+---
+
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
+
+### GeoJSONLayer
 
 ```ts
 const geoJSONLayer = new GeoJSONLayer({
@@ -142,7 +152,7 @@ const geoJSONLayer = new GeoJSONLayer({
 
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
 
-### Client-side layers - GeoJSON - Tips
+### GeoJSONLayer - Tips
 
 - specify the layer's spatial reference
 - Limitation at 4.11: create a blob url from GeoJSON object
@@ -181,7 +191,7 @@ url = null;
 
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
 
-### Client-side layers - GeoJSON - Tips
+### GeoJSONLayer - Tips
 
 - Fix [elevation data](https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php)
 
@@ -211,7 +221,7 @@ const layer = new GeoJSONLayer({
 
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
 
-### Client-side layers - GeoJSON
+### GeoJSONLayer
 
 - Implementation of the spec [`rfc7946`](https://tools.ietf.org/html/rfc7946)
 - Support for `"Feature"` and `"FeatureCollection"`
@@ -226,7 +236,7 @@ const layer = new GeoJSONLayer({
 
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
 
-### Client-side layers - GeoJSON
+### GeoJSONLayer
 
 - Not supported, maybe pile:
   - `"GeometryCollection"` object
@@ -243,7 +253,7 @@ const layer = new GeoJSONLayer({
 
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
 
-### Client-side layers
+### Client-side layers tips
 
 - Each implementation uses the client-side query engine.
 - Pick what's best for your usage.
@@ -251,6 +261,7 @@ const layer = new GeoJSONLayer({
 - Proper attribution using `copyright` property.
 - _"With [`GeoJSON`](./demos/geojson_or_featurelayer/geojson.html) I ditch my [`FeatureLayer`](./demos/geojson_or_featurelayer/featureLayer.html)"_ NO!!!
 - [Quantization benefits](https://github.com/ycabon/quantization/)
+- Use query on the layer if the geometry accrucary 
 
 ---
 
