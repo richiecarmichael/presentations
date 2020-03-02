@@ -21,7 +21,6 @@
 ---
 
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
-
 ### Client-side Layers 
  - CSVLayer
  - GeoJSONLayer
