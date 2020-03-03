@@ -22,7 +22,7 @@
 
 ---
 
-<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-3.png" -->
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
 
 ### Client-side Layers
 
@@ -36,7 +36,7 @@
 
 ---
 
-<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-3.png" -->
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
 
 ### Client-side Layers
 
@@ -46,7 +46,7 @@
 
 ---
 
-<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-3.png" -->
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
 
 ### CSVLayer
 - Add data from csv/txt file as points
@@ -79,7 +79,7 @@ const new CSVLayer({
 
 ---
 
-<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-3.png" -->
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
 
 ### CSVLayer - Tips
 
@@ -110,7 +110,7 @@ url = null;
 
 ---
 
-<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-3.png" -->
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
 
 ### FeatureLayer with feature collections
 - Add client-side graphics by setting FeatureLayer.source
@@ -141,7 +141,7 @@ const layer = new FeatureLayer({
 
 ---
 
-<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-3.png" -->
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
 
 ### FeatureLayer with feature collections - Tips
 
@@ -154,7 +154,7 @@ const layer = new FeatureLayer({
 
 ---
 
-<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-3.png" -->
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
 
 ### GeoJSONLayer
 - Add geojson data
@@ -212,7 +212,7 @@ url = null;
 
 ---
 
-<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-3.png" -->
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
 
 ### GeoJSONLayer
 
@@ -225,7 +225,7 @@ url = null;
 
 ---
 
-<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-3.png" -->
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
 
 ### GeoJSONLayer
 
@@ -241,7 +241,7 @@ url = null;
 
 ---
 
-<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-3.png" -->
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
 
 ### Client-side layers tips
 
@@ -253,7 +253,7 @@ url = null;
 
 ---
 
-<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-3.png" -->
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
 
 ### Layers and Layer Views
 
@@ -269,7 +269,7 @@ url = null;
 
 ---
 
-<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-3.png" -->
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
 
 ### Query
 
@@ -279,13 +279,13 @@ url = null;
 
 ---
 
-<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-3.png" -->
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
 
 ### Query
 
 <img src="image/queryTable.png" style="border: 0; background:none; box-shadow: none; max-width: 90%; height: auto;">
 
-<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-3.png" -->
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
 
 ---
 
@@ -300,7 +300,7 @@ url = null;
 
 ---
 
-<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-3.png" -->
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
 
 ### Filters
 
