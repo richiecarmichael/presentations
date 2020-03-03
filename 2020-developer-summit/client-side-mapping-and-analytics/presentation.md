@@ -29,12 +29,10 @@
 - Fetch all features at once. All features are available on the client-side.
 - Uniform API
 - Responsive and fast performance.
-  <img src="image/queryFeatures.gif" style="border: 0; background:none; box-shadow: none;"> |
-  <img src="image/filterFeatures.gif" style="border: 0; background:none; box-shadow: none;">
-- Client-side layers
-  - [CSVLayer](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html)
-  - [GeoJSONLayer](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html)
-  - [FeatureLayer with feature collections](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html).
+
+| query | filter |
+| ----- | ------ |
+|<img src="image/queryFeatures.gif" style="border: 0; background:none; box-shadow: none;"> |<img src="image/filterFeatures.gif" style="border: 0; background:none; box-shadow: none;">|
 
 ---
 
