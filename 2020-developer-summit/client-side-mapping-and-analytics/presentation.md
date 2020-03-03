@@ -26,7 +26,7 @@
 
 ### Client-side Layers
 
-- Fetch all features at once. All features are available on the client-side.
+- Fetch all features at once and store on the client.
 - Uniform API
 - Responsive and fast performance.
 
