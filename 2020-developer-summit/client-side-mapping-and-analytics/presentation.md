@@ -139,6 +139,7 @@ const layer = new FeatureLayer({
 - Call FeatureLayer.queryFeatures to get the update feature collection.
 
 [SDK Doc](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#client-side) | [Sample 1](https://developers.arcgis.com/javascript/latest/sample-code/sandbox/index.html?sample=layers-featurelayer-collection) | [Sample 2](https://developers.arcgis.com/javascript/latest/sample-code/sandbox/index.html?sample=layers-featurelayer-collection-edits)
+
 ---
 
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
@@ -153,8 +154,8 @@ const geoJSONLayer = new GeoJSONLayer({
 });
 ```
 
-[API Reference](http://bzh.esri.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html)
-| [Sample](http://bzh.esri.com/javascript/latest/sample-code/layers-geojson/index.html)
+[API Reference](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html)
+| [Sample 1](https://developers.arcgis.com/javascript/latest/sample-code/sandbox/index.html?sample=timeslider-filter)
 
 ---
 
@@ -162,8 +163,9 @@ const geoJSONLayer = new GeoJSONLayer({
 
 ### GeoJSONLayer - Tips
 
-- specify the layer's spatial reference
-- Limitation at 4.11: create a blob url from GeoJSON object
+- Specify the layer's spatial reference
+- Create a blob url from GeoJSON object
+- Call GeoJSONLayer.applyEdits to add, delete or update features.
 
 ```ts
 const geojson = `
@@ -233,10 +235,8 @@ const layer = new GeoJSONLayer({
 
 - Implementation of the spec [`rfc7946`](https://tools.ietf.org/html/rfc7946)
 - Support for `"Feature"` and `"FeatureCollection"`
-- Support for fixing ring winding order
-- Feature Layer
 - Not supported:
-  - mixed geometry types for consistency with other layers.
+  - Mixed geometry types for consistency with other layers.
   - `crs` object - only geographic coordinates using WGS84 datum (long/lat)
   - No Antimeridian crossing
 
@@ -252,7 +252,6 @@ const layer = new GeoJSONLayer({
   - Feature `id` as `string`
 - Not supported yet but will be:
   - Export back to GeoJSON
-  - updating features using GeoJSON, only through `applyEdits()`
   - Loading a `GeoJSONLayer` using a `GeoJSON` object
   - WebMap spec
   - `queryParameters` and `refresh()`
