@@ -254,7 +254,7 @@ url = null;
 
 ### Layers and Layer Views
 
-- Server-side
+- Server-side layers
   - Fetch or stream features on demand
     - [FeatureLayer](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html) created from a service
     - [SceneLayer](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-SceneLayer.html)
