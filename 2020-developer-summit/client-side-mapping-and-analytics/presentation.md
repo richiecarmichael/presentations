@@ -72,10 +72,8 @@ const new CSVLayer({
 
 ### CSVLayer - Tips
 
-- Specify the layer's spatial reference
-  - Otherwise, features are stored in lon, lat... QueryEngine must project the features to the view's spatial reference
-    everytime when query is issued.
-- Pass data by a blob url
+- Specify the layer's spatial reference.
+- Pass data by a blob url.
 
 ```ts
 const csv = `
