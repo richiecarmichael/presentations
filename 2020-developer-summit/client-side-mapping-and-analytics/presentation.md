@@ -49,6 +49,7 @@
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-3.png" -->
 
 ### CSVLayer
+- Add data from csv/txt file as points
 
 ```ts
 const new CSVLayer({
@@ -112,6 +113,7 @@ url = null;
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-3.png" -->
 
 ### FeatureLayer with feature collections
+- Add client-side graphics by setting FeatureLayer.source
 
 ```ts
 const layer = new FeatureLayer({
@@ -155,6 +157,7 @@ const layer = new FeatureLayer({
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-3.png" -->
 
 ### GeoJSONLayer
+- Add geojson data
 
 ```ts
 const geoJSONLayer = new GeoJSONLayer({
