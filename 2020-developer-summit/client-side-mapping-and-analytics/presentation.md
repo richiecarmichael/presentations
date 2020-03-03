@@ -22,7 +22,7 @@
 
 ---
 
-<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-3.png" -->
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-4.png" -->
 
 ### Client-side Layers
 
