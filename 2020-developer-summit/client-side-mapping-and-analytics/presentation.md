@@ -272,16 +272,22 @@ url = null;
 
 - Query expressions are used to select a subset of features and table records.
 - Query can be done against the service on the server or on the client-side against data available in the browser.
+- Different `query...` methods are available on Layers and LayerViews
 
 ---
 
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-3.png" -->
 
-### Layers and Layer Views
+### Query
 
-- Different `query...` methods are available on Layers and LayerViews
-- Layer queries issued against all features available in the layer. 
-- LayerView queries issued against features available for drawing.
+src="image/queryTable.png" style="border: 0; background:none; box-shadow: none;">
+
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-3.png" -->
+
+---
+
+### Query
+
 
 | When to use | Layer queries | LayerView queries|
 | ------------| ------------- | ---------------- |
