@@ -74,6 +74,7 @@ const new CSVLayer({
 
 - Specify the layer's spatial reference.
 - Pass data by a blob url.
+- No z-values support for now.
 
 ```ts
 const csv = `
@@ -126,20 +127,18 @@ const layer = new FeatureLayer({
 })
 ```
 
-Supports data in any spatial reference
-
-[Sample](https://developers.arcgis.com/javascript/latest/sample-code/layers-featurelayer-collection/index.html)
-
 ---
 
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
 
 ### FeatureLayer with feature collections - Tips
 
-- Specify source only at the time of initialization
-- Use FeatureLayer.applyEdits to add, remove or update features at runtime
+- Supports data in any spatial reference.
+- Specify source only at the time of initialization.
+- Use FeatureLayer.applyEdits to add, remove or update features at runtime.
 - Call FeatureLayer.queryFeatures to get the update feature collection.
 
+[SDK Doc](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#client-side) | [Sample 1](https://developers.arcgis.com/javascript/latest/sample-code/sandbox/index.html?sample=layers-featurelayer-collection) | [Sample 2](https://developers.arcgis.com/javascript/latest/sample-code/sandbox/index.html?sample=layers-featurelayer-collection-edits)
 ---
 
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
