@@ -24,8 +24,8 @@ body {
   background-color: #fff; }
 
 .reveal {
-/*   font-family: "Lato", sans-serif; */
-   font-family: "Avenir Next W01", "Avenir Next W00", "Avenir Next", "Avenir", "Helvetica Neue", sans-serif;
+  font-family: "Lato", sans-serif;
+/*    font-family: "Avenir Next W01", "Avenir Next W00", "Avenir Next", "Avenir", "Helvetica Neue", sans-serif; */
   font-size: 40px;
   font-weight: normal;
   color: #fff; }
