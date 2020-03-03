@@ -26,9 +26,11 @@
 
 ### Client-side Layers
 
-- Fetch all features at once.
-- All features are available on the client-side.
+- Fetch all features at once. All features are available on the client-side.
 - Uniform API
+- Responsive and fast performance.
+  <img src="image/queryFeatures.gif" style="border: 0; background:none; box-shadow: none;"> |
+  <img src="image/filterFeatures.gif" style="border: 0; background:none; box-shadow: none;">
 - Client-side layers
   - [CSVLayer](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html)
   - [GeoJSONLayer](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html)
@@ -280,9 +282,23 @@ const layer = new GeoJSONLayer({
   - _(fetch or stream features on demand)_
   - FeatureLayer
   - SceneLayer
-- A [LayerView](https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html) represents the view for a single layer after it has been added to either a MapView or a SceneView.
+- LayerView
+- A [LayerView](https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html) represents the view for a single layer after it has been added to either a MapView or a SceneView. 
+- LayerView API is layer agnostic. Methods, properties on LayerView only work against features available for drawing.
 
 ---
+
+---
+
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-3.png" -->
+
+### Layers and Layer Views
+| Layer | LayerView | When to use  | 
+| ------| --------- | ---- |
+| Query issued against all features available in the layer | Query issued against features available for drawing. 
+
+---
+
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-3.png" -->
 
 ### Query
