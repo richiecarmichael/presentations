@@ -30,7 +30,7 @@
 - Uniform API
 - Responsive and fast performance.
 
-| query | filter |
+|  | |
 | ----- | ------ |
 |<img src="image/queryFeatures.gif" style="border: 0; background:none; box-shadow: none;"> |<img src="image/filterFeatures.gif" style="border: 0; background:none; box-shadow: none;">|
 
