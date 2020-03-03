@@ -280,7 +280,7 @@ url = null;
 
 ### Query
 
-<src="image/queryTable.png" style="border: 0; background:none; box-shadow: none;">
+<img src="image/queryTable.png" style="border: 0; background:none; box-shadow: none;">
 
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-3.png" -->
 
