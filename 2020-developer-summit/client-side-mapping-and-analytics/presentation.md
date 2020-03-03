@@ -22,7 +22,7 @@
 
 ---
 
-<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-4.png" -->
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-3.png" -->
 
 ### Client-side Layers
 
@@ -129,7 +129,7 @@ const layer = new FeatureLayer({
 
 ---
 
-<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-3.png" -->
 
 ### FeatureLayer with feature collections - Tips
 
@@ -142,7 +142,7 @@ const layer = new FeatureLayer({
 
 ---
 
-<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-3.png" -->
 
 ### GeoJSONLayer
 
@@ -159,7 +159,7 @@ const geoJSONLayer = new GeoJSONLayer({
 
 ---
 
-<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-3.png" -->
 
 ### GeoJSONLayer - Tips
 
@@ -199,7 +199,7 @@ url = null;
 
 ---
 
-<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-3.png" -->
 
 ### GeoJSONLayer - Tips
 
@@ -229,7 +229,7 @@ const layer = new GeoJSONLayer({
 
 ---
 
-<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-3.png" -->
 
 ### GeoJSONLayer
 
@@ -242,7 +242,7 @@ const layer = new GeoJSONLayer({
 
 ---
 
-<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-3.png" -->
 
 ### GeoJSONLayer
 
@@ -258,7 +258,7 @@ const layer = new GeoJSONLayer({
 
 ---
 
-<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-3.png" -->
 
 ### Client-side layers tips
 
@@ -272,7 +272,7 @@ const layer = new GeoJSONLayer({
 
 ---
 
-<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-3.png" -->
 
 ### Layers and Layer Views
 
@@ -283,13 +283,13 @@ const layer = new GeoJSONLayer({
 - All layers have layerViews. A [LayerView](https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html) represents the view for a single layer after it has been added to either a MapView or a SceneView.
 
 ---
-<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-3.png" -->
 
 ### Query
 
 ---
 
-<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-3.png" -->
 
 ### Filters
 
