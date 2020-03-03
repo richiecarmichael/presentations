@@ -280,7 +280,7 @@ const layer = new GeoJSONLayer({
   - _(fetch or stream features on demand)_
   - FeatureLayer
   - SceneLayer
-- All layers have layerViews. A [LayerView](https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html) represents the view for a single layer after it has been added to either a MapView or a SceneView.
+- A [LayerView](https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html) represents the view for a single layer after it has been added to either a MapView or a SceneView.
 
 ---
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-3.png" -->
