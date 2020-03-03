@@ -283,11 +283,11 @@ url = null;
 - Layer queries issued against all features available in the layer. 
 - LayerView queries issued against features available for drawing.
 
-| When to use | Layer Queries | LayerView Queries|
+| When to use | Layer queries | LayerView queries|
 | ------------| ------------- | ---------------- |
-| Need to run query against all features | Yes | No |
-| Geometry precision is important | Yes | No |
 | Speed and responsiveness | No (server layers)/ Yes(client layers) | Yes |
+| Query against all features | Yes | No |
+| Geometry precision is important | Yes | No |
 
 ---
 
