@@ -32,7 +32,7 @@
 
 |  | |
 | ----- | ------ |
-|<img src="image/queryFeatures.gif" style="border: 0; background:none; box-shadow: none;"> |<img src="image/filterFeatures.gif" style="border: 0; background:none; box-shadow: none;">|
+|<img src="image/queryFeatures.gif" style="border: 0; background:none; box-shadow: none; max-width: 90%; height: auto;"> |<img src="image/filterFeatures.gif" style="border: 0; background:none; box-shadow: none; max-width: 90%; height: auto;">|
 
 ---
 
