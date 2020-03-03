@@ -40,6 +40,16 @@
 
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-3.png" -->
 
+### Client-side Layers
+
+  - [CSVLayer](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html)
+  - [GeoJSONLayer](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html)
+  - [FeatureLayer with feature collections](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html).
+
+---
+
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-3.png" -->
+
 ### CSVLayer
 
 ```ts
