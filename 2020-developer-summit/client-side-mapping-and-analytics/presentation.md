@@ -145,8 +145,8 @@ const layer = new FeatureLayer({
 
 - Supports data in any spatial reference.
 - Specify source only at the time of initialization.
-- Use FeatureLayer.applyEdits to add, remove or update features at runtime.
-- Call FeatureLayer.queryFeatures to get the update feature collection.
+- Use [FeatureLayer.applyEdits](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#applyEdits) to add, remove or update features at runtime.
+- Call [FeatureLayer.queryFeatures](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#queryFeatures) to get the update feature collection.
 
 [SDK Doc](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#client-side) | [Sample 1](https://developers.arcgis.com/javascript/latest/sample-code/sandbox/index.html?sample=layers-featurelayer-collection) | [Sample 2](https://developers.arcgis.com/javascript/latest/sample-code/sandbox/index.html?sample=layers-featurelayer-collection-edits)
 
@@ -175,7 +175,7 @@ const geoJSONLayer = new GeoJSONLayer({
 
 - Specify the layer's spatial reference
 - Create a blob url from GeoJSON object
-- Call GeoJSONLayer.applyEdits to add, delete or update features.
+- Call [GeoJSONLayer.applyEdits](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#applyEdits) to add, delete or update features.
 
 ```ts
 const geojson = `
@@ -206,36 +206,6 @@ await layer.load();
 URL.revokeObjectURL(url);
 url = null;
 ```
-
----
-
-<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-3.png" -->
-
-### GeoJSONLayer - Tips
-
-- Fix [elevation data](https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php)
-
-```ts
-const url =
-  "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_month.geojson";
-
-const layer = new GeoJSONLayer({
-  url,
-  title: "USGS Earthquakes",
-  copyright: "USGS",
-  definitionExpression: "type = 'earthquake'",
-
-  elevationInfo = {
-    mode: "absolute-height",
-    unit: "kilometers",
-    featureExpressionInfo: {
-      expression: "Geometry($feature).z * -1"
-    }
-  }
-});
-```
-
-[Plenary Demo](https://ycabon.github.io/2019-devsummit-plenary/2_geojson.html)
 
 ---
 
@@ -277,8 +247,6 @@ const layer = new GeoJSONLayer({
 - Prefer `GeoJSON` over `CSV`.
 - Proper attribution using `copyright` property.
 - _"With [`GeoJSON`](./demos/geojson_or_featurelayer/geojson.html) I ditch my [`FeatureLayer`](./demos/geojson_or_featurelayer/featureLayer.html)"_ NO!!!
-- [Quantization benefits](https://github.com/ycabon/quantization/)
-- Use query on the layer if the geometry accrucary 
 
 ---
 
@@ -287,29 +255,39 @@ const layer = new GeoJSONLayer({
 ### Layers and Layer Views
 
 - Server-side
-  - _(fetch or stream features on demand)_
-  - FeatureLayer
-  - SceneLayer
+  - Fetch or stream features on demand
+    - [FeatureLayer](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html) created from a service
+    - [SceneLayer](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-SceneLayer.html)
 - LayerView
-- A [LayerView](https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html) represents the view for a single layer after it has been added to either a MapView or a SceneView. 
-- LayerView API is layer agnostic. Methods, properties on LayerView only work against features available for drawing.
-
----
-
----
-
-<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-3.png" -->
-
-### Layers and Layer Views
-| Layer | LayerView | When to use  | 
-| ------| --------- | ---- |
-| Query issued against all features available in the layer | Query issued against features available for drawing. 
+  - All layers have corresponding layerViews.
+  - A [LayerView](https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html) represents the view for a single layer after it has been added to either a MapView or a SceneView. 
+  - LayerView API is layer agnostic.
+    - Methods, properties on LayerView only work against features available for drawing on the client-side.
 
 ---
 
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-3.png" -->
 
 ### Query
+
+- Query expressions are used to select a subset of features and table records.
+- Query can be done against the service on the server or on the client-side against data available in the browser.
+
+---
+
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-3.png" -->
+
+### Layers and Layer Views
+
+- Different `query...` methods are available on Layers and LayerViews
+- Layer queries issued against all features available in the layer. 
+- LayerView queries issued against features available for drawing.
+
+| When to use | Layer Queries | LayerView Queries|
+| ------------| ------------- | ---------------- |
+| Need to run query against all features | Yes | No |
+| Geometry precision is important | Yes | No |
+| Speed and responsiveness | No (server layers)/ Yes(client layers) | Yes |
 
 ---
 
