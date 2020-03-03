@@ -32,7 +32,7 @@
 
 |  | |
 | ----- | ------ |
-|<img src="image/queryFeatures.gif" style="border: 0; background:none; box-shadow: none; max-width: 90%; height: auto;"> |<img src="image/filterFeatures.gif" style="border: 0; background:none; box-shadow: none; max-width: 90%; height: auto;">|
+|<img src="image/queryFeatures.gif" style="border: 0; background:none; box-shadow: none; min-width: 500px; height: auto;"> |<img src="image/filterFeatures.gif" style="border: 0; background:none; box-shadow: none; min-width: 500; height: auto;">|
 
 ---
 
@@ -283,7 +283,7 @@ url = null;
 
 ### Query
 
-<img src="image/queryTable.png" style="border: 0; background:none; box-shadow: none; max-width: 90%; height: auto;">
+<img src="image/queryTable.png" style="border: 0; background:none; box-shadow: none; min-width: 1000px; height: auto;">
 
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
 
