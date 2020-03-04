@@ -88,10 +88,11 @@ const new CSVLayer({
 
 ### CSVLayer - Tips
 
+- X, Y coordinates must be in WGS84 in csv file.
 - Specify the layer's spatial reference.
-- X, Y coordinates must be in 
 - Pass data by a blob url.
 - No z-values support for now.
+- Cannot add, remove or update features.
 
 ```ts
 const csv = `
