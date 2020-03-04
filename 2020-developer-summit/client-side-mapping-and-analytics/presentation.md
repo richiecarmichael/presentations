@@ -91,26 +91,23 @@ const new CSVLayer({
 - X, Y coordinates must be in WGS84 in csv file.
 - Specify the layer's spatial reference to improve the performance.
 - Can pass data by a blob url.
-- No z-values support for now.
-- Cannot add, remove or update features.
+- Not supported: 
+  - No z-values support.
+  - Cannot add, remove or update features.
 
 ```ts
 const csv = `
 first_name|Year|latitude|Longitude
 Jeremy|2020|40.418|20.553
-Richie|2018|-118|35
-`;
+Richie|2018|-118|35`;
 const blob = new Blob([csv], {
   type: "plain/text"
 });
 let url = URL.createObjectURL(blob);
-
 const layer = new CSVLayer({
   url: url
 });
-
 await layer.load();
-
 URL.revokeObjectURL(url);
 url = null;
 ```
@@ -183,8 +180,9 @@ const geoJSONLayer = new GeoJSONLayer({
 
 ### GeoJSONLayer - Tips
 
-- Specify the layer's spatial reference
+- Specify the layer's spatial reference to improve performance.
 - Create a blob url from GeoJSON object
+- Support for `"Feature"` and `"FeatureCollection"`
 - Call [GeoJSONLayer.applyEdits](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#applyEdits) to add, delete or update features.
 
 ```ts
@@ -206,13 +204,11 @@ const blob = new Blob([JSON.stringify(geojson)], {
 });
 
 let url = URL.createObjectURL(blob);
-
 const layer = new GeoJSONLayer({
   url
 });
 
 await layer.load();
-
 URL.revokeObjectURL(url);
 url = null;
 ```
@@ -223,28 +219,11 @@ url = null;
 
 ### GeoJSONLayer
 
-- Implementation of the spec [`rfc7946`](https://tools.ietf.org/html/rfc7946)
-- Support for `"Feature"` and `"FeatureCollection"`
 - Not supported:
   - Mixed geometry types for consistency with other layers.
   - `crs` object - only geographic coordinates using WGS84 datum (long/lat)
   - No Antimeridian crossing
-
----
-
-<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
-
-### GeoJSONLayer
-
-- Not supported, maybe pile:
-  - `"GeometryCollection"` object
-  - TopoJSON
   - Feature `id` as `string`
-- Not supported yet but will be:
-  - Export back to GeoJSON
-  - Loading a `GeoJSONLayer` using a `GeoJSON` object
-  - WebMap spec
-  - `queryParameters` and `refresh()`
 
 ---
 
@@ -256,7 +235,6 @@ url = null;
 - Pick what's best for your usage.
 - Prefer `GeoJSON` over `CSV`.
 - Proper attribution using `copyright` property.
-- _"With [`GeoJSON`](./demos/geojson_or_featurelayer/geojson.html) I ditch my [`FeatureLayer`](./demos/geojson_or_featurelayer/featureLayer.html)"_ NO!!!
 
 ---
 
