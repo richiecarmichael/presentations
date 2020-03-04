@@ -95,7 +95,7 @@ const new CSVLayer({
 ```ts
 const csv = `
 first_name|Year|latitude|Longitude
-Undral|2020|40.418|20.553
+Jeremy|2020|40.418|20.553
 Richie|2018|-118|35
 `;
 const blob = new Blob([csv], {
@@ -117,8 +117,8 @@ url = null;
 
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
 
-### FeatureLayer with feature collections
-- Add client-side graphics by setting FeatureLayer.source
+### FeatureLayer
+- Add client-side graphics by setting _FeatureLayer.source_
 
 ```ts
 const layer = new FeatureLayer({
@@ -127,14 +127,12 @@ const layer = new FeatureLayer({
     new Graphic({ attributes: { myOid: 2 }, geometry: { ... } })
     new Graphic({ attributes: { myOid: 3 }, geometry: { ... } })
   ],
-
   // can be inferred from geometries
   geometryType: "point",
   // can be inferred from geometries
   spatialReference: { wkid: 2154 },
   // can be inferred from fields w/ field.type "oid"
   objectIdField: "myOid",
-
   fields: [
     new Field({
       name: "myOid",
@@ -148,7 +146,7 @@ const layer = new FeatureLayer({
 
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
 
-### FeatureLayer with feature collections - Tips
+### FeatureLayer - Tips
 
 - Supports data in any spatial reference.
 - Specify source only at the time of initialization.
