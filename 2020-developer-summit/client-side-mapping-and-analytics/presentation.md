@@ -62,7 +62,12 @@ const new CSVLayer({
   longitudeField: "lon",
   // defaults to "__OBJECTID"
   objectIdField: "myOid",
+  // defaults to simple renderer
+  renderer: renderer,
+  // defaults to null
+  popupTemplate: template,
   // create timeInfo for temporal visualization
+  // defaults to null
   timeInfo: {
     startField: "time", // name of the date field
     interval: {
@@ -70,8 +75,8 @@ const new CSVLayer({
       unit: "days",
       value: 1
     }
-   }
-})
+  }
+});
 ```
 
 [API Reference](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html)
