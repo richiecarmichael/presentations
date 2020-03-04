@@ -151,7 +151,7 @@ const layer = new FeatureLayer({
 ### FeatureLayer - Tips
 
 - Supports data in any spatial reference.
-- Specify source only at the time of initialization.
+- Specify _source_ only at the time of initialization.
 - Use [FeatureLayer.applyEdits](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#applyEdits) to add, remove or update features at runtime.
 - Call [FeatureLayer.queryFeatures](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#queryFeatures) to get the updated feature collection.
 
