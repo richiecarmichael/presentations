@@ -89,8 +89,8 @@ const new CSVLayer({
 ### CSVLayer - Tips
 
 - X, Y coordinates must be in WGS84 in csv file.
-- Specify the layer's spatial reference.
-- Pass data by a blob url.
+- Specify the layer's spatial reference to improve the performance.
+- Can pass data by a blob url.
 - No z-values support for now.
 - Cannot add, remove or update features.
 
