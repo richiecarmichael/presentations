@@ -89,6 +89,7 @@ const new CSVLayer({
 ### CSVLayer - Tips
 
 - Specify the layer's spatial reference.
+- X, Y coordinates must be in 
 - Pass data by a blob url.
 - No z-values support for now.
 
@@ -162,7 +163,7 @@ const layer = new FeatureLayer({
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
 
 ### GeoJSONLayer
-- Add geojson data
+- Add [GeoJson](https://geojson.org/) data that comply with the [RFC 7946 specification](https://tools.ietf.org/html/rfc7946)
 
 ```ts
 const geoJSONLayer = new GeoJSONLayer({
