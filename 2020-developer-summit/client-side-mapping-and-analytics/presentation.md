@@ -275,21 +275,21 @@ url = null;
 ### Query
 
 <table style="min-width:1000px">
-  <tr>
+  <tr style= "border: 1px solid #ddd;">
     <th>When to use</th>
     <th>Layer queries</th>
     <th>LayerView queries</th>
   </tr>
-  <tr style="font-size: 26px;">
+  <tr style="font-size: 26px; border: 1px solid #ddd;">
     <td>Speed and responseviness</td>
     <td>No(server layer) Yes(client layers)</td>
     <td>Yes</td>
   </tr>
-  <tr style="font-size: 26px;">
+  <tr style="font-size: 26px; border: 1px solid #ddd;">
     <td>Query all features</td>
     <td>Yes</td>
     <td>No. Features available for drawing</td>
-  </tr style="font-size: 26px;">
+  </tr style="font-size: 26px; border: 1px solid #ddd;">
     <tr>
     <td>Geometry precision</td>
     <td>Yes</td>
