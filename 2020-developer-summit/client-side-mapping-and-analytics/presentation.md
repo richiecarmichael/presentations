@@ -279,7 +279,7 @@ url = null;
     <th>Layer queries</th>
     <th>LayerView queries</th>
   </tr>
-  <tr>
+  <tr style="font-size: 24px;">
     <td>Speed and responseviness</td>
     <td>No(server layer) Yes(client layers)</td>
     <td>Yes</td>
