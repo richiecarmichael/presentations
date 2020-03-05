@@ -275,25 +275,25 @@ url = null;
 ### Query
 
 <table style="min-width:1000px">
-  <tr style= "border: 1px solid #ddd;">
-    <th>When to use</th>
-    <th>Layer queries</th>
-    <th>LayerView queries</th>
+  <tr>
+    <th style= "border: 1px solid #ddd;">When to use</th>
+    <th style= "border: 1px solid #ddd;">Layer queries</th>
+    <th style= "border: 1px solid #ddd;">LayerView queries</th>
   </tr>
-  <tr style="font-size: 26px; border: 1px solid #ddd;">
-    <td>Speed and responseviness</td>
-    <td>No(server layer) Yes(client layers)</td>
-    <td>Yes</td>
+  <tr style="font-size: 26px;">
+    <td style= "border: 1px solid #ddd;">Speed and responseviness</td>
+    <td style= "border: 1px solid #ddd;">No(server layer) Yes(client layers)</td>
+    <td style= "border: 1px solid #ddd;">Yes</td>
   </tr>
-  <tr style="font-size: 26px; border: 1px solid #ddd;">
-    <td>Query all features</td>
-    <td>Yes</td>
-    <td>No. Features available for drawing</td>
-  </tr style="font-size: 26px; border: 1px solid #ddd;">
+  <tr style="font-size: 26px;">
+    <td style= "border: 1px solid #ddd;">Query all features</td>
+    <td style= "border: 1px solid #ddd;">Yes</td>
+    <td style= "border: 1px solid #ddd;">No. Features available for drawing</td>
+  </tr style="font-size: 26px;">
     <tr>
-    <td>Geometry precision</td>
-    <td>Yes</td>
-    <td>No. Generalized</td>
+    <td style= "border: 1px solid #ddd;">Geometry precision</td>
+    <td style= "border: 1px solid #ddd;">Yes</td>
+    <td style= "border: 1px solid #ddd;">No. Generalized</td>
   </tr>
 </table>
 
