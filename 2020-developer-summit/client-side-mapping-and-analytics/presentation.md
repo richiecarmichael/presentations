@@ -275,7 +275,7 @@ url = null;
 ### Query
 
 <table style="min-width:1000px color: black">
-  <tr style="background-color: white; color: black">
+  <tr style="background-color: white; color: black; font-size: 32px;">
     <th style= "border: 1px solid #ddd;">When to use</th>
     <th style= "border: 1px solid #ddd;">Layer queries</th>
     <th style= "border: 1px solid #ddd;">LayerView queries</th>
