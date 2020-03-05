@@ -307,16 +307,25 @@ url = null;
 
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
 
-### [What are filters?](https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-support-FeatureFilter.html)
+### What are filters?
 
 - Reduce the number of features shown screen
 - Can apply spatial, aspatial, temporal (or any combination)
+```js
+    featureLayerView.filter = new FeatureFilter({
+      geometry: myGeometry      // Spatial
+      timeExtent: myTimeExtent, // Temporal
+      where: myWhere            // Aspatial
+    });
+```
 - Client-side
   - Only applied to features currently downloaded
-  - Fast. Fast. Fast.
-- Same properties as [Query](https://developers.arcgis.com/javascript/latest/api-reference/esri-tasks-support-Query.html)
+  - Fast.
+- [FeatureFilter](https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-support-FeatureFilter.html) has the same properties as [Query](https://developers.arcgis.com/javascript/latest/api-reference/esri-tasks-support-Query.html)
 
 ---
+
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
 
 ### Spatial Filter
 Only show buildings within 10 miles of the mouse cursor
@@ -403,7 +412,8 @@ Show earthquakes with a magnitude of 7 or greater as faint shadows
       filter: new FeatureFilter({
         where: "magnitude >= 7"
       }),
-      excludedEffect: "grayscale(100%) opacity(0.5)"
+      excludedEffect: "grayscale(100%) opacity(0.5)",
+      // includedEffect: "saturate(150%)"
     });
 
 
@@ -453,6 +463,59 @@ Show earthquakes with a magnitude of 7 or greater as faint shadows
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-3.png" -->
 
 ## Geometry Engine
+
+---
+
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
+
+### 30 Methods
+
+- Compute new geometries<br/>
+  _e.g. [buffer](https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-geometryEngineAsync.html#buffer), [clip](https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-geometryEngineAsync.html#clip), [densify](https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-geometryEngineAsync.html#densify), [generalize](https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-geometryEngineAsync.html#generalize)_
+
+- Testing spatial relationship<br/>
+  _e.g. [contains](https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-geometryEngineAsync.html#contains), [crosses](https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-geometryEngineAsync.html#crosses), [intersects](https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-geometryEngineAsync.html#intersects)_
+
+- Advanced computations<br/>
+  _e.g. [geodesicArea](https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-geometryEngineAsync.html#geodesicArea), [planarArea](https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-geometryEngineAsync.html#planarArea)_
+
+---
+
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
+
+### One Engine - Two Flavors
+
+- [geometryEngine](https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-geometryEngine.html)
+```js
+    var geometryEngine = new GeometryEngine();
+    var length = geometryEngine.planarLength(myPolyline, "meters");
+    console.log("length(m)", length);
+```
+- [geometryEngineAsync](https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-geometryEngineAsync.html)
+```js
+    var geometryEngine = new GeometryEngineAsync();
+    geometryEngine.planarLength(myPolyline, "meters").then(function(length) {
+      console.log("length(m)", length);
+    });
+```
+
+---
+
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
+
+### Demonstration
+
+
+---
+
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
+
+### Wait, what about [GeometryService](https://developers.arcgis.com/javascript/latest/api-reference/esri-tasks-GeometryService.html)?
+
+- Same methods as [GeometryEngine](https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-geometryEngine.html)/[GeometryEngineAsync](https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-geometryEngineAsync.html)
+- Sends request to remote server for computation
+- Pro: May be faster for complex computations
+- Con: Network latency
 
 ---
 
