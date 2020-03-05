@@ -280,16 +280,16 @@ url = null;
     <th>Layer queries</th>
     <th>LayerView queries</th>
   </tr>
-  <tr style="font-size: 24px;">
+  <tr style="font-size: 26px;">
     <td>Speed and responseviness</td>
     <td>No(server layer) Yes(client layers)</td>
     <td>Yes</td>
   </tr>
-  <tr style="font-size: 24px;">
+  <tr style="font-size: 26px;">
     <td>Query all features</td>
     <td>Yes</td>
     <td>No. Features available for drawing</td>
-  </tr style="font-size: 24px;">
+  </tr style="font-size: 26px;">
     <tr>
     <td>Geometry precision</td>
     <td>Yes</td>
