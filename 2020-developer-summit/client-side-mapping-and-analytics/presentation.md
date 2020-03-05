@@ -182,16 +182,16 @@
 
 ### GeoJSONLayer - Tips
 <ul style="min-width:1000px !important">
-<li> Specify layer's spatial reference for performance.</li>
-<li> - Support for `"Feature"` and `"FeatureCollection"`</li>
-<li> - [GeoJSONLayer.applyEdits](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#applyEdits) to add, delete or update features.</li>
- </ul>
+  <li> Specify layer's spatial reference for performance.</li>
+  <li> Support for <i>Feature</i> and <i>FeatureCollection</i> </li>
+  <li> <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#applyEdits">GeoJSONLayer.applyEdits</a> to add, delete or update features.</li>
+</ul>
 - Not supported:
 <ul style="min-width:1000px !important">
  <li> Mixed geometry types for consistency with other layers. </li>
- <li> `crs` object - only geographic coordinates using WGS84 datum (long/lat) </li>
+ <li> <i>crs</i> object - only geographic coordinates using WGS84 datum (long/lat) </li>
  <li> No Antimeridian crossing </li>
- <li> Feature `id` as `string` </li>
+ <li> Feature <i>id</i> as <i>string</i> </li>
 </ul>
 ---
 
