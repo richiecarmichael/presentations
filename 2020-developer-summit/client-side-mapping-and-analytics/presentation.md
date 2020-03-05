@@ -31,8 +31,8 @@
 - Responsive and fast performance
 
 <div style="display:inline">
-<img src="image/queryFeatures.gif" style="border:0;background:none;box-shadow:none;width:475px;">
-<img src="image/filterFeatures.gif" style="border:0;background:none;box-shadow:none;width:475px;">
+<img src="image/queryFeatures.gif" style="border:0;background:none;box-shadow:none;height:200px;">
+<img src="image/filterFeatures.gif" style="border:0;background:none;box-shadow:none;height:200px;">
 </div>
 
 ---
@@ -53,23 +53,23 @@
 - Add data from csv/txt file as points
 
 ```ts
-  const new CSVLayer({
-    url: "https://earthquake.usgs.gov/earthquakes/.../2.5_week.csv",
-    copyright: "USGS Earthquakes",
-    // SR in which the data will be stored
-    spatialReference: { wkid: 102100 },
-    delimiter: ",",
-    latitudeField: "lat",
-    longitudeField: "lon",
-    // defaults to "__OBJECTID"
-    objectIdField: "myOid",
-    // create timeInfo for temporal visualization
-    timeInfo: {
-      startField: "time", // name of the date field
-      // set time interval to one day
-      interval: { value: 1, unit: "days" }, 
-    }
-  })
+    const new CSVLayer({
+      url: "https://earthquake.usgs.gov/earthquakes/.../2.5_week.csv",
+      copyright: "USGS Earthquakes",
+      // SR in which the data will be stored
+      spatialReference: { wkid: 102100 },
+      delimiter: ",",
+      latitudeField: "lat",
+      longitudeField: "lon",
+      // defaults to "__OBJECTID"
+      objectIdField: "myOid",
+      // create timeInfo for temporal visualization
+      timeInfo: {
+        startField: "time", // name of the date field
+        // set time interval to one day
+        interval: { value: 1, unit: "days" }, 
+      }
+    })
 ```
 
 [API Reference](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html)
@@ -88,24 +88,29 @@
   - No z-values support.
   - Cannot add, remove or update features.
 
+---
+
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
+
+### CSVLayer - Snippet
+
 ```ts
-  const csv = `
-    first_name|Year|latitude|Longitude
-    Undral|2020|40.418|20.553
-    Richie|2018|-118|35
-  `;
-  const blob = new Blob([csv], {
-    type: "plain/text"
-  });
-  let url = URL.createObjectURL(blob);
+    const csv = `first_name|Year|latitude|Longitude
+                 Undral|2020|40.418|20.553
+                 Richie|2018|-118|35`;
 
-  const layer = new CSVLayer({
-    url: url
-  });
-  await layer.load();
+    const blob = new Blob([csv], {
+      type: "plain/text"
+    });
+    let url = URL.createObjectURL(blob);
 
-  URL.revokeObjectURL(url);
-  url = null;
+    const layer = new CSVLayer({
+      url: url
+    });
+    await layer.load();
+
+    URL.revokeObjectURL(url);
+    url = null;
 ```
 
 ---
@@ -158,11 +163,14 @@
 - Add [GeoJson](https://geojson.org/) data that comply with the [RFC 7946 specification](https://tools.ietf.org/html/rfc7946)
 
 ```ts
+
   const geoJSONLayer = new GeoJSONLayer({
     url:
       "https://earthquake.usgs.gov/earthquakes/.../all_month.geojson",
     copyright: "USGS Earthquakes"
   });
+
+
 ```
 
 [API Reference](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html)
@@ -179,28 +187,27 @@
 - Support for `"Feature"` and `"FeatureCollection"`
 - Call [GeoJSONLayer.applyEdits](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#applyEdits) to add, delete or update features.
 
+---
+
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
+
+#### GeoJSONLayer - Snippet
+
 ```ts
-const geojson = `
-{
-  type: "FeatureCollection",
-  features: [
-    {
-      type: "Feature",
-      geometry: { type: "Point", coordinates: [-100, 40] },
-      properties: { name: "none" }
-    }
-  ]
-}
-`;
+const geojson = `{
+                   type: "FeatureCollection",
+                   features: [{
+                     type: "Feature",
+                     geometry: { type: "Point", coordinates: [-100, 40] },
+                     properties: { name: "none" }
+                   }]
+                 }`;
 
 const blob = new Blob([JSON.stringify(geojson)], {
   type: "application/json"
 });
-
 let url = URL.createObjectURL(blob);
-const layer = new GeoJSONLayer({
-  url
-});
+const layer = new GeoJSONLayer({ url });
 
 await layer.load();
 URL.revokeObjectURL(url);
@@ -264,30 +271,36 @@ url = null;
 
 <img src="image/queryTable.png" style="border: 0; background:none; box-shadow: none; min-width: 1000px; height: auto;">
 
-<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
-
 ---
+
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
 
 ### Query
 
-
 | When to use | Layer queries | LayerView queries|
 | ------------| ------------- | ---------------- |
-| Speed and responsiveness | No (server layers)/ Yes(client layers) | Yes |
+| Speed and responsiveness | No (server layers) / Yes(client layers) | Yes |
 | Query against all features | Yes | No |
 | Geometry precision is important | Yes | No |
 
 ---
 
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-3.png" -->
+
+## Filters
+
+---
+
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
 
-### [Filters](https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-support-FeatureFilter.html)
+### [What are filters?](https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-support-FeatureFilter.html)
 
 - Reduce the number of features shown screen
 - Can apply spatial, aspatial, temporal (or any combination)
 - Client-side
   - Only applied to features currently downloaded
   - Fast. Fast. Fast.
+- Same properties as [Query](https://developers.arcgis.com/javascript/latest/api-reference/esri-tasks-support-Query.html)
 
 ---
 
@@ -296,12 +309,15 @@ Only show buildings within 10 miles of the mouse cursor
 
 ```js
 
-    mapView.on("pointer-move", function(e) {
-      buildingLayerView.filter = {
-        geometry: mapView.toMap({e.x, e.y}),
+    mapView.on("pointer-move", function(event) {
+      buildingLayerView.filter = new FeatureFilter({
+        geometry: mapView.toMap({
+          event.x,
+          event.y
+        }),
         distance: 10,
         units: "miles"
-      }
+      })
     });
 
 
@@ -344,19 +360,35 @@ Only show earthquakes that occured between 2000 and 2007
 
 ---
 
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-3.png" -->
+
+## Effects
+
+---
+
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
 
-### [Effects](https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-support-FeatureEffect.html)
+### [What are effects?](https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-support-FeatureEffect.html)
 
-_Visual effects applied to included/excluded features._
+- Visual effects applied to included or excluded features.
+
+<img src="image/effects.gif" style="border:0;background:none;box-shadow:none;">
+
+---
+
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
+
+### Effect - Snippet
+
+Show earthquakes with a magnitude of 7 or greater as faint shadows
 
 ```js
 
     // Show quakes less than 7 magnitude as faint shadows.
     featureLayerView.effect = new FeatureEffect({
-      filter: {
+      filter: new FeatureFilter({
         where: "magnitude >= 7"
-      }
+      }),
       excludedEffect: "grayscale(100%) opacity(0.5)"
     });
 
@@ -367,7 +399,7 @@ _Visual effects applied to included/excluded features._
 
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
 
-### Demonstration - [filters & effects](https://ycabon.github.io/2019-devsummit-plenary/3_filter_effect.html)
+#### Demonstration - [filters & effects](https://ycabon.github.io/2019-devsummit-plenary/3_filter_effect.html)
 
 <img src="image/filters-and-effects.gif" style="border:0;background:none;box-shadow:none;">
 
@@ -375,7 +407,7 @@ _Visual effects applied to included/excluded features._
 
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
 
-### Demonstration - [century of quakes](demos/century-of-earthquakes.html)
+#### Demonstration - [century of quakes](demos/century-of-earthquakes.html)
 
 <img src="image/century-of-earthquakes.gif" style="border:0;background:none;box-shadow:none;width:800px;">
 
@@ -404,9 +436,9 @@ _Visual effects applied to included/excluded features._
 
 ---
 
-<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-3.png" -->
 
-### Geometry Engine
+## Geometry Engine
 
 ---
 
