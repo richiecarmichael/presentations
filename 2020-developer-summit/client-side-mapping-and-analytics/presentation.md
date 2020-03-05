@@ -184,7 +184,12 @@
 
 - Specify layer's spatial reference for performance.
 - Support for `"Feature"` and `"FeatureCollection"`
-- Call [GeoJSONLayer.applyEdits](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#applyEdits) to add, delete or update features.
+- [GeoJSONLayer.applyEdits](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#applyEdits) to add, delete or update features.
+- Not supported:
+  - Mixed geometry types for consistency with other layers.
+  - `crs` object - only geographic coordinates using WGS84 datum (long/lat)
+  - No Antimeridian crossing
+  - Feature `id` as `string`
 
 ---
 
@@ -214,18 +219,6 @@ await layer.load();
 URL.revokeObjectURL(url);
 url = null;
 ```
-
----
-
-<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
-
-### GeoJSONLayer
-
-- Not supported:
-  - Mixed geometry types for consistency with other layers.
-  - `crs` object - only geographic coordinates using WGS84 datum (long/lat)
-  - No Antimeridian crossing
-  - Feature `id` as `string`
 
 ---
 
