@@ -117,6 +117,7 @@
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
 
 ### FeatureLayer
+
 - Add client-side graphics by setting _FeatureLayer.source_
 
 ```ts
@@ -191,7 +192,7 @@
   - `crs` object - only geographic coordinates using WGS84 datum (long/lat)
   - No Antimeridian crossing
   - Feature `id` as `string`
- 
+
 ---
 
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
