@@ -13,7 +13,7 @@
 - Client-side Layers
   - [FeatureLayer](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html), [CSVLayer](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html), [GeoJSONLayer](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html)
 - [Query](https://developers.arcgis.com/javascript/latest/api-reference/esri-tasks-support-Query.html)
-  - Layer vs LayerViews
+  - Layer vs LayerView
   - Attributes, spatial and geometry queries
 - [Filters](https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-support-FeatureFilter.html) and [Effects](https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-support-FeatureEffect.html)
   - Adjusting client-side visuals
