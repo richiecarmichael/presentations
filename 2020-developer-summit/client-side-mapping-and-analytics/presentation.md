@@ -159,6 +159,7 @@
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
 
 ### GeoJSONLayer
+
 - Add [GeoJson](https://geojson.org/) data that comply with the [RFC 7946 specification](https://tools.ietf.org/html/rfc7946)
 
 ```ts
