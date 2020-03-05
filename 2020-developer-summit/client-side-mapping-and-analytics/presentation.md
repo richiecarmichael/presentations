@@ -289,8 +289,8 @@ url = null;
     <td style= "border: 1px solid #ddd;">Query all features</td>
     <td style= "border: 1px solid #ddd;">Yes</td>
     <td style= "border: 1px solid #ddd;">No. Features available for drawing</td>
-  </tr style="font-size: 26px;">
-    <tr>
+  </tr>
+  <tr style="font-size: 26px;">
     <td style= "border: 1px solid #ddd;">Geometry precision</td>
     <td style= "border: 1px solid #ddd;">Yes</td>
     <td style= "border: 1px solid #ddd;">No. Generalized</td>
