@@ -183,8 +183,7 @@
 
 ### GeoJSONLayer - Tips
 
-- Specify the layer's spatial reference to improve performance.
-- Create a blob url from GeoJSON object
+- Specify layer's spatial reference for performance.
 - Support for `"Feature"` and `"FeatureCollection"`
 - Call [GeoJSONLayer.applyEdits](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#applyEdits) to add, delete or update features.
 
@@ -192,7 +191,9 @@
 
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
 
-#### GeoJSONLayer - Snippet
+#### GeoJSONLayer - Tips
+
+- Create a blob url from GeoJSON object
 
 ```ts
 const geojson = `{
