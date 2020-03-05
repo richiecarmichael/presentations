@@ -242,8 +242,7 @@ url = null;
 
 - Server-side layers
   - Fetch or stream features on demand
-    - [FeatureLayer](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html) created from a service
-    - [SceneLayer](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-SceneLayer.html)
+    - [FeatureLayer](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html) created from a service, [SceneLayer](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-SceneLayer.html) and [StreamLayer](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-StreamLayer.html)
 - LayerView
   - All layers have corresponding layerViews.
   - A [LayerView](https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html) represents the view for a single layer after it has been added to either a MapView or a SceneView. 
@@ -262,9 +261,36 @@ url = null;
 
 ---
 
+<!-- .slide: data-background="../../reveal.js/img/2019/uc/bg-2.png" -->
+### Client-side query
+
+- `(CSV|GeoJSON)Layer`
+- `(CSV|GeoJSON|Feature|Scene)LayerView`
+  - `queryFeatures()`
+  - `queryFeatureCount()`
+  - `queryObjectIds()`
+  - `queryExtent()`
+
+[Age Pyramid](https://developers.arcgis.com/javascript/latest/sample-code/featurelayerview-query-geometry/live/index.html), 
+[Homicides](https://developers.arcgis.com/javascript/latest/sample-code/featurelayerview-query-distance/live/index.html), 
+[3D buildings](https://developers.arcgis.com/javascript/latest/sample-code/layers-scenelayerview-query-stats/live/index.html)
+
+---
+
+<!-- .slide: data-background="../../reveal.js/img/2019/uc/bg-2.png" -->
+### Client-side query
+
+- Features aren't always as they seem!
+  - Quantized/generalized geometries in FeatureLayer
+  - Very small features may not be present even if technically within the view's extent
+
+[Query neighbors](https://ekenes.github.io/esri-ts-samples/query/neighbor-comparison/touches.html)
+
+---
+
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
 
-### Query
+### Query tips
 
 <table style="min-width:1000px; color: black">
   <tr style="background-color: white; color: black; font-size: 32px;">
@@ -285,7 +311,7 @@ url = null;
   <tr style="font-size: 26px; background-color: #f2f2f2; color: black">
     <td style= "border: 1px solid #ddd;">Geometry precision</td>
     <td style= "border: 1px solid #ddd;">Yes</td>
-    <td style= "border: 1px solid #ddd;">No. Generalized</td>
+    <td style= "border: 1px solid #ddd;">No. Quantized/generalized</td>
   </tr>
 </table>
 
