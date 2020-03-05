@@ -268,7 +268,7 @@ url = null;
   - `CSVLayer`, `GeoJSONLayer` and `FeatureLayer/FeatureCollection`
 - LayerView
   - `CSVLayerView`, `GeoJSONLayerView`, `FeatureLayerView`, `SceneLayerView` and `StreamLayerView`
-- Query methods on layer and layerview
+- Query methods on layer and layerView
   - `queryFeatures()`
   - `queryFeatureCount()`
   - `queryObjectIds()`
