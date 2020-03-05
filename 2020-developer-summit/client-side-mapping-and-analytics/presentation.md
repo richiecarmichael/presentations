@@ -291,12 +291,6 @@ url = null;
   </tr>
 </table>
 
-| When to use | Layer queries | LayerView queries|
-| ------------| ------------- | ---------------- |
-| Speed and responsiveness | No (server layers) / Yes(client layers) | Yes |
-| Query against all features | Yes | No |
-| Geometry precision is important | Yes | No |
-
 ---
 
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-3.png" -->
