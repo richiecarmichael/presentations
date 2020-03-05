@@ -178,11 +178,13 @@
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
 
 ### GeoJSONLayer - Tips
+
 <ul style="min-width:1000px !important">
   <li> Specify layer's spatial reference for performance.</li>
   <li> Support for <i>Feature</i> and <i>FeatureCollection</i> </li>
   <li> <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#applyEdits">GeoJSONLayer.applyEdits</a> to add, delete or update features.</li>
 </ul>
+
 - Not supported:
   - Mixed geometry types for consistency with other layers.
   - `crs` object - only geographic coordinates using WGS84 datum (long/lat)
