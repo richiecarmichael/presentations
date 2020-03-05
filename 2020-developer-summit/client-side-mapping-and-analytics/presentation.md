@@ -274,7 +274,7 @@ url = null;
 
 ### Query
 
-<table style="min-width:1000px">
+<table style="min-width:1000px color: black">
   <tr>
     <th style= "border: 1px solid #ddd;">When to use</th>
     <th style= "border: 1px solid #ddd;">Layer queries</th>
@@ -285,7 +285,7 @@ url = null;
     <td style= "border: 1px solid #ddd;">No(server layer) Yes(client layers)</td>
     <td style= "border: 1px solid #ddd;">Yes</td>
   </tr>
-  <tr style="font-size: 26px;">
+  <tr style="font-size: 26px; background-color: white;">
     <td style= "border: 1px solid #ddd;">Query all features</td>
     <td style= "border: 1px solid #ddd;">Yes</td>
     <td style= "border: 1px solid #ddd;">No. Features available for drawing</td>
