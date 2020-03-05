@@ -403,6 +403,14 @@ Only show earthquakes that occured between 2000 and 2007
 
 ---
 
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
+
+#### Demonstration - [filters](https://ycabon.github.io/2019-devsummit-plenary/3_filter_effect.html)
+
+<img src="image/filters-and-effects.gif" style="border:0;background:none;box-shadow:none;">
+
+---
+
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-3.png" -->
 
 ## Effects
@@ -443,17 +451,9 @@ Show earthquakes with a magnitude of 7 or greater as faint shadows
 
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
 
-#### Demonstration - [filters & effects](https://ycabon.github.io/2019-devsummit-plenary/3_filter_effect.html)
-
-<img src="image/filters-and-effects.gif" style="border:0;background:none;box-shadow:none;">
-
----
-
-<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
-
 #### Demonstration - [century of quakes](demos/century-of-earthquakes.html)
 
-<img src="image/century-of-earthquakes.gif" style="border:0;background:none;box-shadow:none;width:800px;">
+<img src="image/century-of-earthquakes.gif" style="border:0;background:none;box-shadow:none;height:550px;">
 
 ---
 
@@ -488,7 +488,7 @@ Show earthquakes with a magnitude of 7 or greater as faint shadows
 
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
 
-### 30 Methods
+### One Engine - Thirty Methods
 
 - Compute new geometries<br/>
   _e.g. [buffer](https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-geometryEngineAsync.html#buffer), [clip](https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-geometryEngineAsync.html#clip), [densify](https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-geometryEngineAsync.html#densify), [generalize](https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-geometryEngineAsync.html#generalize)_
@@ -511,6 +511,7 @@ Show earthquakes with a magnitude of 7 or greater as faint shadows
     var length = geometryEngine.planarLength(myPolyline, "meters");
     console.log("length(m)", length);
 ```
+
 - [geometryEngineAsync](https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-geometryEngineAsync.html)
 ```js
     var geometryEngine = new GeometryEngineAsync();
@@ -523,8 +524,9 @@ Show earthquakes with a magnitude of 7 or greater as faint shadows
 
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
 
-### Demonstration
+#### Demonstration - [Sketch Validation](https://developers.arcgis.com/javascript/latest/sample-code/sketch-update-validation/live/index.html)
 
+<img src="image/geometry-engine.gif" style="border:0;background:none;box-shadow:none;height:550px">
 
 ---
 
@@ -534,18 +536,92 @@ Show earthquakes with a magnitude of 7 or greater as faint shadows
 
 - Same methods as [GeometryEngine](https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-geometryEngine.html)/[GeometryEngineAsync](https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-geometryEngineAsync.html)
 - Sends request to remote server for computation
-- Pro: May be faster for complex computations
-- Con: Network latency
+- **Pro:**
+  - May be faster for complex computations
+- **Con:**
+  - May be slower due to network latency
 
 ---
 
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
+
+### GeometryService - Snippet
+
+```js
+
+    var parameters = new LengthsParameters({
+      calculationType: "planar",
+      lengthUnit: "esriSRUnit_Meter",
+      polylines: [myPolyline]
+    });
+
+    var geometryService = new GeometryService({
+      url: "http://sampleserver6.arcgisonline.com/arcgis/rest/services/" +
+           "Utilities/Geometry/GeometryServer"
+    });
+
+    geometryService.lengths(parameters).then(function(response) {
+        console.log("length(m)", response.lengths[0]);
+    });
+
+
+```
+
+---
+
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-3.png" -->
 
 ### Projection Engine
 
 ---
 
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
+
+### What is Projection Engine
+
+- Client-side module for projecting geometries between coordinate systems
+- Based on the engine used by Runtime
+- Uses [WebAssembly](https://webassembly.github.io/spec/)
+  - Not support by Internet Explorer (see [caniuse](https://caniuse.com/#feat=wasm))
+
+---
+
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
+
+### Loading the Projection Engine
+
+```js
+
+    var projection = new Projection();
+
+    if (!projection.isSupported()) {
+      console.error("projection is not supported");
+      return;
+    }
+
+    if (projection.isLoaded()) {
+      console.error("projection already loaded");
+      return;
+    }
+
+    projection.load().then(function(){
+      console.error("projection loaded");
+    });
+
+
+```
+
+---
+
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
+
+#### Demonstration - [Projection](https://developers.arcgis.com/javascript/latest/sample-code/client-projection/live/index.html)
+
+<img src="image/projection.gif" style="border:0;background:none;box-shadow:none;height:550px">
+
+---
+
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-3.png" -->
 
 ### Geodesic Utils
 
@@ -556,6 +632,4 @@ Show earthquakes with a magnitude of 7 or greater as faint shadows
 ---
 
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-3.png" -->
-<img src="../../reveal.js/img/esri-science-logo-white.png" style="border:0px; background:none;box-shadow:none;">
-
----
+<img src="../../reveal.js/img/esri-science-logo-white.png" style="border:0px;background:none;box-shadow:none;">
