@@ -242,11 +242,12 @@ url = null;
 
 ---
 
-<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-3.png" -->
 
 ### Query
 
 ---
+
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
 
 ### Layers and Layer Views
