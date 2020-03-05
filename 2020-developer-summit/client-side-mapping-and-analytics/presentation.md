@@ -165,9 +165,10 @@
 ```ts
 
   const geoJSONLayer = new GeoJSONLayer({
-    url:
-      "https://earthquake.usgs.gov/earthquakes/.../all_month.geojson",
-    copyright: "USGS Earthquakes"
+    url: "https://earthquake.usgs.gov/earthquakes/.../all_month.geojson",
+    copyright: "USGS Earthquakes",
+    // SR in which the data will be stored
+    spatialReference: { wkid: 102100 }
   });
 
 
