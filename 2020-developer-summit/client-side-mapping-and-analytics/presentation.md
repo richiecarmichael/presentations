@@ -258,7 +258,7 @@ url = null;
 
 - Query expressions are used to select a subset of features and table records.
 - Query can be done against the service on the server or on the client-side against data available in the browser.
-- Different `query...` methods are available on Layers and LayerViews
+- Different `query...` methods are available on Layers and LayerViews.
 
 ---
 
