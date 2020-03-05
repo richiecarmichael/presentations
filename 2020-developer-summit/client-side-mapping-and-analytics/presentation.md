@@ -30,8 +30,8 @@
 - Responsive and fast performance
 
 <div style="display:inline">
-<img src="image/queryFeatures2.gif" style="border:0;background:none;box-shadow:none;height:365px;">
-<img src="image/featureFilters2.gif" style="border:0;background:none;box-shadow:none;height:365px;">
+<img src="image/queryFeatures2.gif" style="border:0;background:none;box-shadow:none;height:360px;">
+<img src="image/featureFilters2.gif" style="border:0;background:none;box-shadow:none;height:360px;">
 </div>
 
 ---
@@ -162,15 +162,12 @@
 - Add [GeoJson](https://geojson.org/) data that comply with the [RFC 7946 specification](https://tools.ietf.org/html/rfc7946)
 
 ```ts
-
   const geoJSONLayer = new GeoJSONLayer({
     url: "https://earthquake.usgs.gov/earthquakes/.../all_month.geojson",
     copyright: "USGS Earthquakes",
     // SR in which the data will be stored
     spatialReference: { wkid: 102100 }
   });
-
-
 ```
 
 [API Reference](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html)
@@ -191,6 +188,7 @@
   - `crs` object - only geographic coordinates using WGS84 datum (long/lat)
   - No Antimeridian crossing
   - Feature `id` as `string`
+ 
 ---
 
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
