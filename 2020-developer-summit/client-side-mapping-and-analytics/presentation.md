@@ -1,7 +1,7 @@
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-4.png" -->
 
 <h1 style="font-size: 60px;">Interactive Client-Side Mapping<br>with the ArcGIS API for JavaScript</h1>
-<p style="font-size: 30px;">Undral Batsukh [<a href="mailto:ubatshukh@esri.com">ubatshukh@esri.com</a>] | Richie Carmichael [<a href="https://github.com/kiwiRichie">@kiwiRichie</a>]</p>
+<p style="font-size: 30px;">UB [<a href="mailto:ubatshukh@esri.com">ubatshukh@esri.com</a>] | Richie Carmichael [<a href="https://github.com/kiwiRichie">@kiwiRichie</a>]</p>
 <p style="font-size: 30px;"><code><a href="https://git.io/JvB8u">https://git.io/JvB8u</a> (<a href="?print-pdf">printer friendly</a>)</code></p>
 
 ---
@@ -13,12 +13,18 @@
 - Client-side Layers
   - [FeatureLayer](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html), [CSVLayer](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html), [GeoJSONLayer](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html)
 - [Query](https://developers.arcgis.com/javascript/latest/api-reference/esri-tasks-support-Query.html)
-  - Layer vs LayerViews
-  - Attributes, spatial and geometry queries
+  - Layer vs LayerView
+  - Client-side query
 - [Filters](https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-support-FeatureFilter.html) and [Effects](https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-support-FeatureEffect.html)
   - Adjusting client-side visuals
 - [Geometry Engine](https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-geometryEngine.html), [Projection Engine](https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-projection.html) and [Geodesic Utils](https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-geodesicUtils.html)
   - Client-side analysis
+
+---
+
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-3.png" -->
+
+## Client-side Layers
 
 ---
 
@@ -174,7 +180,7 @@
 ```
 
 [API Reference](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html)
-| [Sample 1](https://developers.arcgis.com/javascript/latest/sample-code/sandbox/index.html?sample=timeslider-filter)
+| [Time-aware GeoJSONLayer](https://developers.arcgis.com/javascript/latest/sample-code/sandbox/index.html?sample=timeslider-filter)
 
 ---
 
@@ -236,19 +242,23 @@ url = null;
 
 ---
 
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-3.png" -->
+
+### Query
+
+---
+
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
 
 ### Layers and Layer Views
 
 - Server-side layers
   - Fetch or stream features on demand
-    - [FeatureLayer](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html) created from a service
-    - [SceneLayer](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-SceneLayer.html)
+  - [FeatureLayer](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html) created from a service, [SceneLayer](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-SceneLayer.html) and [StreamLayer](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-StreamLayer.html)
 - LayerView
-  - All layers have corresponding layerViews.
-  - A [LayerView](https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html) represents the view for a single layer after it has been added to either a MapView or a SceneView. 
+  - A [LayerView](https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html) represents the view for a single layer after it has been added to a View. 
   - LayerView API is layer agnostic.
-    - Methods, properties on LayerView only work against features available for drawing on the client-side.
+  - Methods and properties used for features available for drawing on the client-side.
 
 ---
 
@@ -257,43 +267,53 @@ url = null;
 ### Query
 
 - Query expressions are used to select a subset of features and table records.
-- Query can be done against the service on the server or on the client-side against data available in the browser.
-- Different `query...` methods are available on Layers and LayerViews
+- Query can be done on the server or on the client-side.
+- Different `query...` methods are available on Layers and LayerViews.
 
 ---
 
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
 
-### Query
+### Client-side query
 
-<img src="image/queryTable.png" style="border: 0; background:none; box-shadow: none; min-width: 1000px; height: auto;">
+- `(CSV|GeoJSON)Layer` and `FeatureLayer/FeatureCollection`
+- `(CSV|GeoJSON|Feature|Scene|Stream)LayerView`
+- Query methods on layer and layerView
+  - `queryFeatures()`
+  - `queryFeatureCount()`
+  - `queryObjectIds()`
+  - `queryExtent()`
+
+[Age Pyramid](https://developers.arcgis.com/javascript/latest/sample-code/featurelayerview-query-geometry/live/index.html), 
+[Homicides](https://developers.arcgis.com/javascript/latest/sample-code/featurelayerview-query-distance/live/index.html), 
+[3D buildings](https://developers.arcgis.com/javascript/latest/sample-code/layers-scenelayerview-query-stats/live/index.html)
 
 ---
 
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
 
-### Query
+### Query tips
 
-<table style="min-width:1000px">
-  <tr>
-    <th>When to use</th>
-    <th>Layer queries</th>
-    <th>LayerView queries</th>
+<table style="min-width:1000px; color: black">
+  <tr style="background-color: white; color: black; font-size: 32px;">
+    <th style= "border: 1px solid #ddd;">When to use</th>
+    <th style= "border: 1px solid #ddd;">Layer queries</th>
+    <th style= "border: 1px solid #ddd;">LayerView queries</th>
   </tr>
-  <tr style="font-size: 24px;">
-    <td>Speed and responseviness</td>
-    <td>No(server layer) Yes(client layers)</td>
-    <td>Yes</td>
+  <tr style="font-size: 26px; background-color: #f2f2f2; color: black">
+    <td style= "border: 1px solid #ddd;">Speed and responseviness</td>
+    <td style= "border: 1px solid #ddd;">No(server layer) <br> Yes(client layers)</td>
+    <td style= "border: 1px solid #ddd;">Yes. Client-side query</td>
   </tr>
-  <tr style="font-size: 24px;">
-    <td>Query all features</td>
-    <td>Yes</td>
-    <td>No. Features available for drawing</td>
-  </tr style="font-size: 24px;">
-    <tr>
-    <td>Geometry precision</td>
-    <td>Yes</td>
-    <td>No. Generalized</td>
+  <tr style="font-size: 26px; background-color: white; color: black">
+    <td style= "border: 1px solid #ddd;">Query all features</td>
+    <td style= "border: 1px solid #ddd;">Yes</td>
+    <td style= "border: 1px solid #ddd;">No. Features available for drawing</td>
+  </tr>
+  <tr style="font-size: 26px; background-color: #f2f2f2; color: black">
+    <td style= "border: 1px solid #ddd;">Geometry precision</td>
+    <td style= "border: 1px solid #ddd;">Yes</td>
+    <td style= "border: 1px solid #ddd;">No. Quantized/generalized</td>
   </tr>
 </table>
 
