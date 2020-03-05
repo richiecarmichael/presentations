@@ -187,12 +187,10 @@
   <li> <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#applyEdits">GeoJSONLayer.applyEdits</a> to add, delete or update features.</li>
 </ul>
 - Not supported:
-<ul style="min-width:1000px !important">
- <li> Mixed geometry types for consistency with other layers. </li>
- <li> <i>crs</i> object - only geographic coordinates using WGS84 datum (long/lat) </li>
- <li> No Antimeridian crossing </li>
- <li> Feature <i>id</i> as <i>string</i> </li>
-</ul>
+  - Mixed geometry types for consistency with other layers.
+  - `crs` object - only geographic coordinates using WGS84 datum (long/lat)
+  - No Antimeridian crossing
+  - Feature `id` as `string`
 ---
 
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
