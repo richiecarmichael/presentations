@@ -261,7 +261,8 @@ url = null;
 
 ---
 
-<!-- .slide: data-background="../../reveal.js/img/2019/uc/bg-2.png" -->
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
+
 ### Client-side query
 
 - `CSVLayer`, `GeoJSONLayer` and `FeatureLayer` with feature collections
@@ -274,17 +275,6 @@ url = null;
 [Age Pyramid](https://developers.arcgis.com/javascript/latest/sample-code/featurelayerview-query-geometry/live/index.html), 
 [Homicides](https://developers.arcgis.com/javascript/latest/sample-code/featurelayerview-query-distance/live/index.html), 
 [3D buildings](https://developers.arcgis.com/javascript/latest/sample-code/layers-scenelayerview-query-stats/live/index.html)
-
----
-
-<!-- .slide: data-background="../../reveal.js/img/2019/uc/bg-2.png" -->
-### Client-side query
-
-- Features aren't always as they seem!
-  - Quantized/generalized geometries in FeatureLayer
-  - Very small features may not be present even if technically within the view's extent
-
-[Query neighbors](https://ekenes.github.io/esri-ts-samples/query/neighbor-comparison/touches.html)
 
 ---
 
