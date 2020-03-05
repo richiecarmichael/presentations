@@ -272,6 +272,24 @@ url = null;
 
 ### Query
 
+<table style="min-width:1000px">
+  <tr>
+    <th>When to use</th>
+    <th>Layer queries</th>
+    <th>LayerView queries</th>
+  </tr>
+  <tr>
+    <td>Speed and responseviness</td>
+    <td>Query all features</td>
+    <td>Geometry precision</td>
+  </tr>
+  <tr>
+    <td>No(server layer) Yes(client layers)</td>
+    <td>Yes</td>
+    <td>No</td>
+  </tr>
+</table>
+
 | When to use | Layer queries | LayerView queries|
 | ------------| ------------- | ---------------- |
 | Speed and responsiveness | No (server layers) / Yes(client layers) | Yes |
