@@ -82,7 +82,6 @@
 
 - X, Y coordinates must be in WGS84 in csv file.
 - Specify the layer's spatial reference to improve the performance.
-- Can pass data by a blob url.
 - Not supported: 
   - No z-values support.
   - Cannot add, remove or update features.
@@ -91,8 +90,9 @@
 
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
 
-### CSVLayer - Snippet
+### CSVLayer - Tips
 
+- Can pass data by a blob url.
 ```ts
     const csv = `first_name|Year|latitude|Longitude
                  Undral|2020|40.418|20.553
