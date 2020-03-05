@@ -264,8 +264,8 @@ url = null;
 <!-- .slide: data-background="../../reveal.js/img/2019/uc/bg-2.png" -->
 ### Client-side query
 
-- `(CSV|GeoJSON)Layer`
-- `(CSV|GeoJSON|Feature|Scene)LayerView`
+- `CSVLayer`, `GeoJSONLayer` and `FeatureLayer` with feature collections
+-  `CSVLayerView`, `GeoJSONLayerView`, `FeatureLayerView`, `SceneLayerView` and `StreamLayerView`
   - `queryFeatures()`
   - `queryFeatureCount()`
   - `queryObjectIds()`
