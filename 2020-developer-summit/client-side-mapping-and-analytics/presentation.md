@@ -282,7 +282,7 @@ url = null;
   </tr>
   <tr style="font-size: 26px; background-color: #f2f2f2;">
     <td style= "border: 1px solid #ddd;">Speed and responseviness</td>
-    <td style= "border: 1px solid #ddd;">No(server layer) Yes(client layers)</td>
+    <td style= "border: 1px solid #ddd;">No(server layer) <br> Yes(client layers)</td>
     <td style= "border: 1px solid #ddd;">Yes</td>
   </tr>
   <tr style="font-size: 26px; background-color: white;">
