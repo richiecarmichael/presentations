@@ -203,13 +203,13 @@
 
 ```ts
 const geojson = `{
-                   type: "FeatureCollection",
-                   features: [{
-                     type: "Feature",
-                     geometry: { type: "Point", coordinates: [-100, 40] },
-                     properties: { name: "none" }
-                   }]
-                 }`;
+ type: "FeatureCollection",
+ features: [{
+   type: "Feature",
+   geometry: { type: "Point", coordinates: [-100, 40] },
+   properties: { name: "none" }
+ }]
+}`;
 
 const blob = new Blob([JSON.stringify(geojson)], {
   type: "application/json"
@@ -274,7 +274,7 @@ url = null;
 ### Query
 
 <table style="min-width:1000px">
-  <tr>
+  <tr style="font-size: 24px;">
     <th>When to use</th>
     <th>Layer queries</th>
     <th>LayerView queries</th>
