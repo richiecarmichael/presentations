@@ -11,11 +11,10 @@
 ### Agenda
 
 - Client-side Layers
-  - [FeatureLayer](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html), [CSVLayer](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html), [GeoJSONLayer](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html) and more...
-  - Layer vs LayerViews
+  - [FeatureLayer](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html), [CSVLayer](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-CSVLayer.html), [GeoJSONLayer](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html)
 - [Query](https://developers.arcgis.com/javascript/latest/api-reference/esri-tasks-support-Query.html)
-  - How to search time and space?
-  - How and why to search locally?
+  - Layer vs LayerViews
+  - Attributes, spatial and geometry queries
 - [Filters](https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-support-FeatureFilter.html) and [Effects](https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-support-FeatureEffect.html)
   - Adjusting client-side visuals
 - [Geometry Engine](https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-geometryEngine.html), [Projection Engine](https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-projection.html) and [Geodesic Utils](https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-geodesicUtils.html)
@@ -27,13 +26,13 @@
 
 ### Client-side Layers
 
-- Fetch all features at once and store on the client
+- Fetch all features at once and store them on the client
 - Uniform API
 - Responsive and fast performance
 
 <div style="display:inline">
-<img src="image/queryFeatures.gif" style="border:0;background:none;box-shadow:none;height:200px;">
-<img src="image/filterFeatures.gif" style="border:0;background:none;box-shadow:none;height:200px;">
+<img src="image/queryFeatures2.gif" style="border:0;background:none;box-shadow:none;height:360px;">
+<img src="image/featureFilters2.gif" style="border:0;background:none;box-shadow:none;height:360px;">
 </div>
 
 ---
@@ -84,7 +83,6 @@
 
 - X, Y coordinates must be in WGS84 in csv file.
 - Specify the layer's spatial reference to improve the performance.
-- Can pass data by a blob url.
 - Not supported: 
   - No z-values support.
   - Cannot add, remove or update features.
@@ -93,8 +91,9 @@
 
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
 
-### CSVLayer - Snippet
+### CSVLayer - Tips
 
+- Can pass data by a blob url.
 ```ts
     const csv = `first_name|Year|latitude|Longitude
                  Undral|2020|40.418|20.553
@@ -119,6 +118,7 @@
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
 
 ### FeatureLayer
+
 - Add client-side graphics by setting _FeatureLayer.source_
 
 ```ts
@@ -161,17 +161,16 @@
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
 
 ### GeoJSONLayer
+
 - Add [GeoJson](https://geojson.org/) data that comply with the [RFC 7946 specification](https://tools.ietf.org/html/rfc7946)
 
 ```ts
-
   const geoJSONLayer = new GeoJSONLayer({
-    url:
-      "https://earthquake.usgs.gov/earthquakes/.../all_month.geojson",
-    copyright: "USGS Earthquakes"
+    url: "https://earthquake.usgs.gov/earthquakes/.../all_month.geojson",
+    copyright: "USGS Earthquakes",
+    // SR in which the data will be stored
+    spatialReference: { wkid: 102100 }
   });
-
-
 ```
 
 [API Reference](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html)
@@ -183,26 +182,35 @@
 
 ### GeoJSONLayer - Tips
 
-- Specify the layer's spatial reference to improve performance.
-- Create a blob url from GeoJSON object
-- Support for `"Feature"` and `"FeatureCollection"`
-- Call [GeoJSONLayer.applyEdits](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#applyEdits) to add, delete or update features.
+<ul style="min-width:1000px !important">
+  <li> Specify layer's spatial reference for performance.</li>
+  <li> Support for <i>Feature</i> and <i>FeatureCollection</i> </li>
+  <li> <a href="https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#applyEdits">GeoJSONLayer.applyEdits</a> to add, delete or update features.</li>
+</ul>
+
+- Not supported:
+  - Mixed geometry types for consistency with other layers.
+  - `crs` object - only geographic coordinates using WGS84 datum (long/lat)
+  - No Antimeridian crossing
+  - Feature `id` as `string`
 
 ---
 
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
 
-#### GeoJSONLayer - Snippet
+#### GeoJSONLayer - Tips
+
+- Create a blob url from GeoJSON object
 
 ```ts
 const geojson = `{
-                   type: "FeatureCollection",
-                   features: [{
-                     type: "Feature",
-                     geometry: { type: "Point", coordinates: [-100, 40] },
-                     properties: { name: "none" }
-                   }]
-                 }`;
+ type: "FeatureCollection",
+ features: [{
+   type: "Feature",
+   geometry: { type: "Point", coordinates: [-100, 40] },
+   properties: { name: "none" }
+ }]
+}`;
 
 const blob = new Blob([JSON.stringify(geojson)], {
   type: "application/json"
@@ -214,18 +222,6 @@ await layer.load();
 URL.revokeObjectURL(url);
 url = null;
 ```
-
----
-
-<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
-
-### GeoJSONLayer
-
-- Not supported:
-  - Mixed geometry types for consistency with other layers.
-  - `crs` object - only geographic coordinates using WGS84 datum (long/lat)
-  - No Antimeridian crossing
-  - Feature `id` as `string`
 
 ---
 
@@ -278,11 +274,28 @@ url = null;
 
 ### Query
 
-| When to use | Layer queries | LayerView queries|
-| ------------| ------------- | ---------------- |
-| Speed and responsiveness | No (server layers) / Yes(client layers) | Yes |
-| Query against all features | Yes | No |
-| Geometry precision is important | Yes | No |
+<table style="min-width:1000px">
+  <tr>
+    <th>When to use</th>
+    <th>Layer queries</th>
+    <th>LayerView queries</th>
+  </tr>
+  <tr style="font-size: 24px;">
+    <td>Speed and responseviness</td>
+    <td>No(server layer) Yes(client layers)</td>
+    <td>Yes</td>
+  </tr>
+  <tr style="font-size: 24px;">
+    <td>Query all features</td>
+    <td>Yes</td>
+    <td>No. Features available for drawing</td>
+  </tr style="font-size: 24px;">
+    <tr>
+    <td>Geometry precision</td>
+    <td>Yes</td>
+    <td>No. Generalized</td>
+  </tr>
+</table>
 
 ---
 
