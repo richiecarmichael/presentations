@@ -81,9 +81,12 @@
 
 ### CSVLayer - Tips
 
-- Specify the layer's spatial reference.
-- Pass data by a blob url.
-- No z-values support for now.
+- X, Y coordinates must be in WGS84 in csv file.
+- Specify the layer's spatial reference to improve the performance.
+- Can pass data by a blob url.
+- Not supported: 
+  - No z-values support.
+  - Cannot add, remove or update features.
 
 ```ts
   const csv = `
@@ -109,8 +112,8 @@
 
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
 
-### FeatureLayer with feature collections
-- Add client-side graphics by setting FeatureLayer.source
+### FeatureLayer
+- Add client-side graphics by setting _FeatureLayer.source_
 
 ```ts
   const layer = new FeatureLayer({
@@ -132,25 +135,27 @@
   })
 ```
 
+[SDK Doc](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#client-side) | [Sample 1](https://developers.arcgis.com/javascript/latest/sample-code/sandbox/index.html?sample=layers-featurelayer-collection)
+
 ---
 
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
 
-### FeatureLayer with feature collections - Tips
+### FeatureLayer - Tips
 
 - Supports data in any spatial reference.
-- Specify source only at the time of initialization.
+- Specify _source_ only at the time of initialization.
 - Use [FeatureLayer.applyEdits](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#applyEdits) to add, remove or update features at runtime.
-- Call [FeatureLayer.queryFeatures](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#queryFeatures) to get the update feature collection.
+- Call [FeatureLayer.queryFeatures](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#queryFeatures) to get the updated feature collection.
 
-[SDK Doc](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#client-side) | [Sample 1](https://developers.arcgis.com/javascript/latest/sample-code/sandbox/index.html?sample=layers-featurelayer-collection) | [Sample 2](https://developers.arcgis.com/javascript/latest/sample-code/sandbox/index.html?sample=layers-featurelayer-collection-edits)
+[Sample - add/remove graphics](https://developers.arcgis.com/javascript/latest/sample-code/sandbox/index.html?sample=layers-featurelayer-collection-edits)
 
 ---
 
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
 
 ### GeoJSONLayer
-- Add geojson data
+- Add [GeoJson](https://geojson.org/) data that comply with the [RFC 7946 specification](https://tools.ietf.org/html/rfc7946)
 
 ```ts
   const geoJSONLayer = new GeoJSONLayer({
@@ -169,8 +174,9 @@
 
 ### GeoJSONLayer - Tips
 
-- Specify the layer's spatial reference
+- Specify the layer's spatial reference to improve performance.
 - Create a blob url from GeoJSON object
+- Support for `"Feature"` and `"FeatureCollection"`
 - Call [GeoJSONLayer.applyEdits](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#applyEdits) to add, delete or update features.
 
 ```ts
@@ -192,13 +198,11 @@ const blob = new Blob([JSON.stringify(geojson)], {
 });
 
 let url = URL.createObjectURL(blob);
-
 const layer = new GeoJSONLayer({
   url
 });
 
 await layer.load();
-
 URL.revokeObjectURL(url);
 url = null;
 ```
@@ -209,28 +213,11 @@ url = null;
 
 ### GeoJSONLayer
 
-- Implementation of the spec [`rfc7946`](https://tools.ietf.org/html/rfc7946)
-- Support for `"Feature"` and `"FeatureCollection"`
 - Not supported:
   - Mixed geometry types for consistency with other layers.
   - `crs` object - only geographic coordinates using WGS84 datum (long/lat)
   - No Antimeridian crossing
-
----
-
-<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
-
-### GeoJSONLayer
-
-- Not supported, maybe pile:
-  - `"GeometryCollection"` object
-  - TopoJSON
   - Feature `id` as `string`
-- Not supported yet but will be:
-  - Export back to GeoJSON
-  - Loading a `GeoJSONLayer` using a `GeoJSON` object
-  - WebMap spec
-  - `queryParameters` and `refresh()`
 
 ---
 
@@ -242,7 +229,6 @@ url = null;
 - Pick what's best for your usage.
 - Prefer `GeoJSON` over `CSV`.
 - Proper attribution using `copyright` property.
-- _"With [`GeoJSON`](./demos/geojson_or_featurelayer/geojson.html) I ditch my [`FeatureLayer`](./demos/geojson_or_featurelayer/featureLayer.html)"_ NO!!!
 
 ---
 
