@@ -281,13 +281,18 @@ url = null;
   </tr>
   <tr>
     <td>Speed and responseviness</td>
-    <td>Query all features</td>
-    <td>Geometry precision</td>
-  </tr>
-  <tr>
     <td>No(server layer) Yes(client layers)</td>
     <td>Yes</td>
-    <td>No</td>
+  </tr>
+  <tr>
+    <td>Query all features</td>
+    <td>Yes</td>
+    <td>No. Features available for drawing</td>
+  </tr>
+    <tr>
+    <td>Geometry precision</td>
+    <td>Yes</td>
+    <td>No. Generalized</td>
   </tr>
 </table>
 
