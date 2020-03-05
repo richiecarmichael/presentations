@@ -274,7 +274,7 @@ url = null;
 ### Query
 
 <table style="min-width:1000px">
-  <tr style="font-size: 24px;">
+  <tr>
     <th>When to use</th>
     <th>Layer queries</th>
     <th>LayerView queries</th>
@@ -284,11 +284,11 @@ url = null;
     <td>No(server layer) Yes(client layers)</td>
     <td>Yes</td>
   </tr>
-  <tr>
+  <tr style="font-size: 24px;">
     <td>Query all features</td>
     <td>Yes</td>
     <td>No. Features available for drawing</td>
-  </tr>
+  </tr style="font-size: 24px;">
     <tr>
     <td>Geometry precision</td>
     <td>Yes</td>
