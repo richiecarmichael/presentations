@@ -22,6 +22,12 @@
 
 ---
 
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-3.png" -->
+
+## Client-side Layers
+
+---
+
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
 
 ### Client-side Layers
@@ -236,6 +242,11 @@ url = null;
 
 ---
 
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
+
+### Query
+
+---
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
 
 ### Layers and Layer Views
