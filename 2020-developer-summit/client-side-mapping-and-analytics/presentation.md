@@ -264,10 +264,8 @@ url = null;
 
 ### Client-side query
 
-- Layer
-  - `CSVLayer`, `GeoJSONLayer` and `FeatureLayer/FeatureCollection`
-- LayerView
-  - `CSVLayerView`, `GeoJSONLayerView`, `FeatureLayerView`, `SceneLayerView` and `StreamLayerView`
+- `(CSV|GeoJSON)Layer` and `FeatureLayer/FeatureCollection`
+- `(CSV|GeoJSON|Feature|Scene|Stream)LayerView`
 - Query methods on layer and layerView
   - `queryFeatures()`
   - `queryFeatureCount()`
