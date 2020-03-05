@@ -181,7 +181,7 @@
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
 
 ### GeoJSONLayer - Tips
-
+<div style="min-width:1000px !important">
 - Specify layer's spatial reference for performance.
 - Support for `"Feature"` and `"FeatureCollection"`
 - [GeoJSONLayer.applyEdits](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-GeoJSONLayer.html#applyEdits) to add, delete or update features.
@@ -190,7 +190,7 @@
   - `crs` object - only geographic coordinates using WGS84 datum (long/lat)
   - No Antimeridian crossing
   - Feature `id` as `string`
-
+</div>
 ---
 
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
