@@ -30,8 +30,8 @@
 - Responsive and fast performance
 
 <div style="display:inline">
-<img src="image/queryFeatures.gif" style="border:0;background:none;box-shadow:none;height:300px;">
-<img src="image/filterFeatures.gif" style="border:0;background:none;box-shadow:none;height:300px;">
+<img src="image/queryFeatures2.gif" style="border:0;background:none;box-shadow:none;height:240px;">
+<img src="image/filterFeatures.gif" style="border:0;background:none;box-shadow:none;height:240px;">
 </div>
 
 ---
