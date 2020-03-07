@@ -352,7 +352,7 @@ Only show buildings within 10 miles of the mouse cursor
 
 ```js
 
-    mapView.on("pointer-move", function(event) {
+    mapView.on("pointer-move", (event) => {
       buildingLayerView.filter = new FeatureFilter({
         geometry: mapView.toMap({
           event.x,
@@ -507,15 +507,15 @@ Show earthquakes with a magnitude of 7 or greater as faint shadows
 
 - [geometryEngine](https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-geometryEngine.html)
 ```js
-    var geometryEngine = new GeometryEngine();
-    var length = geometryEngine.planarLength(myPolyline, "meters");
+    const geometryEngine = new GeometryEngine();
+    const length = geometryEngine.planarLength(myPolyline, "meters");
     console.log("length(m)", length);
 ```
 
 - [geometryEngineAsync](https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-geometryEngineAsync.html)
 ```js
-    var geometryEngine = new GeometryEngineAsync();
-    geometryEngine.planarLength(myPolyline, "meters").then(function(length) {
+    const geometryEngine = new GeometryEngineAsync();
+    geometryEngine.planarLength(myPolyline, "meters").then((length) => {
       console.log("length(m)", length);
     });
 ```
@@ -549,18 +549,18 @@ Show earthquakes with a magnitude of 7 or greater as faint shadows
 
 ```js
 
-    var parameters = new LengthsParameters({
+    const parameters = new LengthsParameters({
       calculationType: "planar",
       lengthUnit: "esriSRUnit_Meter",
       polylines: [myPolyline]
     });
 
-    var geometryService = new GeometryService({
+    const geometryService = new GeometryService({
       url: "http://sampleserver6.arcgisonline.com/arcgis/rest/services/" +
            "Utilities/Geometry/GeometryServer"
     });
 
-    geometryService.lengths(parameters).then(function(response) {
+    geometryService.lengths(parameters).then((response) => {
         console.log("length(m)", response.lengths[0]);
     });
 
@@ -592,7 +592,7 @@ Show earthquakes with a magnitude of 7 or greater as faint shadows
 
 ```js
 
-    var projection = new Projection();
+    const projection = new Projection();
 
     if (!projection.isSupported()) {
       console.error("projection is not supported");
@@ -600,12 +600,12 @@ Show earthquakes with a magnitude of 7 or greater as faint shadows
     }
 
     if (projection.isLoaded()) {
-      console.error("projection already loaded");
+      console.log("projection already loaded");
       return;
     }
 
-    projection.load().then(function(){
-      console.error("projection loaded");
+    projection.load().then(() => {
+      console.log("projection loaded");
     });
 
 
@@ -624,6 +624,77 @@ Show earthquakes with a magnitude of 7 or greater as faint shadows
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-3.png" -->
 
 ### Geodesic Utils
+
+---
+
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
+
+### What is Geodesic Utils?
+
+- Lightweight module for performing geodesic computations
+
+- Some redundancy with GeometryEngine (GE)
+  - GU.[geodesicAreas()](https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-geodesicUtils.html#geodesicAreas) vs. GE.[geodesicArea()](https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-geometryEngineAsync.html#geodesicArea)
+  - GU.[geodesicDensify()](https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-geodesicUtils.html#geodesicDensify) vs. GE.[geodesicDensify()](https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-geometryEngineAsync.html#geodesicDensify)
+  - GU.[geodesicLengths()](https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-geodesicUtils.html#geodesicLengths) vs. GE.[geodesicLength()](https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-geometryEngineAsync.html#geodesicLength)
+
+- Works on any supported geographic coordinate system include 70+ non-terrestrial sytesms (e.g. Mars and Moon)
+
+---
+
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
+
+### Geodesic Utils - Example
+
+What is the area of the Bermuda Triangle?
+
+```js
+
+    const MIAMI    = { lat: 25.775278, lon: -80.208889 };  // Florida
+    const HAMILTON = { lat: 32.293, lon: -64.782 };        // Bermuda
+    const SANJUAN  = { lat: 18.406389, lon:  -66.063889 }; // Puerto Rico
+    const polygon = new Polygon({
+      rings: [[
+        [MIAMI.lon, MIAMI.lat],
+        [HAMILTON.lon, HAMILTON.lat],
+        [SANJUAN.lon, SANJUAN.lat],
+        [MIAMI.lon, MIAMI.lat]
+      ]]
+    });
+    const areas = geodesicUtils.geodesicAreas([polygon], "square-kilometers");
+    const area = Math.round(areas[0]);
+    console.log(`Area: ${area} km²`); // Area: 1150498 km²
+
+
+```
+
+---
+
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
+
+### Geodesic Utils - [Mars Rovers](demos/mars-rovers.html)
+
+How far is [Curiosity](https://en.wikipedia.org/wiki/Curiosity_(rover)) (active) from [Opportunity](https://en.wikipedia.org/wiki/Opportunity_(rover)) on [Mars](https://en.wikipedia.org/wiki/Mars)?
+
+```js
+    const polyline = new Polyline({
+      spatialReference: {
+        wkid: 104905 // Mars 2000 Coordinate System
+      }
+    });
+    polyline.addPath([ curiosity.geometry, opportunity.geometry ]);
+
+    const distance  = geodesicUtils.geodesicLengths([polyline], "kilometers")[0];
+    const densified = geodesicUtils.geodesicDensify(polyline, 100);
+
+    const path = new Graphic({
+      attributes: {
+        oid: 1,
+        distance
+      },
+      geometry: densified
+    });
+```
 
 ---
 
