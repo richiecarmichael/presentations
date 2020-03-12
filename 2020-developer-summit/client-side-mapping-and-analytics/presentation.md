@@ -284,8 +284,8 @@ url = null;
   - `queryObjectIds()`
   - `queryExtent()`
 
-[Layer vs LayerView](https://codepen.io/U_B_U/pen/poJLgxo?editors=1000)
-[Age Pyramid](https://developers.arcgis.com/javascript/latest/sample-code/sandbox/index.html?sample=featurelayerview-query-geometry), 
+[Layer vs LayerView](https://codepen.io/U_B_U/pen/poJLgxo?editors=1000) |
+[Age Pyramid](https://developers.arcgis.com/javascript/latest/sample-code/sandbox/index.html?sample=featurelayerview-query-geometry) |
 [3D buildings](https://developers.arcgis.com/javascript/latest/sample-code/sandbox/index.html?sample=layers-scenelayerview-query-stats)
 
 ---
