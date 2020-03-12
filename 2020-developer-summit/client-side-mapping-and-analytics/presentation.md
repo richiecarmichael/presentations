@@ -284,8 +284,8 @@ url = null;
   - `queryObjectIds()`
   - `queryExtent()`
 
+[layer vs layerView](https://codepen.io/U_B_U/pen/poJLgxo?editors=1000)
 [Age Pyramid](https://developers.arcgis.com/javascript/latest/sample-code/featurelayerview-query-geometry/live/index.html), 
-[Homicides](https://developers.arcgis.com/javascript/latest/sample-code/featurelayerview-query-distance/live/index.html), 
 [3D buildings](https://developers.arcgis.com/javascript/latest/sample-code/layers-scenelayerview-query-stats/live/index.html)
 
 ---
