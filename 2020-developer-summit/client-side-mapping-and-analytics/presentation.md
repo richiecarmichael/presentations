@@ -698,9 +698,5 @@ How far is [Curiosity](https://en.wikipedia.org/wiki/Curiosity_(rover)) (active)
 
 ---
 
-<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-rating.png" -->
-
----
-
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-3.png" -->
 <img src="../../reveal.js/img/esri-science-logo-white.png" style="border:0px;background:none;box-shadow:none;">
