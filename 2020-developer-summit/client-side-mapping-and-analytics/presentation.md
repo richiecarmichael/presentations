@@ -250,6 +250,16 @@ url = null;
 
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
 
+### Query
+
+- Query expressions are used to select a subset of features and table records.
+- Query can be done on the server or on the client-side.
+- Different `query...` methods are available on Layers and LayerViews.
+
+---
+
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
+
 ### Layers and Layer Views
 
 - Server-side layers
@@ -259,16 +269,6 @@ url = null;
   - A [LayerView](https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html) represents the view for a single layer after it has been added to a View. 
   - LayerView API is layer agnostic.
   - Methods and properties used for features available for drawing on the client-side.
-
----
-
-<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
-
-### Query
-
-- Query expressions are used to select a subset of features and table records.
-- Query can be done on the server or on the client-side.
-- Different `query...` methods are available on Layers and LayerViews.
 
 ---
 
