@@ -147,7 +147,7 @@
   })
 ```
 
-[SDK Doc](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#client-side) | [Sample 1](https://developers.arcgis.com/javascript/latest/sample-code/sandbox/index.html?sample=layers-featurelayer-collection)
+[API Reference](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html#client-side) | [Sample 1](https://developers.arcgis.com/javascript/latest/sample-code/sandbox/index.html?sample=layers-featurelayer-collection)
 
 ---
 
@@ -250,6 +250,16 @@ url = null;
 
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
 
+### Query
+
+- Query expressions are used to select a subset of features and table records.
+- Query can be done on the server or on the client-side.
+- Different `query...` methods are available on Layers and LayerViews.
+
+---
+
+<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
+
 ### Layers and Layer Views
 
 - Server-side layers
@@ -259,16 +269,6 @@ url = null;
   - A [LayerView](https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html) represents the view for a single layer after it has been added to a View. 
   - LayerView API is layer agnostic.
   - Methods and properties used for features available for drawing on the client-side.
-
----
-
-<!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
-
-### Query
-
-- Query expressions are used to select a subset of features and table records.
-- Query can be done on the server or on the client-side.
-- Different `query...` methods are available on Layers and LayerViews.
 
 ---
 
@@ -284,9 +284,9 @@ url = null;
   - `queryObjectIds()`
   - `queryExtent()`
 
-[Age Pyramid](https://developers.arcgis.com/javascript/latest/sample-code/featurelayerview-query-geometry/live/index.html), 
-[Homicides](https://developers.arcgis.com/javascript/latest/sample-code/featurelayerview-query-distance/live/index.html), 
-[3D buildings](https://developers.arcgis.com/javascript/latest/sample-code/layers-scenelayerview-query-stats/live/index.html)
+[Layer vs LayerView](https://codepen.io/U_B_U/pen/poJLgxo?editors=1000) |
+[Age Pyramid](https://developers.arcgis.com/javascript/latest/sample-code/sandbox/index.html?sample=featurelayerview-query-geometry) |
+[3D buildings](https://developers.arcgis.com/javascript/latest/sample-code/sandbox/index.html?sample=layers-scenelayerview-query-stats)
 
 ---
 
