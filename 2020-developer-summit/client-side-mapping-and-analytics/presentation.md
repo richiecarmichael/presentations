@@ -638,7 +638,7 @@ Show earthquakes with a magnitude of 7 or greater as faint shadows
   - GU.[geodesicDensify()](https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-geodesicUtils.html#geodesicDensify) vs. GE.[geodesicDensify()](https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-geometryEngineAsync.html#geodesicDensify)
   - GU.[geodesicLengths()](https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-support-geodesicUtils.html#geodesicLengths) vs. GE.[geodesicLength()](https://developers.arcgis.com/javascript/latest/api-reference/esri-geometry-geometryEngineAsync.html#geodesicLength)
 
-- Works on any supported geographic coordinate system include 70+ non-terrestrial sytesms (e.g. Mars and Moon)
+- Works on any supported geographic coordinate system include 70+ non-terrestrial systems (e.g. Mars and Moon)
 
 ---
 
