@@ -2,7 +2,7 @@
 
 <h1 style="font-size: 60px;">Visualizing Temporal Data<br>with the ArcGIS API for JavaScript</h1>
 <p style="font-size: 24px;">Thomas Other [<a href="mailto:tother@esri.com">tother@esri.com</a>] | Richie Carmichael [<a href="https://github.com/kiwiRichie">@kiwiRichie</a>]</a></p>
-<p style="font-size: 30px;"><code><a href="https://git.io/JvB8W">https://git.io/JvB8W</a> (<a href="?print-pdf">printer friendly</a>)</code></p>
+<p style="font-size: 30px;"><code><a href="https://git.io/JvB8W">https://git.io/JvB8W</a> (<a href="?print-pdf">printer friendly</a>, <a href="presentation.pdf">pdf</a>)</code></p>
 
 ---
 

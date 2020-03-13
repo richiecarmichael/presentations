@@ -2,7 +2,7 @@
 
 <h1 style="font-size: 60px;">Visualizing Temporal Data<br>with the ArcGIS API for JavaScript</h1>
 <p style="font-size: 24px;">Yann Cabon [<a href="https://github.com/yanncabon">@yanncabon</a>] | Richie Carmichael [<a href="https://github.com/kiwiRichie">@kiwiRichie</a>]</a></p>
-<p style="font-size: 30px;"><code><a href="https://git.io/fjrzO">https://git.io/fjrzO</a> (<a href="?print-pdf">printer friendly</a>)</code></p>
+<p style="font-size: 30px;"><code><a href="https://git.io/fjrzO">https://git.io/fjrzO</a> (<a href="?print-pdf">printer friendly</a>, <a href="presentation.pdf">pdf</a>)</code></p>
 
 ---
 
@@ -314,10 +314,6 @@ view.whenLayerView(featureLayerQuake).then(function(lv){
 #### Visualizing time using Visual Variables
 
 <a href="./demos/animate_vv/animate_vv.1.html" target="_blank"><img src="./demos/animate_vv/animate_vv.png" style="border: 0px; background:none; box-shadow: none;" width=800>
-
----
-
-<!-- .slide: data-background="../../reveal.js/img/2019/uc/bg-5.png" -->
 
 ---
 
