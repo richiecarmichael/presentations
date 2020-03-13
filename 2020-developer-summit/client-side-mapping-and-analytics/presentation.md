@@ -236,7 +236,6 @@ url = null;
 ### Client-side layers tips
 
 - Each implementation uses the client-side query engine.
-- Pick what's best for your usage.
 - Prefer `GeoJSON` over `CSV`.
 - Proper attribution using `copyright` property.
 
