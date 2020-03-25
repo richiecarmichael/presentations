@@ -42,8 +42,8 @@
       FeatureLayer,
       Legend
     ) {
-      const url = "https://services1.arcgis.com/0MSEUqKaxRlEPj5g/ArcGIS/rest/services/ncov_cases/FeatureServer/1";
-
+      const url = "https://services9.arcgis.com/N9p5hsImWXAccRNI/ArcGIS/rest/services/Nc2JKvYFoAEOFCG5JSI6/FeatureServer/1";
+      
       const virus = new FeatureLayer({
         url,
         popupTemplate: {
@@ -202,7 +202,7 @@
                 { ratio: 1.0, color: 'rgba(255, 0, 0, 1)' }    // red
               ],
               field: "Confirmed",
-              maxPixelIntensity: 100,
+              maxPixelIntensity: 10000,
               minPixelIntensity: 0
             };
             break;
