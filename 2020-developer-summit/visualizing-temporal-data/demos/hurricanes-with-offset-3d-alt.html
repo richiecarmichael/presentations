@@ -57,7 +57,6 @@
 
         const timeSlider = new TimeSlider({
           container: "timeSliderDiv",
-          view,
           fullTimeExtent: {
             start: new Date(2014, 0, 1),
             end: new Date(2015, 0, 1)
@@ -74,6 +73,13 @@
           timeSlider.effectiveStops[0],
           timeSlider.effectiveStops[15]
         ];
+        timeSlider.watch("timeExtent", (timeExtent) => {
+          map.layers.forEach(layer => {
+            layer.set({
+              timeExtent
+            });
+          });
+        });
 
         function createLayer (definition) {
           const { year, color, offset } = definition;
