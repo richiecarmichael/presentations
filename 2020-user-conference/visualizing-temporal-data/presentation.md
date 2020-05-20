@@ -2,7 +2,8 @@
 
 <h1 style="font-size: 60px;">Visualizing Temporal Data<br>with the ArcGIS API for JavaScript</h1>
 <p style="font-size: 30px;">Undral Batsukh [<a href="mailto:ubatshukh@esri.com">ubatshukh@esri.com</a>] | Richie Carmichael [<a href="https://github.com/kiwiRichie">@kiwiRichie</a>]</p>
-<p style="font-size: 30px;"><code><a href="https://git.io/JvB8W">https://git.io/JvB8W</a> (<a href="?print-pdf">printer friendly</a>, <a href="presentation.pdf">pdf</a>)</code></p>
+<p style="font-size: 30px;"><code><a href="https://git.io/JfgCL">https://git.io/JfgCL</a> (<a href="?print-pdf">printer friendly</a>, <a href="presentation.pdf">pdf</a>)</code></p>
+<!-- https://git.io/ -->
 
 ---
 

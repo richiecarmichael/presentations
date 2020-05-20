@@ -1,3 +1,8 @@
+### 2020 Esri User Conference
+- [Interactive Client-Side Mapping with ArcGIS API for JavaScript](https://richiecarmichael.github.io/presentations/2020-user-conference/client-side-mapping-and-analytics/index.html) ([pdf](https://richiecarmichael.github.io/presentations/2020-user-conference/client-side-mapping-and-analytics/presentation.pdf)) by [@ubatsukh](https://github.com/ubatsukh) and [@richiecarmichael](https://github.com/richiecarmichael)
+- [Visualizing Temporal Data
+with the ArcGIS API for JavaScript](https://richiecarmichael.github.io/presentations/2020-user-conference/visualizing-temporal-data/index.html) ([pdf](https://richiecarmichael.github.io/presentations/2020-user-conference/visualizing-temporal-data/presentation.pdf)) by [@ubatsukh](https://github.com/ubatsukh) and [@richiecarmichael](https://github.com/richiecarmichael)
+
 ### 2020 Esri Developer Summit
 - [Interactive Client-Side Mapping with ArcGIS API for JavaScript](https://richiecarmichael.github.io/presentations/2020-developer-summit/client-side-mapping-and-analytics/index.html) ([pdf](https://richiecarmichael.github.io/presentations/2020-developer-summit/client-side-mapping-and-analytics/presentation.pdf)) by [@ubatsukh](https://github.com/ubatsukh) and [@richiecarmichael](https://github.com/richiecarmichael)
 - [Visualizing Temporal Data
