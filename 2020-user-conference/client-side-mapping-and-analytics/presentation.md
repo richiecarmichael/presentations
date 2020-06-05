@@ -303,29 +303,9 @@ url = null;
 <!-- .slide: data-background="../../reveal.js/img/2020/uc/bg-2.png" -->
 
 ### Query tips
-
-<table style="min-width:1000px; color: black">
-  <tr style="background-color: white; color: black; font-size: 32px;">
-    <th style= "border: 1px solid #ddd;">When to use</th>
-    <th style= "border: 1px solid #ddd;">Layer queries</th>
-    <th style= "border: 1px solid #ddd;">LayerView queries</th>
-  </tr>
-  <tr style="font-size: 26px; background-color: #f2f2f2; color: black">
-    <td style= "border: 1px solid #ddd;">Speed and responseviness</td>
-    <td style= "border: 1px solid #ddd;">No(server layer) <br> Yes(client layers)</td>
-    <td style= "border: 1px solid #ddd;">Yes. Client-side query</td>
-  </tr>
-  <tr style="font-size: 26px; background-color: white; color: black">
-    <td style= "border: 1px solid #ddd;">Query all features</td>
-    <td style= "border: 1px solid #ddd;">Yes</td>
-    <td style= "border: 1px solid #ddd;">No. Features available for drawing</td>
-  </tr>
-  <tr style="font-size: 26px; background-color: #f2f2f2; color: black">
-    <td style= "border: 1px solid #ddd;">Geometry precision</td>
-    <td style= "border: 1px solid #ddd;">Yes</td>
-    <td style= "border: 1px solid #ddd;">No. Quantized/generalized</td>
-  </tr>
-</table>
+  <div style="display:inline">
+   <img src="image/server-vs-client-points.png" style="border:0;background:none;box-shadow:none;height:420px;">
+  </div>
 
 ---
 
