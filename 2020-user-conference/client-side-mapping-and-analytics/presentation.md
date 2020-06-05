@@ -266,7 +266,7 @@ url = null;
 - Server-side layers
   - Fetch or stream features on demand
   - [FeatureLayer](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html) created from a service, [SceneLayer](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-SceneLayer.html), and [StreamLayer](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-StreamLayer.html)
-  - Methods and properties for server-side layers will issue a server-side request. Examples, query features, setting definitionExpression or changing renderer.
+  - Methods and properties for server-side layers will issue a server-side request. Examples: query features, setting definitionExpression or changing renderer.
 
 ---
 
