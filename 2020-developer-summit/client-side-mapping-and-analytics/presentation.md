@@ -254,12 +254,13 @@ url = null;
 - Query expressions are used to select a subset of features and table records.
 - Query can be done on the server or on the client-side.
 - Different `query...` methods are available on Layers and LayerViews.
+- [Guide doc on query and filter](https://developers.arcgis.com/javascript/latest/guide/query-filter/)
 
 ---
 
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
 
-### Layers and Layer Views
+### Layers and LayerViews
 
 - Server-side layers
   - Fetch or stream features on demand

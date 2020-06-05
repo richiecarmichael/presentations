@@ -48,7 +48,7 @@
 - Responsive and fast performance
 
 <div style="display:inline">
-<img src="image/queryFeatures2.gif" style="border:0;background:none;box-shadow:none;height:360px;">
+<img src="image/query.gif" style="border:0;background:none;box-shadow:none;height:360px;">
 <img src="image/featureFilters2.gif" style="border:0;background:none;box-shadow:none;height:360px;">
 </div>
 
@@ -264,7 +264,7 @@ url = null;
 
 - Server-side layers
   - Fetch or stream features on demand
-  - [FeatureLayer](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html) created from a service, [SceneLayer](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-SceneLayer.html)
+  - [FeatureLayer](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html) created from a service, [SceneLayer](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-SceneLayer.html), and [StreamLayer](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-StreamLayer.html)
   - A [LayerView](https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html) represents the view for a single layer after it has been added to a View. 
   - LayerView API is layer agnostic.
   - Methods and properties used for features available for drawing on the client-side.
