@@ -273,8 +273,8 @@ url = null;
 
 ### LayerViews
 - A [LayerView](https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html) represents the view for a single layer after it has been added to a View. 
-  - LayerView API is layer agnostic.
-  - Methods and properties used for features available for drawing on the client-side.
+   - LayerView API is layer agnostic.
+   - Methods and properties used against features available for drawing on the client-side.
   <div style="display:inline">
    <img src="image/query-feature-count.png" style="border:0;background:none;box-shadow:none;height:360px;">
   </div>
