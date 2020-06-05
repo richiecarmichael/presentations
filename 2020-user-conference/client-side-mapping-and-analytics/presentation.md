@@ -48,7 +48,7 @@
 - Responsive and fast performance
 
 <div style="display:inline">
-<img src="image/query.gif.gif" style="border:0;background:none;box-shadow:none;height:360px;">
+<img src="image/query.gif" style="border:0;background:none;box-shadow:none;height:360px;">
 <img src="image/featureFilters2.gif" style="border:0;background:none;box-shadow:none;height:360px;">
 </div>
 
