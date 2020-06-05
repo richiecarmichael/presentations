@@ -260,7 +260,7 @@ url = null;
 
 <!-- .slide: data-background="../../reveal.js/img/2020/devsummit/bg-2.png" -->
 
-### Layers and Layer Views
+### Layers and LayerViews
 
 - Server-side layers
   - Fetch or stream features on demand
