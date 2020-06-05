@@ -260,14 +260,23 @@ url = null;
 
 <!-- .slide: data-background="../../reveal.js/img/2020/uc/bg-2.png" -->
 
-### Layers and Layer Views
+### Layers and LayerViews
 
 - Server-side layers
   - Fetch or stream features on demand
   - [FeatureLayer](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-FeatureLayer.html) created from a service, [SceneLayer](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-SceneLayer.html), and [StreamLayer](https://developers.arcgis.com/javascript/latest/api-reference/esri-layers-StreamLayer.html)
-  - A [LayerView](https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html) represents the view for a single layer after it has been added to a View. 
+
+---
+
+<!-- .slide: data-background="../../reveal.js/img/2020/uc/bg-2.png" -->
+
+### LayerViews
+- A [LayerView](https://developers.arcgis.com/javascript/latest/api-reference/esri-views-layers-LayerView.html) represents the view for a single layer after it has been added to a View. 
   - LayerView API is layer agnostic.
   - Methods and properties used for features available for drawing on the client-side.
+  <div style="display:inline">
+   <img src="image/query-feature-count.png" style="border:0;background:none;box-shadow:none;height:400px;">
+  </div>
 
 ---
 
