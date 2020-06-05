@@ -276,7 +276,7 @@ url = null;
   - LayerView API is layer agnostic.
   - Methods and properties used for features available for drawing on the client-side.
   <div style="display:inline">
-   <img src="image/query-feature-count.png" style="border:0;background:none;box-shadow:none;height:400px;">
+   <img src="image/query-feature-count.png" style="border:0;background:none;box-shadow:none;height:360px;">
   </div>
 
 ---
