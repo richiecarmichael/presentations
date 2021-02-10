@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Coronavirus</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <style>
+    html, body, #viewDiv {
+      height: 100%;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+    }
+    #timeSliderDiv {
+      position: absolute;
+      left: 10px;
+      right: 10px;
+      bottom: 10px;
+    }
+    #options {
+      position: absolute;
+      left: 20px;
+      top: 20px;
+      background-color: #242424;
+      color: #D1D1D1
+    }
+    #options label {
+      display: block;
+    }
+  </style>
+  <link rel="stylesheet" href="https://js.arcgis.com/4.14/esri/themes/dark/main.css" />
+  <script src="https://js.arcgis.com/4.14/"></script>
+  <script type="text/javascript">
+    require([
+      "esri/Map",
+      "esri/views/MapView",
+      "esri/layers/FeatureLayer",
+      "esri/widgets/Legend"
+    ], function (
+      Map,
+      MapView,
+      FeatureLayer,
+      Legend
+    ) {
+      const url = "https://services9.arcgis.com/N9p5hsImWXAccRNI/ArcGIS/rest/services/Nc2JKvYFoAEOFCG5JSI6/FeatureServer/1";
+      
+      const virus = new FeatureLayer({
+        url,
+        popupTemplate: {
+          title: "{Province_State}",
+          content: [
+            {
+              type: "fields",
+              fieldInfos: [
+                { label: "Confirmed", fieldName: "Confirmed" },
+                { label: "Recovered", fieldName: "Recovered" },
+                { label: "Deaths", fieldName: "Deaths" },
+                { label: "Last Updated", fieldName: "Last_Update" }
+              ]
+            }
+          ]
+        }
+      });
+
+      const map = new Map({
+        basemap: "dark-gray-vector",
+        layers: [virus]
+      });
+
+      const view = new MapView({
+        container: "viewDiv",
+        map,
+        extent: {
+          xmin: -125,
+          ymin: 30,
+          xmax: -59,
+          ymax: 47
+        },
+        ui: {
+          components: []
+        }
+      });
+
+      const legend = new Legend({
+        view,
+        layerInfos: [{
+          layer: virus,
+          title: "Legend"
+        }]
+      });
+      view.ui.add(legend, "bottom-left");
+
+      changeTheme("heatmap");
+
+      document.getElementById("cases").addEventListener("click", function() {
+        changeTheme("cases");
+      });
+
+      document.getElementById("heatmap").addEventListener("click", function() {
+        changeTheme("heatmap");
+      });
+
+      function changeTheme(theme) {
+        switch (theme){
+          case "cases":
+            virus.renderer = {
+              type: "class-breaks",
+              field: "Confirmed",
+              classBreakInfos: [
+                {
+                  label: "1 - 10",
+                  minValue: 1,
+                  maxValue: 10,
+                  symbol: {
+                    type: "simple-marker",
+                    color: [ 230, 0, 0, 1 ],
+                    size: 4,
+                    outline: {
+                      color: [ 255, 255, 255 ],
+                      width: 1
+                    }
+                  }
+                },
+                {
+                  label: "11 - 50",
+                  maxValue: 50,
+                  symbol: {
+                    type: "simple-marker",
+                    color: [ 230, 0, 0, 1 ],
+                    size: 8,
+                    outline: {
+                      color: [ 255, 255, 255 ],
+                      width: 2
+                    }
+                  }
+                },
+                {
+                  label: "51 - 100",
+                  maxValue: 100,
+                  symbol: {
+                    type: "simple-marker",
+                    color: [ 230, 0, 0, 1 ],
+                    size: 15,
+                    outline: {
+                      color: [ 255, 255, 255 ],
+                      width: 2
+                    }
+                  }
+                },
+                {
+                  label: "101 - 200",
+                  maxValue: 200,
+                  symbol: {
+                    type: "simple-marker",
+                    color: [ 230, 0, 0, 1 ],
+                    size: 25,
+                    outline: {
+                      color: [ 255, 255, 255 ],
+                      width: 2
+                    }
+                  }
+                },
+                {
+                  label: "201 - 500",
+                  maxValue: 500,
+                  symbol: {
+                    type: "simple-marker",
+                    color: [ 230, 0, 0, 1 ],
+                    size: 30,
+                    outline: {
+                      color: [ 255, 255, 255 ],
+                      width: 2
+                    }
+                  }
+                },
+                {
+                  label: "501+",
+                  maxValue: 1000000,
+                  symbol: {
+                    type: "simple-marker",
+                    color: [ 230, 0, 0, 1 ],
+                    size: 50,
+                    outline: {
+                      color: [ 255, 255, 255 ],
+                      width: 2
+                    }
+                  }
+                }
+              ]
+            };
+            break;
+          case "heatmap":
+            virus.renderer = {
+              type: "heatmap",
+              blurRadius: 20,
+              colorStops: [
+                { ratio: 0.0, color: 'rgba(0, 0, 255, 0)' },   // blue transparent
+                { ratio: 0.2, color: 'rgba(0, 0, 255, 1)' },   // blue opaque
+                { ratio: 0.4, color: 'rgba(0, 255, 0, 1)' },   // green
+                { ratio: 0.6, color: 'rgba(255, 255, 0, 1)' }, // yellow
+                { ratio: 0.8, color: 'rgba(255, 127, 0, 1)' }, // orange
+                { ratio: 1.0, color: 'rgba(255, 0, 0, 1)' }    // red
+              ],
+              field: "Confirmed",
+              maxPixelIntensity: 10000,
+              minPixelIntensity: 0
+            };
+            break;
+        }
+      }
+    });
+  </script>
+</head>
+<body>
+  <div id="viewDiv"></div>
+  <div id="timeSliderDiv"></div>
+  <div id="options">
+    <fieldset class="fieldset-radio">
+      <legend>Confirmed Cases</legend>
+      <label><input id="heatmap" type="radio" name="theme" value="heatmap" checked>Heatmap</label>
+      <label><input id="cases" type="radio" name="theme" value="cases">Cities</label>
+    </fieldset>
+  </div>
+</body>
+</html>
