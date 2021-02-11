@@ -17,12 +17,13 @@
       left: 0;
       right: 0;
       bottom: 0;
-      height: 60px;
+      height: 30px;
       background-color: rgba(255, 255, 255, 0.1);
       color: white;
-      font-family: Georgia, 'Times New Roman', Times, serif;
-      font-size: 50px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 25px;
       text-align: center;
+      white-space: pre;
     }
   </style>
   <link rel="stylesheet" href="https://js.arcgis.com/4.18/esri/themes/dark/main.css" />
@@ -153,8 +154,8 @@
           ]} = featureSet;
 
           const formatter = new Intl.NumberFormat("en-us");
-          const cases = formatter.format(sum_of_cases);
-          const deaths = formatter.format(sum_of_deaths);
+          const cases = formatter.format(sum_of_cases).padStart(9);
+          const deaths = formatter.format(sum_of_deaths).padStart(7);
 
           const label = `Cases: ${cases} - Deaths: ${deaths}`;
 
