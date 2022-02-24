@@ -18,11 +18,16 @@
       height: 100%;
       width: 100%;
     }
+
+    #linkDiv {
+      display: none;
+      margin: 5px;
+    }
   </style>
 
   <script>
     require([
-      "esri/Map",
+      "esri/WebMap",
       "esri/layers/RouteLayer",
       "esri/views/MapView",
       "esri/rest/support/Stop",
@@ -31,7 +36,7 @@
       "esri/rest/support/PolygonBarrier",
     ],
       function (
-        Map,
+        WebMap,
         RouteLayer,
         MapView,
         Stop,
@@ -80,7 +85,7 @@
             polygonBarriers,
           });
 
-          const map = new Map({
+          const map = new WebMap({
             basemap: "dark-gray-vector",
             layers: [
               routeLayer
@@ -109,6 +114,24 @@
               stops
             }));
           });
+
+          // Code for the "Save As New Webmap" button.
+          document.getElementById("buttonSaveAs").addEventListener("click", async () => {
+            const link = document.getElementById("linkDiv");
+            link.style.display = "none";
+
+            // Save the current map as a new webmap with the title "Map of Populated Places".
+            await map.updateFrom(view);
+            const portalItem = await map.saveAs({
+              title: "The route to Redlands, California",
+              snippet: "Created at the 2022 Developer Summit"
+            });
+
+            // Prepare a link to navigate to the new webmap's portal page.
+            const { id, portal: { url } } = portalItem;
+            link.href = `${url}/home/item.html?id=${id}`;
+            link.style.display = "block";
+          });
         })();
       });
   </script>
@@ -116,6 +139,12 @@
 
 <body>
   <div id="viewDiv"></div>
+  <div id="buttonDiv" class="esri-widget esri-component">
+    <button id="buttonSaveAs" type="button" class="esri-button">
+      Save As New Webmap
+    </button>
+    <a id="linkDiv" href="https://example.com" target="_blank">Open in AGOL</a>
+  </div>
 </body>
 
 </html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+  <title>drag-route-layer</title>
+
+  <link rel="stylesheet" href="https://jsdev.arcgis.com/4.23/esri/themes/dark/main.css" />
+  <script src="https://jsdev.arcgis.com/4.23/"></script>
+
+  <style>
+    html,
+    body,
+    #viewDiv {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+    }
+  </style>
+
+  <script>
+    require([
+      "esri/Map",
+      "esri/layers/RouteLayer",
+      "esri/views/MapView",
+      "esri/rest/support/Stop",
+      "esri/core/promiseUtils",
+      "esri/core/watchUtils"
+    ],
+      function (
+        Map,
+        RouteLayer,
+        MapView,
+        Stop,
+        promiseUtils,
+        watchUtils
+      ) {
+        (async () => {
+          // The API key to be used for AGOL routing requests
+          const apiKey = "AAPK0608c02f384649529a5cc0efd85b53f21IyPG8et7QHK-HOPe6G29_B8LIDj7lPFEO65-luuYH4dcLZpzx0OaESBsiUt7uBo";
+
+          // Create a routing layer initialized with two stops.
+          const routeLayer = new RouteLayer({
+            stops: [
+              new Stop({
+                geometry: { x: -117.1825, y: 34.054722 }
+              }),
+              new Stop({
+                geometry: { x: -117.1817268, y: 34.0563309 }
+              })
+            ],
+            spatialReference: {
+              wkid: 102100
+            }
+          });
+          watchUtils.init(routeLayer, "title", () => {
+            console.log(routeLayer.title);
+          }, true);
+
+          // Create map with an WebMercator basemap.
+          const map = new Map({
+            basemap: "dark-gray-vector",
+            layers: [
+              routeLayer
+            ]
+          });
+          const view = new MapView({
+            container: "viewDiv",
+            map,
+            center: { x: -117.1825, y: 34.054722 },
+            zoom: 16
+          });
+
+          // Wait for view and layer to load.
+          await Promise.all([view.when(), routeLayer.load()]);
+
+          // Need to specify that results should be returned in the view's spatial reference.
+          const outSpatialReference = view.spatialReference
+
+          // Solve and display the fastest path between the two initial stops.
+          const results = await routeLayer.solve({ apiKey, outSpatialReference });
+          routeLayer.update(results);
+
+          // Call the following function everytime the pointer is dragged on the map.
+          // The debounce method ensures that only one route request is pending at a time.
+          // The function will move the second stop to the pointer's position when dragged and
+          // only when the SHIFT key is depressed.
+          const recompute = promiseUtils.debounce((event) => {
+            // Only progress is the SHIFT key is depressed.
+            if (!event.native.shiftKey) {
+              return;
+            }
+
+            // Prevent the map from panning.
+            event.stopPropagation();
+
+            // By default the route layer solver will use the current stops, barriers and other layer
+            // settings. Overrides can be passed via the RouteParameters object. In the code below
+            // we are cloning the current stops and then adjusting the position of the second stop.
+            // This approach allows us to perform trial and error with different settings without 
+            // changes the current layer.
+            const stops = routeLayer.stops.clone();
+
+            // Move the second stop to the position of the pointer.
+            stops.getItemAt(1).geometry = view.toMap({
+              x: event.x,
+              y: event.y
+            });
+
+            // Perform the routing request.
+            return routeLayer.solve({ apiKey, stops, outSpatialReference }).then((result) => {
+              // Use the routing results to update the route layer.
+              routeLayer.update(result);
+            });
+          });
+          view.on("drag", (event) => recompute(event));
+        })();
+      });
+  </script>
+</head>
+
+<body>
+  <div id="viewDiv"></div>
+</body>
+
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+  <title>Driving to Olympic Venues</title>
+
+  <link rel="stylesheet" href="https://jsdev.arcgis.com/4.23/esri/themes/dark/main.css" />
+  <script src="https://jsdev.arcgis.com/4.23/"></script>
+
+  <style>
+    html,
+    body,
+    #viewDiv {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+    }
+
+    #actions {
+      padding: 15px;
+    }
+  </style>
+
+  <script>
+    require([
+      "esri/Map",
+      "esri/layers/RouteLayer",
+      "esri/views/MapView",
+      "esri/rest/support/Stop",
+      "esri/rest/support/PointBarrier",
+      "esri/rest/support/PolylineBarrier",
+      "esri/rest/support/PolygonBarrier",
+      "esri/rest/networkService"
+    ],
+      function (
+        Map,
+        RouteLayer,
+        MapView,
+        Stop,
+        PointBarrier,
+        PolylineBarrier,
+        PolygonBarrier,
+        networkService
+      ) {
+        (async () => {
+          const url = "https://route-api.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World";
+          const apiKey = "AAPK0608c02f384649529a5cc0efd85b53f21IyPG8et7QHK-HOPe6G29_B8LIDj7lPFEO65-luuYH4dcLZpzx0OaESBsiUt7uBo";
+
+          const unionStation = { x: -118.23525, y: 34.05515 };
+
+          const map = new Map({
+            basemap: "dark-gray-vector"
+          });
+
+          const view = new MapView({
+            container: "viewDiv",
+            map,
+            center: unionStation,
+            zoom: 17
+          });
+
+          const { supportedTravelModes } = await networkService.fetchServiceDescription(url, apiKey);
+          const driveTravelMode = supportedTravelModes.find((travelMode) => travelMode.name === "Driving Time");
+          const walkTravelMode = supportedTravelModes.find((travelMode) => travelMode.name === "Walking Time");
+
+          view.ui.add("actions", "top-right");
+
+          document.getElementById("swimming").addEventListener("click", () => showRoutes({ x: -118.2898, y: 34.0235 }));
+          document.getElementById("karate").addEventListener("click", () => showRoutes({ x: -118.28, y: 34.021 }));
+          document.getElementById("boxing").addEventListener("click", () => showRoutes({ x: -118.270293, y: 34.039737 }));
+          document.getElementById("weightlifting").addEventListener("click", () => showRoutes({ x: -118.266667, y: 34.044444 }));
+          document.getElementById("tennis").addEventListener("click", () => showRoutes({ x: -118.261095, y: 33.862523 }));
+          document.getElementById("mountain-biking").addEventListener("click", () => showRoutes({ x: -117.803611, y: 34.084722 }));
+
+          function showRoutes(destination) {
+            map.removeAll();
+
+            const drive = new RouteLayer({
+              stops: [
+                { geometry: unionStation },
+                { geometry: destination }
+              ]
+            });
+
+            drive.solve({ apiKey, travelMode: driveTravelMode }).then((results) => {
+              drive.update(results);
+              const extent = results.routeResults[0].route.geometry.extent.clone();
+              view.goTo(extent.expand(1.5));
+            });
+
+            const walk = new RouteLayer({
+              stops: [ // AutoCasts to Collection<Stop>
+                { geometry: unionStation },
+                { geometry: destination }
+              ]
+            });
+
+            // Hide direction points and show route as dotted line.
+            walk.defaultSymbols.directionPoints.size = 0;
+            walk.defaultSymbols.directionLines = {
+              type: "simple-line",
+              style: "short-dot",
+              color: [0, 200, 0],
+              width: 8
+            };
+            walk.defaultSymbols.routeInfo.width = 0;
+
+            // Solve and update route.
+            walk.solve({ apiKey, travelMode: walkTravelMode }).then((results) => {
+              walk.update(results);
+            });
+
+            map.addMany([drive, walk]);
+          }
+        })();
+      });
+  </script>
+</head>
+
+<body>
+  <div id="viewDiv"></div>
+  <div id="actions" class="esri-widget">
+    <button class="esri-button" id="swimming">Swimming</button>
+    <button class="esri-button" id="karate">Karate</button>
+    <button class="esri-button" id="boxing">Boxing</button>
+    <button class="esri-button" id="weightlifting">Weightlifting</button>
+    <button class="esri-button" id="tennis">Tennis</button>
+    <button class="esri-button" id="mountain-biking">Mountain Biking</button>
+  </div>
+</body>
+
+</html>
