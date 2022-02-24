@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+  <title>Drive to Redlands</title>
+
+  <link rel="stylesheet" href="https://jsdev.arcgis.com/4.23/esri/themes/dark/main.css" />
+  <script src="https://jsdev.arcgis.com/4.23/"></script>
+
+  <style>
+    html,
+    body,
+    #viewDiv {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+    }
+  </style>
+
+  <script>
+    require([
+      "esri/Map",
+      "esri/layers/RouteLayer",
+      "esri/views/MapView",
+      "esri/rest/support/Stop",
+      "esri/rest/support/PointBarrier",
+      "esri/rest/support/PolylineBarrier",
+      "esri/rest/support/PolygonBarrier",
+    ],
+      function (
+        Map,
+        RouteLayer,
+        MapView,
+        Stop,
+        PointBarrier,
+        PolylineBarrier,
+        PolygonBarrier
+      ) {
+        (async () => {
+          const apiKey = "AAPK0608c02f384649529a5cc0efd85b53f21IyPG8et7QHK-HOPe6G29_B8LIDj7lPFEO65-luuYH4dcLZpzx0OaESBsiUt7uBo";
+
+          const stops = [
+            new Stop({ geometry: { x: -117.1825, y: 34.054722 } }),
+            new Stop({ geometry: { x: -116.8975, y: 33.931667 } })
+          ];
+          const pointBarriers = [
+            new PointBarrier({ geometry: { x: -117.157745, y: 33.514181 } })
+          ];
+          const polylineBarriers = [
+            new PolylineBarrier({
+              geometry: {
+                paths: [[
+                  [-117.206377, 33.714489],
+                  [-117.175855, 33.714489]
+                ]]
+              }
+            })
+          ];
+          const polygonBarriers = [
+            new PolygonBarrier({
+              geometry: {
+                rings: [[
+                  [-116.977222 - 0.01, 33.929444 - 0.01],
+                  [-116.977222 - 0.01, 33.929444 + 0.01],
+                  [-116.977222 + 0.01, 33.929444 + 0.01],
+                  [-116.977222 + 0.01, 33.929444 - 0.01],
+                  [-116.977222 - 0.01, 33.929444 - 0.01]
+                ]]
+              }
+            })
+          ]
+
+          const routeLayer = new RouteLayer({
+            stops,
+            pointBarriers,
+            polylineBarriers,
+            polygonBarriers,
+          });
+
+          const map = new Map({
+            basemap: "dark-gray-vector",
+            layers: [
+              routeLayer
+            ]
+          });
+
+          const view = new MapView({
+            container: "viewDiv",
+            map
+          });
+
+          await Promise.all([view.when(), routeLayer.load()]);
+
+          const results = await routeLayer.solve({ apiKey });
+          routeLayer.update(results);
+
+          await view.goTo(routeLayer.routeInfo.geometry);
+
+          view.on("click", async (e) => {
+            const stops = routeLayer.stops.clone();
+            stops.pop();
+            stops.add(new Stop({ geometry: e.mapPoint }));
+
+            routeLayer.update(await routeLayer.solve({
+              apiKey,
+              stops
+            }));
+          });
+        })();
+      });
+  </script>
+</head>
+
+<body>
+  <div id="viewDiv"></div>
+</body>
+
+</html>
