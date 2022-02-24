@@ -87,7 +87,7 @@
 
             drive.solve({ apiKey, travelMode: driveTravelMode }).then((results) => {
               drive.update(results);
-              const extent = results.routeResults[0].route.geometry.extent.clone();
+              const extent = results.routeInfo.geometry.extent.clone();
               view.goTo(extent.expand(1.5));
             });
 
