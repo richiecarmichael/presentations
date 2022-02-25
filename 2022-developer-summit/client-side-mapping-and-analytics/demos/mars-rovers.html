@@ -67,26 +67,23 @@
       const distance = geodesicUtils.geodesicLengths([line], "kilometers")[0];
       const geometry = geodesicUtils.geodesicDensify(line, 100);
 
+      const formatter = new Intl.NumberFormat(undefined, {
+        style: "unit",
+        unit: "kilometer",
+        unitDisplay: "short",
+        minimumFractionDigits: 0,
+        maximumFractionDigits : 0
+      });
+      const formattedDistane = formatter.format(distance);
+
       const path = {
-        attributes: {
-          oid: 1,
-          distance
-        },
+        attributes: { oid: 1 },
         geometry
       };
 
       const rovers = new FeatureLayer({
         fields: [
-          {
-            name: "oid",
-            alias: "oid",
-            type: "oid"
-          },
-          {
-            name: "distance",
-            alias: "distance",
-            type: "double"
-          }
+          { name: "oid", alias: "oid", type: "oid" }
         ],
         objectIdField: "oid",
         geometryType: "polyline",
@@ -106,7 +103,7 @@
         labelingInfo: [
           {
             labelExpressionInfo: {
-              expression: `'banana'` // "Round($feature.distance) + 'km'"
+              expression: `"${formattedDistane}"`
             },
             symbol: {
               type: "text",
