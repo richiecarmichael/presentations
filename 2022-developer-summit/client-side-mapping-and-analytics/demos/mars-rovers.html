@@ -41,8 +41,7 @@
       const basemap = {
         baseLayers: [
           new TileLayer({
-            url: "https://tiles.arcgis.com/tiles/nzS0F0zdNLvs7nc8/arcgis/rest/services/Mars_MOLA_elevation/MapServer",
-            title: "Basemap"
+            url: "https://tiles.arcgis.com/tiles/nzS0F0zdNLvs7nc8/arcgis/rest/services/Mars_MOLA_elevation/MapServer"
           })
         ]
       };
@@ -50,25 +49,13 @@
       const spatialReference = { wkid: 104905 };
 
       const curiosity = {
-        attributes: {
-          oid: 1,
-          name: "Curiosity"
-        },
-        geometry: new Point({
-          x: 137.2,
-          y: -4.6
-        })
+        attributes: { oid: 1, name: "Curiosity" },
+        geometry: new Point({ x: 137.2, y: -4.6 })
       };
 
       const opportunity = {
-        attributes: {
-          oid: 2,
-          name: "Opportunity"
-        },
-        geometry: new Point({
-          x: 354.4734,
-          y: -1.9462
-        })
+        attributes: { oid: 2, name: "Opportunity" },
+        geometry: new Point({ x: 354.4734, y: -1.9462 })
       };
 
       const line = new Polyline({ spatialReference });
@@ -119,7 +106,7 @@
         labelingInfo: [
           {
             labelExpressionInfo: {
-              expression: "Round($feature.distance) + 'km'"
+              expression: `'banana'` // "Round($feature.distance) + 'km'"
             },
             symbol: {
               type: "text",

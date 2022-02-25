@@ -99,10 +99,10 @@
         // });
 
         /**
-         * 2. Use featureLayerView.effect to dim features beyound 300km radius of cursor.
+         * 2. Use featureLayerView.featureEffect to dim features beyound 300km radius of cursor.
         */
         // view.on("pointer-move", (event) => {
-        //   featureLayerView.effect = {
+        //   featureLayerView.featureEffect = {
         //     filter: {
         //       geometry: view.toMap(event),
         //       spatialRelationship: "contains",
@@ -114,10 +114,10 @@
         // });
 
         /**
-         * 3. Use featureLayerView.effect to invert/glow features within 300km of cursor.
+         * 3. Use featureLayerView.featureEffect to invert/glow features within 300km of cursor.
         */
         view.on("pointer-move", (event) => {
-          featureLayerView.effect = {
+          featureLayerView.featureEffect = {
             filter: {
               geometry: view.toMap(event),
               spatialRelationship: "contains",

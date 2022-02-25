@@ -53,11 +53,11 @@
       TimeSlider,
       watchUtils
     ) {
-      const URL = "https://services.arcgis.com/6DIQcwlPy8knb6sg/arcgis/rest/services/quakes/FeatureServer/0";
+      const url = "https://services.arcgis.com/6DIQcwlPy8knb6sg/arcgis/rest/services/quakes/FeatureServer/0";
       const MAGNITUDE_MIN = 5.0; // Smallest earthquake magnitude
 
-      const featureLayerQuake = new FeatureLayer({
-        url: URL,
+      const quake = new FeatureLayer({
+        url,
         definitionExpression: "mag >= " + MAGNITUDE_MIN,
         outFields: ["mag"],
         renderer: {
@@ -79,12 +79,14 @@
 
       const map = new Map({
         basemap: "dark-gray-vector",
-        layers: [featureLayerQuake]
+        layers: [
+          quake
+        ]
       });
 
       const view = new MapView({
         container: "map",
-        map: map,
+        map,
         center: [170, 0],
         zoom: 2,
         ui: {
@@ -107,18 +109,18 @@
       });
 
       let quakeView = null;
-      view.whenLayerView(featureLayerQuake).then(function (layerView) {
+      view.whenLayerView(quake).then(function (layerView) {
         watchUtils.whenFalseOnce(layerView, "updating", function () {
           quakeView = layerView;
-          timeSlider.fullTimeExtent = featureLayerQuake.timeInfo.fullTimeExtent;
-          featureLayerQuake.visible = true;
+          timeSlider.fullTimeExtent = quake.timeInfo.fullTimeExtent;
+          quake.visible = true;
         });
       });
 
       document.getElementById('filter').addEventListener('click', function () {
         if (quakeView == null) { return; }
         quakeView.layer.renderer.symbol.color = "#FF7F00";
-        quakeView.effect = null;
+        quakeView.featureEffect = null;
         updateView(timeSlider.timeExtent);
       });
 
@@ -134,17 +136,17 @@
         if (document.getElementById('filter').checked) {
           quakeView.set({
             filter: {
-              where: featureLayerQuake.definitionExpression,
-              timeExtent: timeExtent
+              where: quake.definitionExpression,
+              timeExtent
             }
           });
         }
         if (document.getElementById('effect').checked) {
           quakeView.set({
-            effect: {
+            featureEffect : {
               filter: {
-                where: featureLayerQuake.definitionExpression,
-                timeExtent: timeExtent
+                where: quake.definitionExpression,
+                timeExtent
               },
               //includedEffect: "hue-rotate(90deg)",
               excludedEffect: "saturate(0%) opacity(10%)"
@@ -162,8 +164,8 @@
   <div id="options">
     <fieldset class="fieldset-radio">
       <legend>Choose a Temporal Property</legend>
-      <label><input id="filter" type="radio" name="time" value="Filter" checked>FeatureLayerView.Filter</label>
-      <label><input id="effect" type="radio" name="time" value="Effect">FeatureLayerView.Effect</label>
+      <label><input id="filter" type="radio" name="time" value="Filter" checked>FeatureLayerView.filter</label>
+      <label><input id="effect" type="radio" name="time" value="Effect">FeatureLayerView.featureEffect</label>
     </fieldset>
   </div>
 </body>
