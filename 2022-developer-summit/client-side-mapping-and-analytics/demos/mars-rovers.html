@@ -74,7 +74,7 @@
         minimumFractionDigits: 0,
         maximumFractionDigits : 0
       });
-      const formattedDistane = formatter.format(distance);
+      const formattedDistance = formatter.format(distance);
 
       const path = {
         attributes: { oid: 1 },
@@ -103,7 +103,7 @@
         labelingInfo: [
           {
             labelExpressionInfo: {
-              expression: `"${formattedDistane}"`
+              expression: `"${formattedDistance}"`
             },
             symbol: {
               type: "text",
