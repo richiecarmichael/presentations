@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+  <title>driving-redlands-to-banning</title>
+
+  <link rel="stylesheet" href="https://js.arcgis.com/4.23/esri/themes/light/main.css">
+  <script src="https://js.arcgis.com/4.23/"></script>
+
+  <style>
+    html,
+    body,
+    #viewDiv {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+    }
+  </style>
+
+  <script>
+    require([
+      "esri/Map",
+      "esri/layers/RouteLayer",
+      "esri/views/MapView",
+      "esri/rest/support/Stop"
+    ],
+      function (
+        Map,
+        RouteLayer,
+        MapView,
+        Stop
+      ) {
+        (async () => {
+          const apiKey = "AAPK0608c02f384649529a5cc0efd85b53f21IyPG8et7QHK-HOPe6G29_B8LIDj7lPFEO65-luuYH4dcLZpzx0OaESBsiUt7uBo";
+
+          const stops = [
+            new Stop({ geometry: { x: -117.1825, y: 34.054722 } }),
+            new Stop({ geometry: { x: -116.8975, y: 33.931667 } })
+          ];
+          
+          const routeLayer = new RouteLayer({
+            stops
+          });
+
+          const map = new Map({
+            basemap: "dark-gray-vector",
+            layers: [
+              routeLayer
+            ]
+          });
+
+          const view = new MapView({
+            container: "viewDiv",
+            map
+          });
+
+          await Promise.all([view.when(), routeLayer.load()]);
+
+          const results = await routeLayer.solve({ apiKey });
+          routeLayer.update(results);
+
+          await view.goTo(routeLayer.routeInfo.geometry);
+        })();
+      });
+  </script>
+</head>
+
+<body>
+  <div id="viewDiv"></div>
+</body>
+
+</html>
