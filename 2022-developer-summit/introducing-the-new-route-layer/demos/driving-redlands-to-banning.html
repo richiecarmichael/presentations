@@ -6,7 +6,7 @@
   <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
   <title>driving-redlands-to-banning</title>
 
-  <link rel="stylesheet" href="https://js.arcgis.com/4.23/esri/themes/light/main.css">
+  <link rel="stylesheet" href="https://js.arcgis.com/4.23/esri/themes/dark/main.css">
   <script src="https://js.arcgis.com/4.23/"></script>
 
   <style>
@@ -23,13 +23,15 @@
   <script>
     require([
       "esri/Map",
-      "esri/layers/RouteLayer",
+      "esri/widgets/Directions",
+      "esri/widgets/Directions/DirectionsViewModel",
       "esri/views/MapView",
       "esri/rest/support/Stop"
     ],
       function (
         Map,
-        RouteLayer,
+        Directions,
+        DirectionsViewModel,
         MapView,
         Stop
       ) {
@@ -40,16 +42,9 @@
             new Stop({ geometry: { x: -117.1825, y: 34.054722 } }),
             new Stop({ geometry: { x: -116.8975, y: 33.931667 } })
           ];
-          
-          const routeLayer = new RouteLayer({
-            stops
-          });
 
           const map = new Map({
-            basemap: "dark-gray-vector",
-            layers: [
-              routeLayer
-            ]
+            basemap: "dark-gray-vector"
           });
 
           const view = new MapView({
@@ -57,12 +52,12 @@
             map
           });
 
-          await Promise.all([view.when(), routeLayer.load()]);
-
-          const results = await routeLayer.solve({ apiKey });
-          routeLayer.update(results);
-
-          await view.goTo(routeLayer.routeInfo.geometry);
+          const directionsViewModel = new DirectionsViewModel({
+            apiKey,
+            view,
+            stops
+          });
+          await directionsViewModel.load();
         })();
       });
   </script>
