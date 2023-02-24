@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+  <title>lax-to-esri-using-route-layer</title>
+
+  <link rel="stylesheet" href="https://js.arcgis.com/4.26/esri/themes/light/main.css">
+  <script src="https://js.arcgis.com/4.26/"></script>
+  
+  <style>
+    html,
+    body,
+    #viewDiv {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+    }
+  </style>
+  <script>
+    require([
+      "esri/Map",
+      "esri/views/MapView",
+      "esri/layers/RouteLayer"
+    ],
+      function (
+        Map,
+        MapView,
+        RouteLayer
+      ) {
+        (async () => {
+          const url = "https://route-api.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World";
+          const apiKey = "AAPK0608c02f384649529a5cc0efd85b53f21IyPG8et7QHK-HOPe6G29_B8LIDj7lPFEO65-luuYH4dcLZpzx0OaESBsiUt7uBo";
+
+          const effect = "bloom(1, 1px, 0.2)";
+
+          const lax = { x: -118.408056, y: 33.9425 }; // LAX
+          const esri = { x: -117.195702, y: 34.0564 }; // Esri
+
+          const routeLayer = new RouteLayer({
+            stops: [
+              { geometry: lax },
+              { geometry: esri }
+            ],
+            effect
+          });
+
+          const map = new Map({
+            basemap: "topo-vector",
+            layers: [
+              routeLayer
+            ]
+          });
+
+          const view = new MapView({
+            container: "viewDiv",
+            map,
+            constraints: { snapToZoom: false }
+          });
+
+          await view.when();
+          const results = await routeLayer.solve({ apiKey });
+          routeLayer.update(results);
+
+          view.goTo(routeLayer.routeInfo.geometry.extent.clone().expand(1.5));
+        })();
+      });
+  </script>
+</head>
+
+<body>
+  <div id="viewDiv"></div>
+</body>
+
+</html>

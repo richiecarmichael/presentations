@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+  <title>lax-to-esri-using-route-function</title>
+
+  <link rel="stylesheet" href="https://js.arcgis.com/4.26/esri/themes/light/main.css">
+  <script src="https://js.arcgis.com/4.26/"></script>
+  
+  <style>
+    html,
+    body,
+    #viewDiv {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+    }
+  </style>
+  <script>
+    require([
+      "esri/Map",
+      "esri/Graphic",
+      "esri/views/MapView",
+      "esri/layers/GraphicsLayer",
+      "esri/geometry/Point",
+      "esri/symbols/SimpleMarkerSymbol",
+      "esri/symbols/SimpleLineSymbol",
+      "esri/rest/route",
+      "esri/rest/support/RouteParameters",
+      "esri/rest/support/FeatureSet"
+    ],
+      function (
+        Map,
+        Graphic,
+        MapView,
+        GraphicsLayer,
+        Point,
+        SimpleMarkerSymbol,
+        SimpleLineSymbol,
+        route,
+        RouteParameters,
+        FeatureSet
+      ) {
+        (async () => {
+          const url = "https://route-api.arcgis.com/arcgis/rest/services/World/Route/NAServer/Route_World";
+          const apiKey = "AAPK0608c02f384649529a5cc0efd85b53f21IyPG8et7QHK-HOPe6G29_B8LIDj7lPFEO65-luuYH4dcLZpzx0OaESBsiUt7uBo";
+
+          const symbol = new SimpleMarkerSymbol({
+            color: "white",
+            size: "30px",
+            outline: new SimpleLineSymbol({ color: "cyan", width: "5px" })
+          });
+
+          const effect = "bloom(1, 1px, 0.2)";
+
+          const lax = new Point({ x: -118.408056, y: 33.9425 }); // LAX
+          const esri = new Point({ x: -117.195702, y: 34.0564 }); // Esri
+
+          const stopsGraphicsLayer = new GraphicsLayer({
+            graphics: [
+              { symbol, geometry: lax },
+              { symbol, geometry: esri }
+            ],
+            effect
+          });
+          const routeGraphicsLayer = new GraphicsLayer({ effect });
+
+          const map = new Map({
+            basemap: "topo-vector",
+            layers: [
+              routeGraphicsLayer,
+              stopsGraphicsLayer
+            ]
+          });
+
+          const view = new MapView({
+            container: "viewDiv",
+            map,
+            constraints: { snapToZoom: false }
+          });
+
+          const stops = new FeatureSet({
+            features: stopsGraphicsLayer.graphics.toArray()
+          });
+
+          const routeParameters = new RouteParameters({
+            apiKey,
+            stops,
+            outSpatialReference: view.spatialReference
+          });
+
+          await view.when();
+          const routeContainer = await route.solve(url, routeParameters);
+          const { route: { attributes, geometry } } = routeContainer.routeResults[0];
+
+          routeGraphicsLayer.graphics.add(
+            new Graphic({
+              attributes,
+              geometry,
+              symbol: new SimpleLineSymbol({
+                color: "cyan",
+                width: "10px"
+              })
+            })
+          );
+
+          view.goTo(geometry.extent.clone().expand(1.5));
+        })();
+      });
+  </script>
+</head>
+
+<body>
+  <div id="viewDiv"></div>
+</body>
+
+</html>
