@@ -28,7 +28,6 @@
       "esri/rest/closestFacility",
       "esri/rest/support/ClosestFacilityParameters",
       "esri/rest/support/FeatureSet",
-      "esri/symbols/Symbol",
       "esri/symbols/PictureMarkerSymbol",
       "esri/symbols/SimpleLineSymbol",
       "esri/geometry/Point",
@@ -41,7 +40,6 @@
       closestFacility,
       ClosestFacilityParameters,
       FeatureSet,
-      Symbol,
       PictureMarkerSymbol,
       SimpleLineSymbol,
       Point,
@@ -116,7 +114,9 @@
         event.stopPropagation();
 
         const point = view.toMap(event);
+
         addIncident(point);
+        
         debouncedFindClosestFacility(point)
           .catch((error) => {
             if (!promiseUtils.isAbortError(error)) {
@@ -134,33 +134,35 @@
         }));
       }
 
-      const debouncedFindClosestFacility = promiseUtils.debounce(async (geometry) => {
-        const incidents = new FeatureSet({
-          features: [new Graphic({ geometry })],
-        });
+      const debouncedFindClosestFacility = promiseUtils.debounce(
+        async (geometry) => {
+          const incidents = new FeatureSet({
+            features: [new Graphic({ geometry })],
+          });
 
-        const facilities = new FeatureSet({
-          features: facilityLayer.graphics.toArray(),
-        });
+          const facilities = new FeatureSet({
+            features: facilityLayer.graphics.toArray(),
+          });
 
-        const parameters = new ClosestFacilityParameters({
-          apiKey,
-          incidents,
-          facilities,
-          returnRoutes: true,
-          defaultTargetFacilityCount: 1
-        });
+          const parameters = new ClosestFacilityParameters({
+            apiKey,
+            incidents,
+            facilities,
+            returnRoutes: true,
+            defaultTargetFacilityCount: 1
+          });
 
-        const results = await closestFacility.solve(url, parameters);
+          const results = await closestFacility.solve(url, parameters);
 
-        driveLayer.removeAll();
-        driveLayer.graphics.addMany(
-          results.routes.features.map(({ geometry }) => new Graphic({
-            geometry,
-            symbol: routeSymbol
-          }))
-        );
-      });
+          driveLayer.removeAll();
+          driveLayer.graphics.addMany(
+            results.routes.features.map(({ geometry }) => new Graphic({
+              geometry,
+              symbol: routeSymbol
+            }))
+          );
+        }
+      );
     });
   </script>
 </head>

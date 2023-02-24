@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>city-walking</title>
+  <style>
+    html,
+    body,
+    #viewDiv {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+    }
+  </style>
+
+  <link rel="stylesheet" href="https://js.arcgis.com/4.26/esri/themes/light/main.css">
+  <script src="https://js.arcgis.com/4.26/"></script>
+
+  <script>
+    require([
+      "esri/Map",
+      "esri/views/MapView",
+      "esri/rest/networkService",
+      "esri/rest/serviceArea",
+      "esri/rest/support/ServiceAreaParameters",
+      "esri/rest/support/FeatureSet",
+      "esri/symbols/SimpleMarkerSymbol",
+      "esri/symbols/SimpleFillSymbol",
+      "esri/symbols/SimpleLineSymbol",
+      "esri/Graphic",
+      "esri/widgets/ScaleBar"
+    ], function (
+      Map,
+      MapView,
+      networkService,
+      serviceArea,
+      ServiceAreaParameters,
+      FeatureSet,
+      SimpleMarkerSymbol,
+      SimpleFillSymbol,
+      SimpleLineSymbol,
+      Graphic,
+      ScaleBar
+    ) {
+      const url = "https://route-api.arcgis.com/arcgis/rest/services/World/ServiceAreas/NAServer/ServiceArea_World";
+      const apiKey = "AAPK0608c02f384649529a5cc0efd85b53f21IyPG8et7QHK-HOPe6G29_B8LIDj7lPFEO65-luuYH4dcLZpzx0OaESBsiUt7uBo";
+
+      const map = new Map({
+        basemap: "streets-night-vector"
+      });
+
+      let networkDescription = null;
+      let location = null;
+
+      const view = new MapView({
+        container: "viewDiv",
+        map,
+        center: [-79.3832, 43.6532], // Toronto
+        zoom: 11,
+        constraints: {
+          snapToZoom: false
+        }
+      });
+
+      Promise.all([view.when(), networkService.fetchServiceDescription(url, apiKey)]).then(([_view, description]) => {
+        // Store a description of the service.
+        networkDescription = description;
+        location = view.center;
+
+        view.ui.add(document.getElementById("selectContainer"), "top-right");
+        document.getElementById("selectLocation").addEventListener("change", zoomToCity);
+        document.getElementById("selectTravelMode").addEventListener("change", changeTravelMode);
+
+        createServiceAreas();
+      });
+
+      view.ui.add(new ScaleBar({ view, style: "line" }), "bottom-right");
+
+      view.on("click", (event) => {
+        location = event.mapPoint;
+        createServiceAreas();
+      });
+
+      async function createServiceAreas() {
+        const locationGraphic = createLocationGraphic();
+        const serviceAreaParams = await createServiceAreaParameters(locationGraphic);
+        solveServiceArea(serviceAreaParams);
+      }
+
+      function createLocationGraphic() {
+        // Remove any existing graphics
+        view.graphics.removeAll();
+        // Create a and add the point
+        const graphic = new Graphic({
+          geometry: location,
+          symbol: new SimpleMarkerSymbol({
+            color: "white",
+            size: 8
+          })
+        });
+        view.graphics.add(graphic);
+        return graphic;
+      }
+
+      function createServiceAreaParameters(locationGraphic) {
+        const value = document.querySelectorAll("select[name='travelMode'] > option:checked").item(0).getAttribute("value");
+        const travelMode = networkDescription.supportedTravelModes.find(({ name }) => name === value);
+
+        // Create one or more locations (facilities) to solve for
+        const facilities = new FeatureSet({
+          features: [locationGraphic]
+        });
+
+        // Set all of the input parameters for the service
+        return new ServiceAreaParameters({
+          apiKey,
+          facilities,
+          defaultBreaks: [5, 10, 15], // minutes (default)
+          travelMode,
+          outSpatialReference: view.spatialReference,
+          trimOuterPolygon: true
+        });
+      }
+
+      async function solveServiceArea(serviceAreaParameters) {
+        const { serviceAreaPolygons } = await serviceArea.solve(url, serviceAreaParameters);
+        for (const graphic of serviceAreaPolygons.features) {
+          graphic.symbol = new SimpleFillSymbol({
+            color: [225, 150, 0, 0.5],
+            outline: new SimpleLineSymbol({
+              color: "white",
+              width: 0.5
+            })
+          })
+        }
+        view.graphics.addMany(serviceAreaPolygons.features, 0);
+      }
+
+      async function zoomToCity(event) {
+        if (!event.target.value) {
+          view.goTo({
+            target: [-25, 35],
+            zoom: 2
+          })
+          return;
+        }
+
+        const center = event.target.value.split(",").map((value) => Number(value));
+        await view.goTo({ center, zoom: 11 });
+
+        location = view.center;
+        createServiceAreas();
+      }
+
+      function changeTravelMode() {
+        createServiceAreas();
+      }
+    });
+  </script>
+</head>
+
+<body>
+  <div id="viewDiv"></div>
+  <div id="selectContainer" class="esri-widget" style="background: #00000000; box-shadow: none;">
+    <select id="selectLocation" class="esri-select esri-input"
+      style="min-width: 270px; font-size: 16px; margin-bottom: 5px;">
+      <option value="">Choose a place...</option>
+      <option value="-74.0060,40.7128">New York</option>
+      <option value="-0.1278,51.5074">London</option>
+      <option value="151.2093,-33.8688">Sydney</option>
+      <option selected value="-79.3832,43.6532">Toronto</option>
+      <option value="114.1694,22.3193">Hong Kong</option>
+    </select>
+    <select id="selectTravelMode" name="travelMode" class="esri-select esri-input"
+      style="min-width: 270px; font-size: 16px;">
+      <option selected value="Driving Time">5, 10, and 15 minute drive times</option>
+      <option value="Walking Time">5, 10, and 15 minute walk times</option>
+    </select>
+  </div>
+</body>
+
+</html>
