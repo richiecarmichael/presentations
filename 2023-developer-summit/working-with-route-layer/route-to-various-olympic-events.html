@@ -76,14 +76,17 @@
             const y = Number(event.target.getAttribute("data-y"));
             const geometry = { x, y};
 
-            map.removeAll();
+            const stops = [
+              { geometry: unionStation },
+              { geometry }
+            ];
 
-            const drive = new RouteLayer({ 
-              stops: [
-                { geometry: unionStation },
-                { geometry }
-              ]
-            });
+            const drive = new RouteLayer({ stops });
+            const walk = new RouteLayer({ stops });
+
+            walk.defaultSymbols.directionPoints.size = 0;
+            walk.defaultSymbols.directionLines = greenDottedLine;
+            walk.defaultSymbols.routeInfo.width = 0;
 
             drive.solve({ apiKey, travelMode: driveTravelMode }).then((results) => {
               drive.update(results);
@@ -91,21 +94,11 @@
               view.goTo(extent.clone().expand(1.5));
             });
 
-            const walk = new RouteLayer({ 
-              stops: [
-                { geometry: unionStation },
-                { geometry }
-              ]
-            });
-
-            walk.defaultSymbols.directionPoints.size = 0;
-            walk.defaultSymbols.directionLines = greenDottedLine;
-            walk.defaultSymbols.routeInfo.width = 0;
-
             walk.solve({ apiKey, travelMode: walkTravelMode }).then((results) => {
               walk.update(results);
             });
 
+            map.removeAll();
             map.addMany([drive, walk]);
           }
         })();
