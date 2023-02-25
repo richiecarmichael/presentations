@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+  <title>route-to-various-olympic-events</title>
+
+  <link rel="stylesheet" href="https://js.arcgis.com/4.26/esri/themes/light/main.css">
+  <script src="https://js.arcgis.com/4.26/"></script>
+
+  <style>
+    html, body, #viewDiv {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+    }
+    #actions {
+      padding: 15px;
+    }
+  </style>
+
+  <script>
+    require([
+      "esri/config",
+      "esri/Map",
+      "esri/layers/RouteLayer",
+      "esri/views/MapView",
+      "esri/symbols/SimpleLineSymbol",
+      "esri/rest/networkService"
+    ],
+      function (
+        config,
+        Map,
+        RouteLayer,
+        MapView,
+        SimpleLineSymbol,
+        networkService
+      ) {
+        (async () => {
+          const apiKey = "AAPK0608c02f384649529a5cc0efd85b53f21IyPG8et7QHK-HOPe6G29_B8LIDj7lPFEO65-luuYH4dcLZpzx0OaESBsiUt7uBo";
+
+          const unionStation = { x: -118.23525, y: 34.05515 };
+
+          const greenDottedLine = new SimpleLineSymbol({
+            style: "short-dot",
+            color: [0, 200, 0],
+            width: 8
+          });
+
+          const map = new Map({
+            basemap: "dark-gray-vector"
+          });
+
+          const view = new MapView({
+            container: "viewDiv",
+            map,
+            center: unionStation,
+            zoom: 17
+          });
+
+          const { supportedTravelModes } = await networkService.fetchServiceDescription(config.routeServiceUrl, apiKey);
+          const driveTravelMode = supportedTravelModes.find(({ name }) => name === "Driving Time");
+          const walkTravelMode = supportedTravelModes.find(({ name }) => name === "Walking Time");
+
+          view.ui.add("actions", "top-right");
+
+          const buttons = document.getElementsByClassName("esri-button");
+          for (const button of buttons) {
+            button.addEventListener("click", showRoutes);
+          }
+
+          function showRoutes(event) {
+            const x = Number(event.target.getAttribute("data-x"));
+            const y = Number(event.target.getAttribute("data-y"));
+            const geometry = { x, y};
+
+            map.removeAll();
+
+            const drive = new RouteLayer({ 
+              stops: [
+                { geometry: unionStation },
+                { geometry }
+              ]
+            });
+
+            drive.solve({ apiKey, travelMode: driveTravelMode }).then((results) => {
+              drive.update(results);
+              const { extent } = results.routeInfo.geometry;
+              view.goTo(extent.clone().expand(1.5));
+            });
+
+            const walk = new RouteLayer({ 
+              stops: [
+                { geometry: unionStation },
+                { geometry }
+              ]
+            });
+
+            walk.defaultSymbols.directionPoints.size = 0;
+            walk.defaultSymbols.directionLines = greenDottedLine;
+            walk.defaultSymbols.routeInfo.width = 0;
+
+            walk.solve({ apiKey, travelMode: walkTravelMode }).then((results) => {
+              walk.update(results);
+            });
+
+            map.addMany([drive, walk]);
+          }
+        })();
+      });
+  </script>
+</head>
+
+<body>
+  <div id="viewDiv"></div>
+  <div id="actions" class="esri-widget">
+    <button class="esri-button" data-x="-118.289800" data-y="34.023500">Swimming</button>
+    <button class="esri-button" data-x="-118.280000" data-y="34.021000">Karate</button>
+    <button class="esri-button" data-x="-118.270293" data-y="34.039737">Boxing</button>
+    <button class="esri-button" data-x="-118.266667" data-y="34.044444">Weightlifting</button>
+    <button class="esri-button" data-x="-118.261095" data-y="33.862523">Tennis</button>
+    <button class="esri-button" data-x="-117.803611" data-y="34.084722">Mountain Biking</button>
+  </div>
+</body>
+
+</html>
