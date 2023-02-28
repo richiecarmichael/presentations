@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <title>value-picker-all-combinations-426</title>
+
+  <link rel="stylesheet" href="https://js.arcgis.com/4.26/esri/themes/light/main.css">
+  <script src="https://js.arcgis.com/4.26/"></script>
+
+  <style>
+    html,
+    body,
+    #viewDiv {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+    }
+
+    #vertical-1 {
+      position: absolute;
+      left: 20px;
+      bottom: 40px;
+      top: 90px;
+    }
+
+    #vertical-2 {
+      position: absolute;
+      left: 75px;
+      bottom: 40px;
+      top: 90px;
+    }
+
+    #vertical-3 {
+      position: absolute;
+      left: 130px;
+      bottom: 40px;
+      top: 90px;
+    }
+
+    #horizontal-1 {
+      position: absolute;
+      left: 130px;
+      bottom: 220px;
+      right: 140px;
+    }
+
+    #horizontal-2 {
+      position: absolute;
+      left: 130px;
+      bottom: 160px;
+      right: 140px;
+    }
+
+    #horizontal-3 {
+      position: absolute;
+      left: 130px;
+      bottom: 100px;
+      right: 140px;
+    }
+
+    #horizontal-4 {
+      position: absolute;
+      left: 130px;
+      bottom: 40px;
+      right: 140px;
+    }
+  </style>
+  <script>
+    require([
+      "esri/Map",
+      "esri/views/MapView",
+      "esri/widgets/ValuePicker",
+      "esri/core/Collection"
+    ],
+      function (
+        Map,
+        MapView,
+        ValuePicker,
+        Collection
+      ) {
+        const map = new Map({ basemap: "streets-vector" });
+        const view = new MapView({
+          map,
+          container: "viewDiv",
+          center: [-117.1825, 34.054722],
+          zoom: 16
+        });
+
+        const sliderComponent = {
+          type: "slider",
+          min: 0,
+          max: 1000,
+          steps: Array.from({ length: 11 }, (_, i) => i * 100),
+          minorTicks: Array.from({ length: 51 }, (_, i) => i * 20),
+          majorTicks: Array.from({ length: 11 }, (_, i) => i * 100),
+          labels: Array.from({ length: 11 }, (_, i) => i * 100),
+          visibleElements: {
+            //steps: true,
+            thumbTooltip: true
+          }
+        };
+        const sliderComponent2 = {
+          type: "slider",
+          min: 0,
+          max: 10,
+          steps: Array.from({ length: 11 }, (_, i) => i),
+          minorTicks: Array.from({ length: 21 }, (_, i) => i / 2),
+          majorTicks: Array.from({ length: 11 }, (_, i) => i),
+          labels: Array.from({ length: 11 }, (_, i) => i),
+          visibleElements: {
+            //steps: true,
+            thumbTooltip: true
+          }
+        };
+        const reversedSliderComponent = {
+          ...sliderComponent,
+          reversed: true
+        }
+
+        const comboboxComponent = {
+          type: "combobox",
+          placeholder: "Pick Zoning Type",
+          items: [
+            { value: "ind", label: "Industrial" },
+            { value: "res", label: "Residential" },
+            { value: "com", label: "Commercial" }
+          ]
+        };
+
+        const collectionComponent = {
+          type: "collection",
+          collection: new Collection([
+            "hybrid",
+            "oceans",
+            "osm",
+            "terrain",
+            "dark-gray-vector",
+            "gray-vector",
+            "streets-vector",
+            "streets-night-vector",
+            "streets-navigation-vector"
+          ])
+        };
+
+        view.ui.add(new ValuePicker({ layout: "horizontal" }), "top-right");
+        view.ui.add(new ValuePicker({ layout: "horizontal", component: collectionComponent, values: ["hybrid"] }), "top-right");
+        view.ui.add(new ValuePicker({ layout: "horizontal", component: comboboxComponent, values: ["res"] }), "top-right");
+        view.ui.add(new ValuePicker({ layout: "horizontal", component: sliderComponent2, values: [5] }), "top-right");
+
+        view.ui.add(new ValuePicker({ layout: "vertical", component: collectionComponent }), "bottom-right");
+        view.ui.add(new ValuePicker({ layout: "vertical", component: sliderComponent, values: [100] }), "bottom-right");
+
+        view.ui.add(new ValuePicker({ layout: "horizontal", container: "horizontal-1", component: collectionComponent }), "manual");
+        view.ui.add(new ValuePicker({ layout: "horizontal", container: "horizontal-2", component: comboboxComponent, values: ["res"] }), "manual");
+        view.ui.add(new ValuePicker({ layout: "horizontal", container: "horizontal-3", component: sliderComponent, values: [100] }), "manual");
+        view.ui.add(new ValuePicker({ layout: "horizontal", container: "horizontal-4", component: reversedSliderComponent, values: [100] }), "manual");
+
+        view.ui.add(new ValuePicker({ layout: "vertical", container: "vertical-1", component: sliderComponent, values: [100] }), "manual");
+        view.ui.add(new ValuePicker({ layout: "vertical", container: "vertical-2", component: reversedSliderComponent, values: [100] }), "manual");
+        view.ui.add(new ValuePicker({ layout: "vertical", container: "vertical-3", component: collectionComponent }), "manual");
+      });
+  </script>
+</head>
+
+<body>
+  <div id="viewDiv"></div>
+  <div id="vertical-1"></div>
+  <div id="vertical-2"></div>
+  <div id="vertical-3"></div>
+  <div id="horizontal-1"></div>
+  <div id="horizontal-2"></div>
+  <div id="horizontal-3"></div>
+  <div id="horizontal-4"></div>
+</body>
+
+</html>
