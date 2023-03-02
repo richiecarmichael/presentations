@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>3-effects</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+
+  <link rel="stylesheet" href="https://js.arcgis.com/next/esri/themes/light/main.css" />
+  <script src="https://js.arcgis.com/next/"></script>
+
+  <style>
+    html,
+    body,
+    #viewDiv {
+      height: 100%;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+    }
+
+    #labelDiv {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 120px;
+      background-color: rgba(255, 255, 255, 0.1);
+      color: white;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 50px;
+      text-align: left;
+      white-space: pre;
+      padding-left: 20px;
+    }
+  </style>
+
+  <script>
+    require([
+      "esri/Map",
+      "esri/views/MapView",
+      "esri/layers/FeatureLayer",
+      "esri/core/promiseUtils"
+    ], function (
+      Map,
+      MapView,
+      FeatureLayer,
+      promiseUtils
+    ) {
+      const url = "https://services9.arcgis.com/N9p5hsImWXAccRNI/ArcGIS/rest/services/Nc2JKvYFoAEOFCG5JSI6/FeatureServer/1";
+
+      const featureLayer = new FeatureLayer({
+        url,
+        renderer: {
+          type: "simple",
+          symbol: {
+            type: "simple-marker",
+            size: 4,
+            color: "red",
+            outline: null
+          }
+        },
+        outFields: [
+          "Deaths",
+          "Confirmed"
+        ]
+      });
+
+      const map = new Map({
+        basemap: "dark-gray-vector",
+        layers: [featureLayer]
+      });
+
+      const view = new MapView({
+        container: "viewDiv",
+        map,
+        extent: {
+          xmin: -125,
+          ymin: 30,
+          xmax: -59,
+          ymax: 47
+        },
+        ui: {
+          components: []
+        }
+      });
+
+      view.on("pointer-move", (event) => {
+        debouncedMoveHandler(event)
+          .catch((error) => {
+            if (!promiseUtils.isAbortError(error)) {
+              throw error;
+            }
+          })
+      });
+
+      const debouncedMoveHandler = promiseUtils.debounce(async (event) => {
+        const featureLayerView = await view.whenLayerView(featureLayer);
+
+        const filter = {
+          geometry: view.toMap(event),
+          spatialRelationship: "contains",
+          distance: 300,
+          units: "kilometers"
+        };
+
+        featureLayerView.featureEffect = {
+          filter,
+          includedEffect: "invert() bloom(1.5, 0.1px, 0)"
+        };
+
+        const query = {
+          ...filter,
+          outStatistics: [
+            {
+              onStatisticField: "Confirmed",
+              outStatisticFieldName: "sum_of_cases",
+              statisticType: "sum"
+            },
+            {
+              onStatisticField: "Deaths",
+              outStatisticFieldName: "sum_of_deaths",
+              statisticType: "sum"
+            }
+          ]
+        };
+        const featureSet = await featureLayerView.queryFeatures(query);
+        const {
+          features: [{
+            attributes: {
+              sum_of_cases,
+              sum_of_deaths
+            }
+          }
+          ] } = featureSet;
+
+        const formatter = new Intl.NumberFormat("en-us");
+        const cases = formatter.format(sum_of_cases).padStart(9);
+        const deaths = formatter.format(sum_of_deaths).padStart(9);
+
+        const label =
+          `Cases:  ${cases}
+Deaths: ${deaths}`;
+
+        document.getElementById("labelDiv").innerText = label;
+      });
+    });
+  </script>
+</head>
+
+<body>
+  <div id="viewDiv"></div>
+  <div id="labelDiv"></div>
+</body>
+
+</html>
