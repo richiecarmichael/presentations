@@ -19,21 +19,6 @@
       padding: 0;
       overflow: hidden;
     }
-
-    #labelDiv {
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      height: 120px;
-      background-color: rgba(255, 255, 255, 0.1);
-      color: white;
-      font-family: 'Courier New', Courier, monospace;
-      font-size: 50px;
-      text-align: left;
-      white-space: pre;
-      padding-left: 20px;
-    }
   </style>
 
   <script>
@@ -109,41 +94,6 @@
           filter,
           includedEffect: "invert() bloom(1.5, 0.1px, 0)"
         };
-
-        const query = {
-          ...filter,
-          outStatistics: [
-            {
-              onStatisticField: "Confirmed",
-              outStatisticFieldName: "sum_of_cases",
-              statisticType: "sum"
-            },
-            {
-              onStatisticField: "Deaths",
-              outStatisticFieldName: "sum_of_deaths",
-              statisticType: "sum"
-            }
-          ]
-        };
-        const featureSet = await featureLayerView.queryFeatures(query);
-        const {
-          features: [{
-            attributes: {
-              sum_of_cases,
-              sum_of_deaths
-            }
-          }
-          ] } = featureSet;
-
-        const formatter = new Intl.NumberFormat("en-us");
-        const cases = formatter.format(sum_of_cases).padStart(9);
-        const deaths = formatter.format(sum_of_deaths).padStart(9);
-
-        const label =
-          `Cases:  ${cases}
-Deaths: ${deaths}`;
-
-        document.getElementById("labelDiv").innerText = label;
       });
     });
   </script>
@@ -151,7 +101,6 @@ Deaths: ${deaths}`;
 
 <body>
   <div id="viewDiv"></div>
-  <div id="labelDiv"></div>
 </body>
 
 </html>
