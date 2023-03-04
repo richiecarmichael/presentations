@@ -49,11 +49,13 @@
     require([
       "esri/Map",
       "esri/views/MapView",
-      "esri/layers/FeatureLayer"
+      "esri/layers/FeatureLayer",
+      "esri/core/reactiveUtils"
     ], function (
       Map,
       MapView,
-      FeatureLayer
+      FeatureLayer,
+      reactiveUtils
     ) {
       const url = "https://services.arcgis.com/6DIQcwlPy8knb6sg/arcgis/rest/services/quakes/FeatureServer/0";
       const MAGNITUDE_MIN = 4;
@@ -91,22 +93,22 @@
       });
       view.ui.add(document.getElementById("panel"), "top-left");
 
-      const formatter = new Intl.NumberFormat();
+      view.whenLayerView(layer).then((layerView) => {
+        reactiveUtils.when(
+          () => !layerView.updating,
+          async () => {
+            const query = layer.createQuery();
 
-      view.watch("updating", async (value) => {
-        if (!value) { return; }
+            const [serverCount, clientCount] = await Promise.all([
+              layer.queryFeatureCount(query),
+              layerView.queryFeatureCount(query)
+            ]);
 
-        const layerView = await view.whenLayerView(layer);
-
-        const query = layer.createQuery();
-
-        const [serverCount, clientCount] = await Promise.all([
-          layer.queryFeatureCount(query),
-          layerView.queryFeatureCount(query)
-        ]);
-
-        document.getElementById("server-feature-count").innerHTML = formatter.format(serverCount);
-        document.getElementById("client-feature-count").innerHTML = formatter.format(clientCount);
+            const formatter = new Intl.NumberFormat();
+            document.getElementById("server-feature-count").innerHTML = formatter.format(serverCount);
+            document.getElementById("client-feature-count").innerHTML = formatter.format(clientCount);
+          }
+        )
       });
     });
   </script>
