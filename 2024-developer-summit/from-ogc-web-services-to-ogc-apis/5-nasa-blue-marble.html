@@ -32,8 +32,6 @@
         WebTileLayer,
         FeatureLayer,
       ) {
-        useDefaults(arguments);
-
         (async () => {
           const urlTemplate = "https://maps.ecere.com/ogcapi/collections/blueMarble/map/tiles/WebMercatorQuad/{level}/{row}/{col}.jpg";
           const layer = new WebTileLayer({ urlTemplate });
