@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <title>Intro to map components - Create a 2D map | Sample | ArcGIS Maps SDK for JavaScript 4.32</title>
+
+  <style>
+    html,
+    body {
+      background-color: var(--calcite-ui-foreground-2);
+      padding: 0;
+      margin: 0;
+      width: 100vw;
+      height: 100vh;
+    }
+  </style>
+
+  <script type="module" src="https://js.arcgis.com/calcite-components/3.0.3/calcite.esm.js"></script>
+  <link rel="stylesheet" href="https://js.arcgis.com/4.32/esri/themes/light/main.css" />
+  <script src="https://js.arcgis.com/4.32/"></script>
+  <script type="module" src="https://js.arcgis.com/map-components/4.32/arcgis-map-components.esm.js"></script>
+</head>
+
+  <body>
+    <arcgis-map basemap="gray" zoom="4" center="15, 65">
+      <arcgis-zoom position="top-left"></arcgis-zoom>
+      <arcgis-legend position="bottom-right" legend-style="classic"></arcgis-legend>
+    </arcgis-map>
+    <script>
+      require([
+        "esri/layers/WFSLayer",
+        "esri/smartMapping/renderers/size",
+        "esri/smartMapping/renderers/heatmap",
+        "esri/smartMapping/renderers/univariateColorSize",
+      ], (WFSLayer, sizeRendererCreator, heatmapRendererCreator, univariateRendererCreator) => {
+        
+        const arcgisMap = document.querySelector("arcgis-map");
+        arcgisMap.addEventListener("arcgisViewReadyChange", async () => {
+          arcgisMap.extent = {
+            xmax: -7452000,
+            xmin: -13884000,
+            ymax: 6340000,
+            ymin: 2820000,
+            spatialReference: {
+              wkid: 102100,
+            },
+          };
+      
+          const layer = new WFSLayer({
+            url: "https://dservices.arcgis.com/P3ePLMYs2RVChkJx/arcgis/services/USDA_Census_of_Agriculture_2017_Hog_Production_WFS/WFSServer" +
+                 "?service=wfs&request=getcapabilities",
+            title: "Hog Farms By County",
+          });
+          arcgisMap.map.add(layer);
+
+          const pig = {
+            type: "web-style",
+            name: "Pig",
+            styleUrl: "https://cdn.arcgis.com/sharing/rest/content/items/1fbb242c54e4415d9b8e8a343ca7a9d0/data"
+          };
+
+          // const { renderer } = await univariateRendererCreator.createContinuousRenderer({
+          //   layer,
+          //   field: "Inventory",
+          //   legendOptions: {
+          //     title: "Inventory",
+          //   },
+          //   defaultSymbolEnabled: false,
+          //   symbolOptions: {
+          //     symbols: {
+          //       above: pig,
+          //       below: pig,
+          //     }
+          //   },
+          //   minValue: 0,
+          //   theme: "above-and-below"
+          // });
+
+          const { renderer } = await heatmapRendererCreator.createContinuousRenderer({
+            layer,
+            field: "Inventory",
+            legendOptions: {
+              title: "Inventory",
+            },
+            defaultSymbolEnabled: false,
+            symbolOptions: {
+              symbols: {
+                above: pig,
+                below: pig,
+              }
+            },
+            minValue: 0,
+            theme: "above-and-below"
+          });
+          layer.renderer = renderer;
+        });
+      });
+    </script>
+  </body>
+</html>

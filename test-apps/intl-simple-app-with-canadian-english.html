@@ -1,0 +1,62 @@
+<html lang="en-CA">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no" />
+    <title>Legend widget | Sample | ArcGIS Maps SDK for JavaScript 4.30</title>
+    
+    <style>
+      html,
+      body,
+      #viewDiv {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+      }
+      #label {
+        position: absolute;
+        margin-top: 10px;
+        left: 50%;
+        font-size: 20px;
+        background-color: bisque;
+        padding: 5px;
+      }
+    </style>
+
+    <link rel="stylesheet" href="https://jsdev.arcgis.com/4.32/esri/themes/light/main.css" />
+    <script src="https://jsdev.arcgis.com/4.32/"></script>
+
+    <script>
+      require(["esri/views/MapView", "esri/widgets/Legend", "esri/WebMap", "esri/config", "esri/intl"], function (
+        MapView,
+        Legend,
+        WebMap,
+        esriConfig,
+        intl
+      ) {
+        const webmap = new WebMap({
+          portalItem: {
+            portal: {
+              url: "https://devext.arcgis.com"
+            },
+            id: "b14fe59d8401428e8e8099c2ab67c2a5"
+          }
+        });
+
+        const view = new MapView({
+          container: "viewDiv",
+          map: webmap
+        });
+
+        Promise.all([view.when(), webmap.loadAll()]).then(() => {
+          document.getElementById("label").innerText = intl.getLocale();
+        });
+      });
+    </script>
+  </head>
+
+  <body class="calcite">
+    <div id="viewDiv"><div id="label">loading...</div></div>
+  </body>
+</html>
