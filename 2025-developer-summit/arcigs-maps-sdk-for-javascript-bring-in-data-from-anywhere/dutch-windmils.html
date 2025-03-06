@@ -24,7 +24,7 @@
 </head>
 
   <body>
-    <arcgis-map basemap="gray" zoom="4" center="15, 65">
+    <arcgis-map basemap="gray" zoom="8" center="5.29,52.13">
       <arcgis-zoom position="top-left"></arcgis-zoom>
       <arcgis-layer-list position="top-right"></arcgis-layer-list>
     </arcgis-map>
@@ -35,6 +35,7 @@
         const layer = new OGCFeatureLayer({
           url: "https://demo.pygeoapi.io/stable",
           collectionId: "dutch_windmills",
+          copyright: "Rijksdienst voor het Cultureel Erfgoed",
           renderer: {
             type: "simple",
             symbol: {
@@ -101,9 +102,7 @@
         });
 
         const arcgisMap = document.querySelector("arcgis-map");
-        arcgisMap.addEventListener("arcgisViewReadyChange", async () => {
-          await layer.load();
-          arcgisMap.extent = layer.fullExtent;
+        arcgisMap.addEventListener("arcgisViewReadyChange", () => {
           arcgisMap.map.add(layer);
         });
       });

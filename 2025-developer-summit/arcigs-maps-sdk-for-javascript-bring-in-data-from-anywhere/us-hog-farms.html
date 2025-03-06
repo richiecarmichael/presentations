@@ -24,49 +24,70 @@
 </head>
 
   <body>
-    <arcgis-map basemap="gray" zoom="4" center="15, 65">
+
+    <arcgis-map basemap="gray" zoom="4" center="-95,38">
       <arcgis-zoom position="top-left"></arcgis-zoom>
       <arcgis-legend position="bottom-right" legend-style="classic"></arcgis-legend>
     </arcgis-map>
+    
     <script>
       require([
         "esri/layers/WFSLayer",
+        "esri/smartMapping/renderers/color",
         "esri/smartMapping/renderers/size",
-        "esri/smartMapping/renderers/heatmap",
         "esri/smartMapping/renderers/univariateColorSize",
-      ], (WFSLayer, sizeRendererCreator, heatmapRendererCreator, univariateRendererCreator) => {
+      ], (WFSLayer, colorRendererCreator, sizeRendererCreator, univariateRendererCreator) => {
         
         const arcgisMap = document.querySelector("arcgis-map");
         arcgisMap.addEventListener("arcgisViewReadyChange", async () => {
-          arcgisMap.extent = {
-            xmax: -7452000,
-            xmin: -13884000,
-            ymax: 6340000,
-            ymin: 2820000,
-            spatialReference: {
-              wkid: 102100,
-            },
-          };
+      
+          const format = { digitSeparator: true };
       
           const layer = new WFSLayer({
-            url: "https://dservices.arcgis.com/P3ePLMYs2RVChkJx/arcgis/services/USDA_Census_of_Agriculture_2017_Hog_Production_WFS/WFSServer" +
+            url: "https://dservices.arcgis.com/P3ePLMYs2RVChkJx/arcgis/services/" +
+                 "USDA_Census_of_Agriculture_2017_Hog_Production_WFS/WFSServer" +
                  "?service=wfs&request=getcapabilities",
             title: "Hog Farms By County",
+            copyright: "USDA",
+            popupTemplate: {
+              title: "{County_Name}, {State_Name}",
+              content: [
+                {
+                  type: "fields",
+                  fieldInfos: [
+                    { label: "Inventory", fieldName: "Inventory", format },
+                    { label: "Sales (head)", fieldName: "Sales_in_Head", format },
+                    { label: "Sales ($)", fieldName: "Sales_in_US_Dollars" , format },
+                    { label: "Farms with inventory", fieldName: "Operations_with_Inventory", format },
+                    { label: "Farms with sales", fieldName: "Operations_with_Sales", format }
+                  ]
+                }
+              ],
+            }
           });
-          arcgisMap.map.add(layer);
-
-          const pig = {
-            type: "web-style",
-            name: "Pig",
-            styleUrl: "https://cdn.arcgis.com/sharing/rest/content/items/1fbb242c54e4415d9b8e8a343ca7a9d0/data"
-          };
-
-          // const { renderer } = await univariateRendererCreator.createContinuousRenderer({
+          
+          // const { renderer } = await colorRendererCreator.createClassBreaksRenderer({
           //   layer,
           //   field: "Inventory",
-          //   legendOptions: {
-          //     title: "Inventory",
-          //   },
+          // });
+          // layer.renderer = renderer;
+          
+          // const { renderer } = await sizeRendererCreator.createContinuousRenderer({
+          //   layer,
+          //   field: "Inventory",
+          //   defaultSymbolEnabled: false,
+          // });
+          // layer.renderer = renderer;
+
+          // const pig = {
+          //   type: "web-style",
+          //   name: "Pig",
+          //   styleUrl: "https://cdn.arcgis.com/sharing/rest/content/items/1fbb242c54e4415d9b8e8a343ca7a9d0/data"
+          // };
+          // const { renderer } = await univariateRendererCreator.createContinuousRenderer({
+          //   layer,
+          //   view: arcgisMap.view,
+          //   field: "Inventory",
           //   defaultSymbolEnabled: false,
           //   symbolOptions: {
           //     symbols: {
@@ -75,26 +96,11 @@
           //     }
           //   },
           //   minValue: 0,
-          //   theme: "above-and-below"
+          //   theme: "above-and-below",
           // });
+          // layer.renderer = renderer;
 
-          const { renderer } = await heatmapRendererCreator.createContinuousRenderer({
-            layer,
-            field: "Inventory",
-            legendOptions: {
-              title: "Inventory",
-            },
-            defaultSymbolEnabled: false,
-            symbolOptions: {
-              symbols: {
-                above: pig,
-                below: pig,
-              }
-            },
-            minValue: 0,
-            theme: "above-and-below"
-          });
-          layer.renderer = renderer;
+          arcgisMap.map.add(layer);
         });
       });
     </script>
