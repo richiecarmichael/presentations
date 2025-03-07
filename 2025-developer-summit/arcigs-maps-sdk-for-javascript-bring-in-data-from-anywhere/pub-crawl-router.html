@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta
       name="viewport"
       content="initial-scale=1,maximum-scale=1,user-scalable=no"
     />
-    <title>nasa-blue-marble</title>
+    <title>pub-crawl-router</title>
 
     <style>
       html,
@@ -72,7 +72,6 @@
       src="https://js.arcgis.com/map-components/4.32/arcgis-map-components.esm.js"
     ></script>
   </head>
-
   <body>
     <calcite-shell content-behind>
       <calcite-navigation slot="header">
@@ -80,23 +79,46 @@
           icon="image-layer"
           alt="Application logo"
           slot="logo"
-          heading="From OGC Web Service to OGC API's | Displaying OGC API - Tiles"
+          heading="Bringing in Data from Anywhere | Pub Crawl Router"
           description="Esri Developer & Technology Summit"
         />
       </calcite-navigation>
-      <arcgis-map basemap="gray">
+      <calcite-shell-panel slot="panel-end" display-mode="float">
+        <calcite-panel heading="Maps SDK for JavaScript">
+          <calcite-block heading="Web Map" open>
+            <calcite-label>
+              <calcite-text-area placeholder="Enter list of locations" resize="vertical" value="PSCC, Desert Regional Medical Center">
+                <calcite-button slot="footer-start">Let's go!</calcite-button>
+                <calcite-button slot="footer-start">I'm laxy!</calcite-button>
+              </calcite-text-area>
+            </calcite-label>
+          </calcite-block>
+          <calcite-notice open scale="s" slot="footer">
+            <span slot="title">What is being demonstrated?</span>
+            <span slot="message">
+              This demonstration application will find the optimal route between two or more establishments.
+            </span>
+          </calcite-notice>
+        </calcite-panel>
+      </calcite-shell-panel>
+      <arcgis-map basemap="streets" zoom="13" center="-116.55,33.83">
         <arcgis-zoom position="top-left"></arcgis-zoom>
         <arcgis-legend position="bottom-right"></arcgis-legend>
       </arcgis-map>
     </calcite-shell>
     <script>
-      require(["esri/layers/WebTileLayer"], (WebTileLayer) => {
-        document
-          .querySelector("arcgis-map")
-          .addEventListener("arcgisViewReadyChange", (event) => {
-            const urlTemplate = "https://maps.ecere.com/ogcapi/collections/blueMarble/map/tiles/WebMercatorQuad/{level}/{row}/{col}.jpg";
-            event.target.map.add(new WebTileLayer({ urlTemplate }));
-          });
+      require([
+        "esri/config",
+        "esri/layers/RouteLayer",
+        "esri/rest/locator",
+      ], (
+        config,
+        RouteLayer,
+        locator,
+      ) => {
+        config.apiKey = "AAPK839f4372b1464a5dbfce769319c3a595OVL9_hBskfy1La_ShMNAFgdMV4QzpJsxFQIXTpKpMPnCuV5BDSjc-NLtixhP1kJl";
+        
+        
       });
     </script>
   </body>
