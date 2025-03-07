@@ -90,7 +90,7 @@
       </arcgis-map>
     </calcite-shell>
     <script>
-      require(["esri/layers/WebTileLayer"], function (WebTileLayer) {
+      require(["esri/layers/WebTileLayer"], (WebTileLayer) => {
         document
           .querySelector("arcgis-map")
           .addEventListener("arcgisViewReadyChange", (event) => {
