@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="initial-scale=1,maximum-scale=1,user-scalable=no"
+    />
+    <title>uk-airports</title>
+
+    <style>
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+      }
+
+      body {
+        --calcite-color-brand: #00c291;
+        --calcite-color-brand-hover: #00ad82;
+        --calcite-color-brand-press: #00916d;
+        --calcite-color-background: #f2f7f4;
+        --calcite-color-foreground-1: #fafffd;
+        --calcite-color-foreground-2: #edf7f3;
+        --calcite-color-foreground-3: #e4ebe8;
+        --calcite-color-foreground-current: #c7ffda;
+        --calcite-color-info: #007f99;
+        --calcite-color-success: #47ac35;
+        --calcite-color-warning: #eeb417;
+        --calcite-color-danger: #d92024;
+        --calcite-color-danger-hover: #a91e20;
+        --calcite-color-danger-press: #7c1315;
+        --calcite-color-text-1: #222927;
+        --calcite-color-text-2: #333d3a;
+        --calcite-color-text-3: #3a4541;
+        --calcite-color-text-inverse: #fafffd;
+        --calcite-color-text-link: #04716c;
+        --calcite-color-border-1: #c3c7c5;
+        --calcite-color-border-2: #cdd4d0;
+        --calcite-color-border-3: #dfe8e3;
+        --calcite-color-border-input: #727d77;
+      }
+
+      calcite-menu-item {
+        --calcite-menu-background-color: var(--calcite-color-background);
+      }
+
+      calcite-navigation-logo {
+        --calcite-navigation-logo-heading-color: var(--calcite-color-brand);
+      }
+
+      calcite-shell-panel[slot="panel-start"] calcite-panel {
+        border-top: 0;
+      }
+
+      calcite-action-pad {
+        margin-inline-end: 0.5rem;
+      }
+
+      div.flex-column {
+        display: flex;
+        flex-direction: column;
+      }
+
+      calcite-link.hidden {
+        display: none;
+      }
+    </style>
+
+    <script
+      type="module"
+      src="https://js.arcgis.com/calcite-components/3.0.3/calcite.esm.js"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://js.arcgis.com/4.32/esri/themes/light/main.css"
+    />
+    <script src="https://js.arcgis.com/4.32/"></script>
+    <script
+      type="module"
+      src="https://js.arcgis.com/map-components/4.32/arcgis-map-components.esm.js"
+    ></script>
+  </head>
+
+  <body>
+    <calcite-shell content-behind>
+      <calcite-navigation slot="header">
+        <calcite-navigation-logo
+          icon="image-layer"
+          alt="Application logo"
+          slot="logo"
+          heading="From OGC Web Service to OGC API's | Persisting a Map to ArcGIS Online"
+          description="Esri Developer & Technology Summit"
+        />
+      </calcite-navigation>
+      <calcite-shell-panel slot="panel-end" display-mode="float">
+        <calcite-panel heading="Maps SDK for JavaScript">
+          <calcite-block heading="Web Map" open>
+            <div class="flex-column">
+              <calcite-button id="save">Save</calcite-button>
+              <calcite-link id="link" class="hidden" target="_blank"
+                >Open in ArcGIS Online</calcite-link
+              >
+            </div>
+          </calcite-block>
+          <calcite-notice open scale="s" slot="footer">
+            <span slot="title">What is being demonstrated?</span>
+            <span slot="message">
+              This demonstration application shows how a map with an OGC Feature
+              Layer can be persisted to a webmap hosted on ArcGIS Online.
+            </span>
+          </calcite-notice>
+        </calcite-panel>
+      </calcite-shell-panel>
+
+      <arcgis-map basemap="satellite" zoom="6" center="-2,54">
+        <arcgis-zoom position="top-left"></arcgis-zoom>
+        <arcgis-legend position="bottom-right"></arcgis-legend>
+      </arcgis-map>
+    </calcite-shell>
+    <script>
+      require(["esri/layers/OGCFeatureLayer"], function (OGCFeatureLayer) {
+        document
+          .querySelector("arcgis-map")
+          .addEventListener("arcgisViewReadyChange", (event) => {
+            const layer = new OGCFeatureLayer({
+              url: "https://demo.ldproxy.net/zoomstack",
+              collectionId: "airports",
+              copyright: "The National Archives (UK)",
+              renderer: {
+                type: "simple",
+                symbol: {
+                  type: "cim",
+                  data: {
+                    type: "CIMSymbolReference",
+                    symbol: {
+                      type: "CIMPointSymbol",
+                      symbolLayers: [
+                        {
+                          type: "CIMVectorMarker",
+                          enable: true,
+                          anchorPointUnits: "Relative",
+                          dominantSizeAxis3D: "Y",
+                          size: 15.75,
+                          billboardMode3D: "FaceNearPlane",
+                          frame: {
+                            xmin: 0,
+                            ymin: 0,
+                            xmax: 21,
+                            ymax: 21,
+                          },
+                          markerGraphics: [
+                            {
+                              type: "CIMMarkerGraphic",
+                              geometry: {
+                                rings: [
+                                  [
+                                    [11.9, 12.17],
+                                    [17.42, 8.13],
+                                    [18.03, 7.47],
+                                    [18.24, 6.86],
+                                    [18.24, 6.05],
+                                    [11.9, 8.48],
+                                    [11.7, 6.19],
+                                    [11.48, 4.82],
+                                    [12.94, 3.42],
+                                    [13.24, 3.1],
+                                    [13.35, 2.79],
+                                    [13.35, 2],
+                                    [10.5, 2.77],
+                                    [7.65, 2],
+                                    [7.65, 2.79],
+                                    [7.76, 3.1],
+                                    [8.06, 3.42],
+                                    [9.52, 4.82],
+                                    [9.3, 6.19],
+                                    [9.1, 8.48],
+                                    [2.76, 6.05],
+                                    [2.76, 6.86],
+                                    [2.97, 7.47],
+                                    [3.58, 8.13],
+                                    [9.1, 12.17],
+                                    [9.1, 15.76],
+                                    [9.19, 16.78],
+                                    [9.46, 17.68],
+                                    [9.92, 18.45],
+                                    [10.5, 19],
+                                    [11.08, 18.45],
+                                    [11.54, 17.68],
+                                    [11.81, 16.78],
+                                    [11.9, 15.76],
+                                    [11.9, 12.17],
+                                  ],
+                                ],
+                              },
+                              symbol: {
+                                type: "CIMPolygonSymbol",
+                                symbolLayers: [
+                                  {
+                                    type: "CIMSolidStroke",
+                                    enable: true,
+                                    capStyle: "Round",
+                                    joinStyle: "Round",
+                                    lineStyle3D: "Strip",
+                                    miterLimit: 10,
+                                    width: 0,
+                                    color: [0, 0, 0, 255],
+                                  },
+                                  {
+                                    type: "CIMSolidFill",
+                                    enable: true,
+                                    color: [88, 89, 91, 255],
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                          scaleSymbolsProportionally: true,
+                          respectFrame: true,
+                        },
+                        {
+                          type: "CIMVectorMarker",
+                          enable: true,
+                          colorLocked: true,
+                          anchorPointUnits: "Relative",
+                          dominantSizeAxis3D: "Y",
+                          size: 18.5,
+                          billboardMode3D: "FaceNearPlane",
+                          frame: {
+                            xmin: -5,
+                            ymin: -5,
+                            xmax: 5,
+                            ymax: 5,
+                          },
+                          markerGraphics: [
+                            {
+                              type: "CIMMarkerGraphic",
+                              geometry: {
+                                rings: [
+                                  [
+                                    [0, 5],
+                                    [0.87, 4.92],
+                                    [1.71, 4.7],
+                                    [2.5, 4.33],
+                                    [3.21, 3.83],
+                                    [3.83, 3.21],
+                                    [4.33, 2.5],
+                                    [4.7, 1.71],
+                                    [4.92, 0.87],
+                                    [5, 0],
+                                    [4.92, -0.87],
+                                    [4.7, -1.71],
+                                    [4.33, -2.5],
+                                    [3.83, -3.21],
+                                    [3.21, -3.83],
+                                    [2.5, -4.33],
+                                    [1.71, -4.7],
+                                    [0.87, -4.92],
+                                    [0, -5],
+                                    [-0.87, -4.92],
+                                    [-1.71, -4.7],
+                                    [-2.5, -4.33],
+                                    [-3.21, -3.83],
+                                    [-3.83, -3.21],
+                                    [-4.33, -2.5],
+                                    [-4.7, -1.71],
+                                    [-4.92, -0.87],
+                                    [-5, 0],
+                                    [-4.92, 0.87],
+                                    [-4.7, 1.71],
+                                    [-4.33, 2.5],
+                                    [-3.83, 3.21],
+                                    [-3.21, 3.83],
+                                    [-2.5, 4.33],
+                                    [-1.71, 4.7],
+                                    [-0.87, 4.92],
+                                    [0, 5],
+                                  ],
+                                ],
+                              },
+                              symbol: {
+                                type: "CIMPolygonSymbol",
+                                symbolLayers: [
+                                  {
+                                    type: "CIMSolidStroke",
+                                    enable: true,
+                                    capStyle: "Round",
+                                    joinStyle: "Round",
+                                    lineStyle3D: "Strip",
+                                    miterLimit: 10,
+                                    width: 0.5,
+                                    color: [167, 169, 172, 255],
+                                  },
+                                  {
+                                    type: "CIMSolidFill",
+                                    enable: true,
+                                    color: [255, 255, 255, 255],
+                                  },
+                                ],
+                              },
+                            },
+                          ],
+                          scaleSymbolsProportionally: true,
+                          respectFrame: true,
+                        },
+                      ],
+                      haloSize: 1,
+                      scaleX: 1,
+                      angleAlignment: "Display",
+                      version: "2.0.0",
+                      build: "8933",
+                    },
+                  },
+                },
+              },
+              popupTemplate: {
+                title: "{name}",
+                content: [
+                  {
+                    type: "fields",
+                    fieldInfos: [
+                      { label: "Id", fieldName: "objectid" },
+                      { label: "Name", fieldName: "name" },
+                    ],
+                  },
+                ],
+              },
+            });
+
+            event.target.map.add(layer);
+          });
+
+        document.getElementById("save").addEventListener("click", async () => {
+          const { map, view } = document.querySelector("arcgis-map");
+          await map.updateFrom(view);
+          const portalItem = await map.saveAs({
+            title: "UK Airports",
+            snippet: "A Map of UK Airports",
+            description:
+              "The map was created during the 2025 Esri Developer Summit.",
+          });
+
+          const {
+            id,
+            portal: { url },
+          } = portalItem;
+          const link = document.getElementById("link");
+          link.href = `${url}/home/item.html?id=${id}`;
+          link.classList.remove("hidden");
+        });
+      });
+    </script>
+  </body>
+</html>
