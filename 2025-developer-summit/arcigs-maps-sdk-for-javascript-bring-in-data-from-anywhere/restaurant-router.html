@@ -184,20 +184,13 @@
           const { map, view } = document.querySelector("arcgis-map");
           const layer = map.layers.at(0);
           layer.stops = candidates
-            .sort((candidate1, candidate2) => candidate1.attributes.ResultID - candidate2.attributes.ResultID)
+            .sort((candidate1, candidate2) => candidate1.attributes.ResultID
+                                            - candidate2.attributes.ResultID)
             .map(({ location, address }) => ({
               geometry: location,
               name: address,
               popupTemplate: {
                 title: "{Name}",
-                // content: [
-                //   {
-                //     type: "fields",
-                //     fieldInfos: [
-                //       { label: "Name", fieldName: "Name" },
-                //     ],
-                //   },
-                // ],
               },
             }));
 
