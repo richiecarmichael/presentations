@@ -79,13 +79,13 @@
           icon="image-layer"
           alt="Application logo"
           slot="logo"
-          heading="Bringing in Data from Anywhere | Pub Crawl Router"
-          description="Esri Developer & Technology Summit"
+          heading="Bringing in Data from Anywhere | Restaurant Router"
+          description="2025 Esri Developer & Technology Summit"
         />
       </calcite-navigation>
       <calcite-shell-panel slot="panel-end" display-mode="float">
         <calcite-panel heading="Maps SDK for JavaScript">
-          <calcite-block heading="Web Map" open>
+          <calcite-block heading="Route stops" open>
             <calcite-label>
               <calcite-text-area
                 placeholder="Enter list of locations"
@@ -100,15 +100,13 @@
           <calcite-notice open scale="s" slot="footer">
             <span slot="title">What is being demonstrated?</span>
             <span slot="message">
-              This demonstration application will find the optimal route between
-              two or more establishments.
+              This application will geocode each place name and then route between them. The "I'm lazy" option will reorder the mid-stops to minimize travel time.
             </span>
           </calcite-notice>
         </calcite-panel>
       </calcite-shell-panel>
       <arcgis-map basemap="gray" zoom="13" center="-116.55,33.83">
         <arcgis-zoom position="top-left"></arcgis-zoom>
-        <arcgis-legend position="bottom-right"></arcgis-legend>
       </arcgis-map>
     </calcite-shell>
     <script>
