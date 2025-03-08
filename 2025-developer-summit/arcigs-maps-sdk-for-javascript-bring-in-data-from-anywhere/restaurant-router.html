@@ -155,7 +155,7 @@
             findRoute(false);
           });
 
-          document
+        document
           .getElementById("im-lazy")
           .addEventListener("click", async () => {
             findRoute(true);
@@ -165,7 +165,10 @@
           const addresses = document.querySelector("calcite-text-area").value
             .replace(/(\r\n|\n|\r)/gm, ",")
             .split(",")
-            .map((address, index) => ({ "SingleLine": address.trim(), OBJECTID: index + 1 }));
+            .map((address, index) => ({
+              "SingleLine": address.trim(),
+              OBJECTID: index + 1
+            }));
 
           const parameters = new AddressesToLocationsParameters({
             addresses,
@@ -187,14 +190,14 @@
               name: address,
               popupTemplate: {
                 title: "{Name}",
-                content: [
-                  {
-                    type: "fields",
-                    fieldInfos: [
-                      { label: "Name", fieldName: "Name" },
-                    ],
-                  },
-                ],
+                // content: [
+                //   {
+                //     type: "fields",
+                //     fieldInfos: [
+                //       { label: "Name", fieldName: "Name" },
+                //     ],
+                //   },
+                // ],
               },
             }));
 
@@ -202,7 +205,6 @@
           const solution = await layer.solve(routeParameters);
           layer.update(solution);
 
-          console.log(layer.stops.toArray().map(stop => stop.toGraphic()));
           view.goTo({
             target: solution.routeInfo.geometry,
           });
