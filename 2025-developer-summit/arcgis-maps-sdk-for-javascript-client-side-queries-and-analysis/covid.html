@@ -193,9 +193,6 @@
             const clientSide = document.getElementById("client-side").checked;
             
             const layerView = await view.whenLayerView(layer);
-            if (clientSide && layerView.dataUpdating) {
-              return;
-            }
 
             const featureSet = clientSide ?
               await layerView.queryFeatures(query) :
