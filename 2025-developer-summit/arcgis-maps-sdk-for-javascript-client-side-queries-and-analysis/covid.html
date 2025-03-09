@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
     <meta charset="utf-8" />
     <meta
@@ -130,12 +130,12 @@
     <script>
       require([
         "esri/layers/FeatureLayer",
-        "esri/core/promiseUtils",
         "esri/rest/support/Query",
+        "esri/core/promiseUtils",
       ], (
         FeatureLayer,
-        promiseUtils,
         Query,
+        promiseUtils,
       ) => {
 
         document.querySelector("arcgis-map").addEventListener("arcgisViewReadyChange", () => {
@@ -191,7 +191,11 @@
             });
 
             const clientSide = document.getElementById("client-side").checked;
+            
             const layerView = await view.whenLayerView(layer);
+            if (clientSide && layerView.dataUpdating) {
+              return;
+            }
 
             const featureSet = clientSide ?
               await layerView.queryFeatures(query) :
