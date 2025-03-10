@@ -6,7 +6,7 @@
       name="viewport"
       content="initial-scale=1,maximum-scale=1,user-scalable=no"
     />
-    <title>seismic-events-with-filter</title>
+    <title>seismic-events-with-effect</title>
 
     <style>
       html,
@@ -70,40 +70,61 @@
           icon="image-layer"
           alt="Application logo"
           slot="logo"
-          heading="Client-side queries and analysis | Seismic events with client-side filters"
+          heading="Client-side queries and analysis | Seismic events with client-side effects"
           description="2025 Esri Developer & Technology Summit"
         />
       </calcite-navigation>
       <calcite-shell-panel slot="panel-end" display-mode="float">
         <calcite-panel heading="Maps SDK for JavaScript">
-          <calcite-block heading="Event filter" open>
-            <calcite-radio-button-group
-              name="Options"
-              layout="vertical"
-              id="seismic-type"
-            >
-              <calcite-label layout="inline">
-                <calcite-radio-button value="all" checked></calcite-radio-button>
-                All
-              </calcite-label>
-              <calcite-label layout="inline">
-                <calcite-radio-button value="earthquake"></calcite-radio-button>
-                Earthquake
-              </calcite-label>
-              <calcite-label layout="inline">
-                <calcite-radio-button value="rock burst"></calcite-radio-button>
-                Rock Burst
-              </calcite-label>
-              <calcite-label layout="inline">
-                <calcite-radio-button value="nuclear explosion"></calcite-radio-button>
-                Nuclear Explosion
-              </calcite-label>
-              <calcite-label layout="inline">
-                <calcite-radio-button value="volcanic eruption"></calcite-radio-button>
-                Volcanic Eruption
-              </calcite-label>
-            </calcite-radio-button-group>
+          <calcite-block heading="Included effects" open collapsible>
+            <calcite-label>
+              Invert
+              <calcite-switch id="included-invert"></calcite-switch>
+            </calcite-label>
+            <calcite-label>
+              Bloom
+              <calcite-switch id="included-bloom"></calcite-switch>
+            </calcite-label>
           </calcite-block>
+          <calcite-block heading="Excluded effects" open collapsible>
+            <calcite-label>
+              Blur
+              <calcite-slider
+                id="excluded-blur-slider"
+                min="0"
+                max="10"
+                value="0"
+                label-ticks
+                label-handles
+                ticks="1"
+              ></calcite-slider>
+            </calcite-label>
+            <calcite-label>
+              Opacity
+              <calcite-slider
+                id="excluded-opacity-slider"
+                min="0"
+                max="100"
+                value="100"
+                label-ticks
+                label-handles
+                ticks="20"
+              ></calcite-slider>
+            </calcite-label>
+            <calcite-label>
+              Saturation
+              <calcite-slider
+                id="excluded-saturation-slider"
+                min="0"
+                max="100"
+                value="100"
+                label-ticks
+                label-handles
+                ticks="20"
+              ></calcite-slider>
+            </calcite-label>
+          </calcite-block>
+
           <calcite-block heading="Time filter" open>
             <calcite-slider
               id="time-slider"
@@ -123,7 +144,7 @@
           <calcite-notice open scale="s" slot="footer">
             <span slot="title">What is being demonstrated?</span>
             <span slot="message">
-              This application demonstrates client-side filters.
+              This application demonstrates client-side effects.
             </span>
           </calcite-notice>
         </calcite-panel>
@@ -178,29 +199,76 @@
           map.add(layer);
           const layerView = await view.whenLayerView(layer);
 
-          document
-            .getElementById("seismic-type")
-            .addEventListener("calciteRadioButtonGroupChange", () => {
+          const sliders = [
+            "excluded-blur-slider",
+            "excluded-opacity-slider",
+            "excluded-saturation-slider",
+            "time-slider",
+          ];
+          for (const slider of sliders) {
+            const componment = document.getElementById(slider);
+            componment.addEventListener("calciteSliderInput", () => {
               updateLayerView();
             });
 
-          document
-            .getElementById("time-slider")
-            .addEventListener("calciteSliderInput", () => {
-              updateLayerView();
-            });
+            switch(slider) {
+              case "excluded-blur-slider":
+                componment.labelFormatter = (value, type) => {
+                  return type === "value" ? toPixel(value) : value;
+                };
+                break;
+              case "excluded-opacity-slider":
+              case "excluded-saturation-slider":
+                componment.labelFormatter = (value, type) => {
+                  return type === "value" ? toPercent(value) : value;
+                };
+                break;
+            }
+          }
 
+          document.getElementById("included-invert").addEventListener("calciteSwitchChange", () => {
+            updateLayerView();
+          });
+          document.getElementById("included-bloom").addEventListener("calciteSwitchChange", () => {
+            updateLayerView();
+          });
+          
+          function toDegree(value) {
+            return `${value}deg`
+          }
+
+          function toPixel(value) {
+            return `${value}px`
+          }
+
+          function toPercent(value) {
+            return `${value}%`
+          }
+          
           function updateLayerView() {
+            const includedInvert = document.getElementById("included-invert").checked;
+            const includedBloom = document.getElementById("included-bloom").checked;
+            const includedEffect = includedInvert || includedBloom ?
+              `${includedInvert ? "invert()" : ""} ${includedBloom ? "bloom(1.5, 0.1px, 0)" : ""}` :
+              null;
+            
+            const excludedBlur = toPixel(document.getElementById("excluded-blur-slider").value);
+            const excludedOpacity = toPercent(document.getElementById("excluded-opacity-slider").value);
+            const excludedSaturation = toPercent(document.getElementById("excluded-saturation-slider").value);
+            const excludedEffect = `blur(${excludedBlur}) opacity(${excludedOpacity}) saturate(${excludedSaturation})`;
+
             const { minValue, maxValue } = document.getElementById("time-slider");
-            const { value } = document.getElementById("seismic-type").selectedItem;
 
-            const timeExtent = {
-              start: new Date(minValue, 0, 1),
-              end: new Date(maxValue, 0, 1),
+            layerView.featureEffect = {
+              filter: {
+                timeExtent: {
+                  start: new Date(minValue, 0, 1),
+                  end: new Date(maxValue, 0, 1),
+                }
+              },
+              includedEffect,
+              excludedEffect
             };
-            const where = value === "all" ? null : `type='${value}'`;
-
-            layerView.filter = { timeExtent, where };
           }
         });
       });
