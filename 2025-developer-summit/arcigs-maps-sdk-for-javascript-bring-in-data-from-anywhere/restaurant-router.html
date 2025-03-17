@@ -101,99 +101,106 @@
       </arcgis-map>
     </calcite-shell>
     <script>
-      require([
-        "esri/config",
-        "esri/layers/RouteLayer",
-        "esri/rest/locator",
-        "esri/rest/support/AddressesToLocationsParameters",
-        "esri/symbols/WebStyleSymbol",
-        "esri/symbols/SimpleLineSymbol"
-      ], (
-        config,
-        RouteLayer,
-        locator,
-        AddressesToLocationsParameters,
-        WebStyleSymbol,
-        SimpleLineSymbol,
-      ) => {
-        config.apiKey =
-          "AAPTxy8BH1VEsoebNVZXo8HurN76AlkTxVcO3CjwRvEspgQMs0rZ_je7DbPJqMbS8nn322GVRl5UfoQDgce6muDT0vXrJQBsUvC5rIHu1VfRrX9wWnQjeSddbZYX4c5PsaC7W2VxqFfp2qzk09X3iCohzaI3MC26TdxcUuc7pJQ9sOqHuN2XYHEaFqyz5dpMegPYZUk56RsJQpXepQ7L0xv2l0LIhPkZkB8gASv-R-x_IjE.AT1_XyGv4YP0";
+      document.querySelector("arcgis-map").addEventListener("arcgisViewReadyChange", async ({ target }) => {
+        const [config, RouteLayer, WebStyleSymbol, SimpleLineSymbol] = await Promise.all([
+          $arcgis.import("esri/config"),
+          $arcgis.import("esri/layers/RouteLayer"),
+          $arcgis.import("esri/symbols/WebStyleSymbol"),
+          $arcgis.import("esri/symbols/SimpleLineSymbol"),
+        ]);
 
-        document.querySelector("arcgis-map").addEventListener("arcgisViewReadyChange", (event) => {
-          const styleUrl = "https://cdn.arcgis.com/sharing/rest/content/items/806df898e9c04516a704a9f93e2a0a5e/data";
-          const layer = new RouteLayer({
-            defaultSymbols: {
-              stops: {
-                first: new WebStyleSymbol({ name: "Leadership", styleUrl }),
-                last: new WebStyleSymbol({ name: "House", styleUrl }),
-                middle: new WebStyleSymbol({ name: "Food", styleUrl })
-              },
-              directionLines: null,
-              directionPoints: null,
-              routeInfo: new SimpleLineSymbol({
-                style: "short-dot",
-                color: "green",
-                width: 8,
-              }),
-            }
-          });
-          event.target.map.add(layer);
+        config.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurN76AlkTxVcO3CjwRvEspgQMs0rZ_je7DbPJqMbS8nn322GVRl5UfoQDgce6muDT0vXrJQBsUvC5rIHu1VfRrX9wWnQjeSddbZYX4c5PsaC7W2VxqFfp2qzk09X3iCohzaI3MC26TdxcUuc7pJQ9sOqHuN2XYHEaFqyz5dpMegPYZUk56RsJQpXepQ7L0xv2l0LIhPkZkB8gASv-R-x_IjE.AT1_XyGv4YP0";
+
+        const styleUrl = "https://cdn.arcgis.com/sharing/rest/content/items/806df898e9c04516a704a9f93e2a0a5e/data";
+        const layer = new RouteLayer({
+          defaultSymbols: {
+            stops: {
+              first: new WebStyleSymbol({ name: "Leadership", styleUrl }),
+              last: new WebStyleSymbol({ name: "House", styleUrl }),
+              middle: new WebStyleSymbol({ name: "Food", styleUrl })
+            },
+            directionLines: null,
+            directionPoints: null,
+            routeInfo: new SimpleLineSymbol({
+              style: "short-dot",
+              color: "green",
+              width: 8,
+            }),
+          }
+        });
+        target.map.add(layer);
+      });
+
+      document
+        .getElementById("lets-go")
+        .addEventListener("click", async () => {
+          findRoute(false);
         });
 
-        document
-          .getElementById("lets-go")
-          .addEventListener("click", async () => {
-            findRoute(false);
-          });
+      document
+        .getElementById("im-lazy")
+        .addEventListener("click", async () => {
+          findRoute(true);
+        });
 
-        document
-          .getElementById("im-lazy")
-          .addEventListener("click", async () => {
-            findRoute(true);
-          });
+      async function findRoute(findBestSequence) {
+        const [locator, AddressesToLocationsParameters] = await Promise.all([
+          $arcgis.import("esri/rest/locator"),
+          $arcgis.import("esri/rest/support/AddressesToLocationsParameters"),
+        ]);
 
-        async function findRoute(findBestSequence) {
-          const addresses = document.querySelector("calcite-text-area").value
-            .replace(/(\r\n|\n|\r)/gm, ",")
-            .split(",")
-            .map((address, index) => ({
-              "SingleLine": address.trim(),
-              OBJECTID: index + 1
-            }));
+        const addresses = document.querySelector("calcite-text-area").value
+          .replace(/(\r\n|\n|\r)/gm, ",")
+          .split(",")
+          .map((address, index) => ({
+            "SingleLine": address.trim(),
+            OBJECTID: index + 1
+          }));
 
-          const parameters = new AddressesToLocationsParameters({
-            addresses,
-            countryCode : "US",
-            locationType: "street",
-          });
+        const parameters = new AddressesToLocationsParameters({
+          addresses,
+          countryCode : "US",
+          locationType: "street",
+        });
 
-          const candidates = await locator.addressesToLocations(
-            "https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer",
-            parameters
-          );
+        const candidates = await locator.addressesToLocations(
+          "https://geocode-api.arcgis.com/arcgis/rest/services/World/GeocodeServer",
+          parameters
+        );
 
-          const { map, view } = document.querySelector("arcgis-map");
-          const layer = map.layers.at(0);
-          layer.stops = candidates
-            .sort((candidate1, candidate2) => candidate1.attributes.ResultID
-                                            - candidate2.attributes.ResultID)
-            .map(({ location, address }) => ({
-              geometry: location,
-              name: address,
-              popupTemplate: {
-                title: "{Name}",
-              },
-            }));
+        const { map, view } = target;
+        const layer = map.layers.at(0);
+        layer.stops = candidates
+          .sort((candidate1, candidate2) => candidate1.attributes.ResultID
+                                          - candidate2.attributes.ResultID)
+          .map(({ location, address }) => ({
+            geometry: location,
+            name: address,
+            popupTemplate: {
+              title: "{Name}",
+              // content: [
+              //   {
+              //     type: "fields",
+              //     fieldInfos: [
+              //       { label: "Sequence", fieldName: "Sequence" },
+              //       { label: "Arrival Time", fieldName: "ArrivalTime" },
+              //       { label: "Cumulative Distance (m)", fieldName: "CumulativeMeters" },
+              //       { label: "Cumulative Time (minutes)", fieldName: "CumulativeMinutes" },
+              //     ],
+              //   },
+              // ],
+            },
+          }));
 
-          const routeParameters = { findBestSequence }
-          const solution = await layer.solve(routeParameters);
-          layer.update(solution);
+        const routeParameters = { findBestSequence, startTime: "now" };
+        const solution = await layer.solve(routeParameters);
+        layer.update(solution);
+        console.log("Route solution: ", solution.stops.map((stop) => stop.toGraphic()));
 
-          view.goTo({
-            target: solution.routeInfo.geometry,
-          });
-        }
-      });
+        view.goTo({
+          target: solution.routeInfo.geometry,
+        });
+      }
     </script>
   </body>
 </html>

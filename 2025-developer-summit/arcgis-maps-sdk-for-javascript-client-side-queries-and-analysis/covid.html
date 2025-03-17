@@ -119,98 +119,92 @@
       </arcgis-map>
     </calcite-shell>
     <script>
-      require([
-        "esri/layers/FeatureLayer",
-        "esri/rest/support/Query",
-        "esri/core/promiseUtils",
-      ], (
-        FeatureLayer,
-        Query,
-        promiseUtils,
-      ) => {
+      document.querySelector("arcgis-map").addEventListener("arcgisViewReadyChange", async () => {
+        const [FeatureLayer, Query, promiseUtils] = await Promise.all([
+          $arcgis.import("esri/layers/FeatureLayer"),
+          $arcgis.import("esri/rest/support/Query"),
+          $arcgis.import("esri/core/promiseUtils")
+        ]);
 
-        document.querySelector("arcgis-map").addEventListener("arcgisViewReadyChange", () => {
-          const { map, view } = document.querySelector("arcgis-map");
+        const { map, view } = document.querySelector("arcgis-map");
 
-          const url =
-            "https://services9.arcgis.com/N9p5hsImWXAccRNI/ArcGIS/rest/services/Nc2JKvYFoAEOFCG5JSI6/FeatureServer/1";
+        const url = "https://services9.arcgis.com/N9p5hsImWXAccRNI/ArcGIS/rest/services/Nc2JKvYFoAEOFCG5JSI6/FeatureServer/1";
 
-          const layer = new FeatureLayer({
-            url,
-            renderer: {
-              type: "simple",
-              symbol: {
-                type: "simple-marker",
-                size: 4,
-                color: "red",
-                outline: null,
-              },
+        const layer = new FeatureLayer({
+          url,
+          renderer: {
+            type: "simple",
+            symbol: {
+              type: "simple-marker",
+              size: 4,
+              color: "red",
+              outline: null,
             },
-            outFields: ["Deaths", "Confirmed"],
+          },
+          outFields: ["Deaths", "Confirmed"],
+        });
+        map.add(layer);
+
+        view.on("pointer-move", (event) => {
+          debouncedMoveHandler(event).catch((error) => {
+            if (!promiseUtils.isAbortError(error)) {
+              throw error;
+            }
           });
-          map.add(layer);
+        });
 
-          view.on("pointer-move", (event) => {
-            debouncedMoveHandler(event).catch((error) => {
-              if (!promiseUtils.isAbortError(error)) {
-                throw error;
-              }
-            });
-          });
+        const debouncedMoveHandler = promiseUtils.debounce(async (event) => {
+          const distance = document.getElementById("radius").value;
 
-          const debouncedMoveHandler = promiseUtils.debounce(async (event) => {
-            const distance = document.getElementById("radius").value;
-
-            const query = new Query({
-              geometry: view.toMap(event),
-              spatialRelationship: "contains",
-              distance,
-              units: "kilometers",
-              outStatistics: [
-                {
-                  onStatisticField: "Confirmed",
-                  outStatisticFieldName: "sum_of_cases",
-                  statisticType: "sum",
-                },
-                {
-                  onStatisticField: "Deaths",
-                  outStatisticFieldName: "sum_of_deaths",
-                  statisticType: "sum",
-                },
-              ],
-              returnQueryGeometry: true,
-            });
-
-            const clientSide = document.getElementById("client-side").checked;
-            
-            const layerView = await view.whenLayerView(layer);
-
-            const featureSet = clientSide ?
-              await layerView.queryFeatures(query) :
-              await layer.queryFeatures(query);
-
-            const { features, queryGeometry } = featureSet;
-            const { attributes: { sum_of_cases, sum_of_deaths } } = features[0];
-
-            const formatter = new Intl.NumberFormat();
-            const cases = formatter.format(sum_of_cases);
-            const deaths = formatter.format(sum_of_deaths);
-
-            document.getElementById("cases").innerHTML = cases;
-            document.getElementById("deaths").innerHTML = deaths;
-
-            view.graphics.removeAll();
-            view.graphics.add({
-              geometry: queryGeometry,
-              symbol: {
-                type: "simple-fill",
-                outline: {
-                  color: "white",
-                  width: 1,
-                },
-                color: [255, 255, 0, 0.2],
+          const query = new Query({
+            geometry: view.toMap(event),
+            spatialRelationship: "contains",
+            distance,
+            units: "kilometers",
+            outStatistics: [
+              {
+                onStatisticField: "Confirmed",
+                outStatisticFieldName: "sum_of_cases",
+                statisticType: "sum",
               },
-            });
+              {
+                onStatisticField: "Deaths",
+                outStatisticFieldName: "sum_of_deaths",
+                statisticType: "sum",
+              },
+            ],
+            returnQueryGeometry: true,
+          });
+
+          const clientSide = document.getElementById("client-side").checked;
+          
+          const layerView = await view.whenLayerView(layer);
+
+          const featureSet = clientSide ?
+            await layerView.queryFeatures(query) :
+            await layer.queryFeatures(query);
+
+          const { features, queryGeometry } = featureSet;
+          const { attributes: { sum_of_cases, sum_of_deaths } } = features[0];
+
+          const formatter = new Intl.NumberFormat();
+          const cases = formatter.format(sum_of_cases);
+          const deaths = formatter.format(sum_of_deaths);
+
+          document.getElementById("cases").innerHTML = cases;
+          document.getElementById("deaths").innerHTML = deaths;
+
+          view.graphics.removeAll();
+          view.graphics.add({
+            geometry: queryGeometry,
+            symbol: {
+              type: "simple-fill",
+              outline: {
+                color: "white",
+                width: 1,
+              },
+              color: [255, 255, 0, 0.2],
+            },
           });
         });
       });

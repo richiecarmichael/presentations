@@ -80,14 +80,13 @@
       </arcgis-map>
     </calcite-shell>
     <script>
-      require(["esri/layers/WebTileLayer"], (WebTileLayer) => {
-        document
-          .querySelector("arcgis-map")
-          .addEventListener("arcgisViewReadyChange", (event) => {
-            const urlTemplate = "https://maps.ecere.com/ogcapi/collections/blueMarble/map/tiles/WebMercatorQuad/{level}/{row}/{col}.jpg";
-            event.target.map.add(new WebTileLayer({ urlTemplate }));
-          });
-      });
+      document
+        .querySelector("arcgis-map")
+        .addEventListener("arcgisViewReadyChange", async ({ target }) => {
+          const WebTileLayer = await $arcgis.import("esri/layers/WebTileLayer");
+          const urlTemplate = "https://maps.ecere.com/ogcapi/collections/blueMarble/map/tiles/WebMercatorQuad/{level}/{row}/{col}.jpg";
+          target.map.add(new WebTileLayer({ urlTemplate }));
+        });
     </script>
   </body>
 </html>

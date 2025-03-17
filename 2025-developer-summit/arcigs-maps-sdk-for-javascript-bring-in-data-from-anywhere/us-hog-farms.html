@@ -114,128 +114,121 @@
       </arcgis-map>
     </calcite-shell>
     <script>
-      require([
-        "esri/layers/WFSLayer",
-        "esri/smartMapping/renderers/color",
-        "esri/smartMapping/renderers/size",
-        "esri/smartMapping/renderers/univariateColorSize",
-      ], (
-        WFSLayer,
-        colorRendererCreator,
-        sizeRendererCreator,
-        univariateRendererCreator
-      ) => {
-        document
-          .querySelector("arcgis-map")
-          .addEventListener("arcgisViewReadyChange", async (event) => {
-            const format = { digitSeparator: true };
-            const layer = new WFSLayer({
-              url:
-                "https://dservices.arcgis.com/P3ePLMYs2RVChkJx/arcgis/services/" +
-                "USDA_Census_of_Agriculture_2017_Hog_Production_WFS/WFSServer" +
-                "?service=wfs&request=getcapabilities",
-              title: "Hog Farms By County",
-              copyright: "USDA",
-              popupTemplate: {
-                title: "{County_Name}, {State_Name}",
-                content: [
-                  {
-                    type: "fields",
-                    fieldInfos: [
-                      { label: "Inventory", fieldName: "Inventory", format },
-                      {
-                        label: "Sales (head)",
-                        fieldName: "Sales_in_Head",
-                        format,
-                      },
-                      {
-                        label: "Sales ($)",
-                        fieldName: "Sales_in_US_Dollars",
-                        format,
-                      },
-                      {
-                        label: "Farms with inventory",
-                        fieldName: "Operations_with_Inventory",
-                        format,
-                      },
-                      {
-                        label: "Farms with sales",
-                        fieldName: "Operations_with_Sales",
-                        format,
-                      },
-                    ],
-                  },
-                ],
-              },
-            });
+      document
+        .querySelector("arcgis-map")
+        .addEventListener("arcgisViewReadyChange", async ({ target }) => {
+          const WFSLayer = await $arcgis.import("esri/layers/WFSLayer");
 
-            event.target.map.add(layer);
+          const format = { digitSeparator: true };
+          const layer = new WFSLayer({
+            url:
+              "https://dservices.arcgis.com/P3ePLMYs2RVChkJx/arcgis/services/" +
+              "USDA_Census_of_Agriculture_2017_Hog_Production_WFS/WFSServer" +
+              "?service=wfs&request=getcapabilities",
+            title: "Hog Farms By County",
+            copyright: "USDA",
+            popupTemplate: {
+              title: "{County_Name}, {State_Name}",
+              content: [
+                {
+                  type: "fields",
+                  fieldInfos: [
+                    { label: "Inventory", fieldName: "Inventory", format },
+                    {
+                      label: "Sales (head)",
+                      fieldName: "Sales_in_Head",
+                      format,
+                    },
+                    {
+                      label: "Sales ($)",
+                      fieldName: "Sales_in_US_Dollars",
+                      format,
+                    },
+                    {
+                      label: "Farms with inventory",
+                      fieldName: "Operations_with_Inventory",
+                      format,
+                    },
+                    {
+                      label: "Farms with sales",
+                      fieldName: "Operations_with_Sales",
+                      format,
+                    },
+                  ],
+                },
+              ],
+            },
           });
 
-        document
-          .getElementById("radio-button-group")
-          .addEventListener("calciteRadioButtonGroupChange", async (event) => {
-            const { map, view } = document.querySelector("arcgis-map");
-            const layer = map.layers.at(0);
+          target.map.add(layer);
+        });
 
-            switch (event.target.selectedItem.value) {
-              case "default": {
-                layer.renderer = {
-                  type: "simple",
-                  symbol: {
-                    type: "simple-fill",
-                    color: [252, 146, 31, 196],
-                    outline: {
-                      color: [255, 255, 255, 191],
-                      width: 0.75,
-                    },
+      document
+        .getElementById("radio-button-group")
+        .addEventListener("calciteRadioButtonGroupChange", async ({ target }) => {
+          const { map, view } = document.querySelector("arcgis-map");
+          const layer = map.layers.at(0);
+
+          switch (target.selectedItem.value) {
+            case "default": {
+              layer.renderer = {
+                type: "simple",
+                symbol: {
+                  type: "simple-fill",
+                  color: [252, 146, 31, 196],
+                  outline: {
+                    color: [255, 255, 255, 191],
+                    width: 0.75,
                   },
-                };
-                break;
-              }
-              case "thermatic": {
-                const { renderer } = await colorRendererCreator.createClassBreaksRenderer({
-                    layer,
-                    field: "Inventory",
-                  });
-                layer.renderer = renderer;
-                break;
-              }
-              case "variable-size": {
-                const { renderer } = await sizeRendererCreator.createContinuousRenderer({
-                    layer,
-                    field: "Inventory",
-                    defaultSymbolEnabled: false,
-                  });
-                layer.renderer = renderer;
-                break;
-              }
-              case "variable-size-with-custom-symbol": {
-                const pig = {
-                  type: "web-style",
-                  name: "Pig",
-                  styleUrl: "https://cdn.arcgis.com/sharing/rest/content/items/1fbb242c54e4415d9b8e8a343ca7a9d0/data",
-                };
-                const { renderer } = await univariateRendererCreator.createContinuousRenderer({
-                    layer,
-                    view,
-                    field: "Inventory",
-                    defaultSymbolEnabled: false,
-                    symbolOptions: {
-                      symbols: {
-                        above: pig,
-                        below: pig,
-                      },
-                    },
-                    minValue: 0,
-                    theme: "above-and-below",
-                  });
-                layer.renderer = renderer;
-                break;
-              }
+                },
+              };
+              break;
             }
-          });
-      });
+            case "thermatic": {
+              const colorRendererCreator = await $arcgis.import("esri/smartMapping/renderers/color");
+              const { renderer } = await colorRendererCreator.createClassBreaksRenderer({
+                  layer,
+                  field: "Inventory",
+                });
+              layer.renderer = renderer;
+              break;
+            }
+            case "variable-size": {
+              const sizeRendererCreator = await $arcgis.import("esri/smartMapping/renderers/size");
+              const { renderer } = await sizeRendererCreator.createContinuousRenderer({
+                  layer,
+                  field: "Inventory",
+                  defaultSymbolEnabled: false,
+                });
+              layer.renderer = renderer;
+              break;
+            }
+            case "variable-size-with-custom-symbol": {
+              const pig = {
+                type: "web-style",
+                name: "Pig",
+                styleUrl: "https://cdn.arcgis.com/sharing/rest/content/items/1fbb242c54e4415d9b8e8a343ca7a9d0/data",
+              };
+              const univariateRendererCreator = await $arcgis.import("esri/smartMapping/renderers/univariateColorSize");
+              const { renderer } = await univariateRendererCreator.createContinuousRenderer({
+                  layer,
+                  view,
+                  field: "Inventory",
+                  defaultSymbolEnabled: false,
+                  symbolOptions: {
+                    symbols: {
+                      above: pig,
+                      below: pig,
+                    },
+                  },
+                  minValue: 0,
+                  theme: "above-and-below",
+                });
+              layer.renderer = renderer;
+              break;
+            }
+          }
+        });
     </script>
   </body>
 </html>

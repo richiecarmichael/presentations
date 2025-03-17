@@ -107,71 +107,70 @@
       </arcgis-map>
     </calcite-shell>
     <script>
-      require([
-        "esri/layers/MediaLayer",
-        "esri/layers/support/ImageElement",
-        "esri/layers/support/ControlPointsGeoreference",
-        ], (MediaLayer, ImageElement, ControlPointsGeoreference) => {
-        document.querySelector("arcgis-map").addEventListener("arcgisViewReadyChange", (event) => {
-          document.getElementById("add-cholera-map").addEventListener("click", async () => {
-            const width = 2183;
-            const height = 2048;
-            const { map, view } = event.target;
-            const { spatialReference } = view;
-            const center = view.extent.center;
-            const w = view.extent.width / 4;
-            const h = w * (height / width);
+      document.querySelector("arcgis-map").addEventListener("arcgisViewReadyChange", async (event) => {
+        const [MediaLayer, ImageElement, ControlPointsGeoreference] = await Promise.all([
+          $arcgis.import("esri/layers/MediaLayer"),
+          $arcgis.import("esri/layers/support/ImageElement"),
+          $arcgis.import("esri/layers/support/ControlPointsGeoreference")
+        ]);
 
-            const controlPoints = [
-              { sourcePoint: { x: 0, y: 0 }, mapPoint: { x: center.x - w, y: center.y + h, spatialReference } },
-              { sourcePoint: { x: width, y: 0 }, mapPoint: { x: center.x + w, y: center.y + h, spatialReference } },
-              { sourcePoint: { x: 0, y: height }, mapPoint: { x: center.x - w, y: center.y - h, spatialReference } },
-              { sourcePoint: { x: width, y: height }, mapPoint: { x: center.x + w, y: center.y - h, spatialReference } },
-            ];
+        document.getElementById("add-cholera-map").addEventListener("click", async () => {
+          const width = 2183;
+          const height = 2048;
+          const { map, view } = event.target;
+          const { spatialReference } = view;
+          const center = view.extent.center;
+          const w = view.extent.width / 4;
+          const h = w * (height / width);
 
-            const georeference = new ControlPointsGeoreference({
-              controlPoints,
-              height,
-              width
-            });
+          const controlPoints = [
+            { sourcePoint: { x: 0, y: 0 }, mapPoint: { x: center.x - w, y: center.y + h, spatialReference } },
+            { sourcePoint: { x: width, y: 0 }, mapPoint: { x: center.x + w, y: center.y + h, spatialReference } },
+            { sourcePoint: { x: 0, y: height }, mapPoint: { x: center.x - w, y: center.y - h, spatialReference } },
+            { sourcePoint: { x: width, y: height }, mapPoint: { x: center.x + w, y: center.y - h, spatialReference } },
+          ];
 
-            const imageElement = new ImageElement({
-              image: "./snow-cholera-map.jpg",
-              georeference
-            });
-
-            const layer = new MediaLayer({
-              source: imageElement,
-              title: "Cholera 1854"
-            });
-            map.add(layer);
-
-            const mediaLayerView = await view.whenLayerView(layer);
-            mediaLayerView.interactionOptions.tool = "transform";
-            mediaLayerView.interactive = true;
+          const georeference = new ControlPointsGeoreference({
+            controlPoints,
+            height,
+            width
           });
 
-          document.getElementById("transform").addEventListener("click", async () => {
-            await setInteractiveTool("transform");
-
-            document.getElementById("transform").active = true;
-            document.getElementById("reshape").active = false;
+          const imageElement = new ImageElement({
+            image: "./snow-cholera-map.jpg",
+            georeference
           });
 
-          document.getElementById("reshape").addEventListener("click", async () => {
-            await setInteractiveTool("reshape");
-
-            document.getElementById("transform").active = false;
-            document.getElementById("reshape").active = true;
+          const layer = new MediaLayer({
+            source: imageElement,
+            title: "Cholera 1854"
           });
+          map.add(layer);
 
-          async function setInteractiveTool(tool) {
-            const { map, view } = event.target;
-            const mediaLayerView = await view.whenLayerView(map.layers.at(0));
-            mediaLayerView.interactionOptions.tool = tool;
-          }
+          const mediaLayerView = await view.whenLayerView(layer);
+          mediaLayerView.interactionOptions.tool = "transform";
+          mediaLayerView.interactive = true;
         });
-        
+
+        document.getElementById("transform").addEventListener("click", async () => {
+          await setInteractiveTool("transform");
+
+          document.getElementById("transform").active = true;
+          document.getElementById("reshape").active = false;
+        });
+
+        document.getElementById("reshape").addEventListener("click", async () => {
+          await setInteractiveTool("reshape");
+
+          document.getElementById("transform").active = false;
+          document.getElementById("reshape").active = true;
+        });
+
+        async function setInteractiveTool(tool) {
+          const { map, view } = event.target;
+          const mediaLayerView = await view.whenLayerView(map.layers.at(0));
+          mediaLayerView.interactionOptions.tool = tool;
+        }
       });
     </script>
   </body>

@@ -80,7 +80,9 @@
       </arcgis-map>
     </calcite-shell>
     <script>
-      require(["esri/layers/OGCFeatureLayer"], (OGCFeatureLayer) => {
+      document.querySelector("arcgis-map").addEventListener("arcgisViewReadyChange", async ({ target }) => {
+        const OGCFeatureLayer = await $arcgis.import("esri/layers/OGCFeatureLayer");
+
         const layer = new OGCFeatureLayer({
           url: "https://demo.pygeoapi.io/stable",
           collectionId: "dutch_windmills",
@@ -154,10 +156,7 @@
           },
         });
 
-        const arcgisMap = document.querySelector("arcgis-map");
-        arcgisMap.addEventListener("arcgisViewReadyChange", () => {
-          arcgisMap.map.add(layer);
-        });
+        target.map.add(layer);
       });
     </script>
   </body>

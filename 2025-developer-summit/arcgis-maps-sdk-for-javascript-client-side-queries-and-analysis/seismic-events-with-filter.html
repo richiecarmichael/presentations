@@ -133,76 +133,76 @@
       </arcgis-map>
     </calcite-shell>
     <script>
-      require(["esri/layers/FeatureLayer"], (FeatureLayer) => {
-        document.querySelector("arcgis-map").addEventListener("arcgisViewReadyChange", async () => {
-          const { map, view } = document.querySelector("arcgis-map");
+      document.querySelector("arcgis-map").addEventListener("arcgisViewReadyChange", async () => {
+        const FeatureLayer = await $arcgis.import("esri/layers/FeatureLayer");
 
-          const url = "https://services.arcgis.com/6DIQcwlPy8knb6sg/arcgis/rest/services/quakes/FeatureServer/0";
-          const MAGNITUDE_MIN = 5;
+        const { map, view } = document.querySelector("arcgis-map");
 
-          const layer = new FeatureLayer({
-            url,
-            definitionExpression: `mag >= ${MAGNITUDE_MIN}`,
-            renderer: {
-              type: "simple",
-              symbol: {
-                type: "simple-marker",
-                style: "circle",
-                size: 7,
-                color: "#FF7F00",
-                outline: {
-                  style: "solid",
-                  color: "#3A3B3B",
-                  width: 0.5,
-                },
+        const url = "https://services.arcgis.com/6DIQcwlPy8knb6sg/arcgis/rest/services/quakes/FeatureServer/0";
+        const MAGNITUDE_MIN = 5;
+
+        const layer = new FeatureLayer({
+          url,
+          definitionExpression: `mag >= ${MAGNITUDE_MIN}`,
+          renderer: {
+            type: "simple",
+            symbol: {
+              type: "simple-marker",
+              style: "circle",
+              size: 7,
+              color: "#FF7F00",
+              outline: {
+                style: "solid",
+                color: "#3A3B3B",
+                width: 0.5,
               },
             },
-            popupTemplate: {
-              title: "{place}",
-              content: [
-                {
-                  type: "fields",
-                  fieldInfos: [
-                    { label: "Id", fieldName: "id" },
-                    { label: "Time", fieldName: "time" },
-                    { label: "Latitude", fieldName: "latitude" },
-                    { label: "Longitude", fieldName: "longitude" },
-                    { label: "Depth", fieldName: "depth" },
-                    { label: "Magnitude", fieldName: "mag" },
-                    { label: "Type", fieldName: "type" },
-                  ],
-                },
-              ],
-            },
-          });
-          map.add(layer);
-          const layerView = await view.whenLayerView(layer);
-
-          document
-            .getElementById("seismic-type")
-            .addEventListener("calciteRadioButtonGroupChange", () => {
-              updateLayerView();
-            });
-
-          document
-            .getElementById("time-slider")
-            .addEventListener("calciteSliderInput", () => {
-              updateLayerView();
-            });
-
-          function updateLayerView() {
-            const { minValue, maxValue } = document.getElementById("time-slider");
-            const { value } = document.getElementById("seismic-type").selectedItem;
-
-            const timeExtent = {
-              start: new Date(minValue, 0, 1),
-              end: new Date(maxValue, 0, 1),
-            };
-            const where = value === "all" ? null : `type='${value}'`;
-
-            layerView.filter = { timeExtent, where };
-          }
+          },
+          popupTemplate: {
+            title: "{place}",
+            content: [
+              {
+                type: "fields",
+                fieldInfos: [
+                  { label: "Id", fieldName: "id" },
+                  { label: "Time", fieldName: "time" },
+                  { label: "Latitude", fieldName: "latitude" },
+                  { label: "Longitude", fieldName: "longitude" },
+                  { label: "Depth", fieldName: "depth" },
+                  { label: "Magnitude", fieldName: "mag" },
+                  { label: "Type", fieldName: "type" },
+                ],
+              },
+            ],
+          },
         });
+        map.add(layer);
+        const layerView = await view.whenLayerView(layer);
+
+        document
+          .getElementById("seismic-type")
+          .addEventListener("calciteRadioButtonGroupChange", () => {
+            updateLayerView();
+          });
+
+        document
+          .getElementById("time-slider")
+          .addEventListener("calciteSliderInput", () => {
+            updateLayerView();
+          });
+
+        function updateLayerView() {
+          const { minValue, maxValue } = document.getElementById("time-slider");
+          const { value } = document.getElementById("seismic-type").selectedItem;
+
+          const timeExtent = {
+            start: new Date(minValue, 0, 1),
+            end: new Date(maxValue, 0, 1),
+          };
+          const where = value === "all" ? null : `type='${value}'`;
+
+          layerView.filter = { timeExtent, where };
+        }
       });
     </script>
   </body>

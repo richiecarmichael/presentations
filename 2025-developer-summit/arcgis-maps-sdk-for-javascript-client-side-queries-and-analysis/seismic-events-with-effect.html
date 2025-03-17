@@ -154,123 +154,123 @@
       </arcgis-map>
     </calcite-shell>
     <script>
-      require(["esri/layers/FeatureLayer"], (FeatureLayer) => {
-        document.querySelector("arcgis-map").addEventListener("arcgisViewReadyChange", async () => {
-          const { map, view } = document.querySelector("arcgis-map");
+      document.querySelector("arcgis-map").addEventListener("arcgisViewReadyChange", async () => {
+        const FeatureLayer = await $arcgis.import("esri/layers/FeatureLayer");
 
-          const url = "https://services.arcgis.com/6DIQcwlPy8knb6sg/arcgis/rest/services/quakes/FeatureServer/0";
-          const MAGNITUDE_MIN = 5;
+        const { map, view } = document.querySelector("arcgis-map");
 
-          const layer = new FeatureLayer({
-            url,
-            definitionExpression: `mag >= ${MAGNITUDE_MIN}`,
-            renderer: {
-              type: "simple",
-              symbol: {
-                type: "simple-marker",
-                style: "circle",
-                size: 7,
-                color: "#FF7F00",
-                outline: {
-                  style: "solid",
-                  color: "#3A3B3B",
-                  width: 0.5,
-                },
+        const url = "https://services.arcgis.com/6DIQcwlPy8knb6sg/arcgis/rest/services/quakes/FeatureServer/0";
+        const MAGNITUDE_MIN = 5;
+
+        const layer = new FeatureLayer({
+          url,
+          definitionExpression: `mag >= ${MAGNITUDE_MIN}`,
+          renderer: {
+            type: "simple",
+            symbol: {
+              type: "simple-marker",
+              style: "circle",
+              size: 7,
+              color: "#FF7F00",
+              outline: {
+                style: "solid",
+                color: "#3A3B3B",
+                width: 0.5,
               },
             },
-            popupTemplate: {
-              title: "{place}",
-              content: [
-                {
-                  type: "fields",
-                  fieldInfos: [
-                    { label: "Id", fieldName: "id" },
-                    { label: "Time", fieldName: "time" },
-                    { label: "Latitude", fieldName: "latitude" },
-                    { label: "Longitude", fieldName: "longitude" },
-                    { label: "Depth", fieldName: "depth" },
-                    { label: "Magnitude", fieldName: "mag" },
-                    { label: "Type", fieldName: "type" },
-                  ],
-                },
-              ],
-            },
-          });
-          map.add(layer);
-          const layerView = await view.whenLayerView(layer);
-
-          const sliders = [
-            "excluded-blur-slider",
-            "excluded-opacity-slider",
-            "excluded-saturation-slider",
-            "time-slider",
-          ];
-          for (const slider of sliders) {
-            const componment = document.getElementById(slider);
-            componment.addEventListener("calciteSliderInput", () => {
-              updateLayerView();
-            });
-
-            switch(slider) {
-              case "excluded-blur-slider":
-                componment.labelFormatter = (value, type) => {
-                  return type === "value" ? toPixel(value) : value;
-                };
-                break;
-              case "excluded-opacity-slider":
-              case "excluded-saturation-slider":
-                componment.labelFormatter = (value, type) => {
-                  return type === "value" ? toPercent(value) : value;
-                };
-                break;
-            }
-          }
-
-          document.getElementById("included-invert").addEventListener("calciteSwitchChange", () => {
-            updateLayerView();
-          });
-          document.getElementById("included-bloom").addEventListener("calciteSwitchChange", () => {
-            updateLayerView();
-          });
-          
-          function toDegree(value) {
-            return `${value}deg`
-          }
-
-          function toPixel(value) {
-            return `${value}px`
-          }
-
-          function toPercent(value) {
-            return `${value}%`
-          }
-          
-          function updateLayerView() {
-            const includedInvert = document.getElementById("included-invert").checked;
-            const includedBloom = document.getElementById("included-bloom").checked;
-            const includedEffect = includedInvert || includedBloom ?
-              `${includedInvert ? "invert()" : ""} ${includedBloom ? "bloom(1.5, 0.1px, 0)" : ""}` :
-              null;
-            
-            const excludedBlur = toPixel(document.getElementById("excluded-blur-slider").value);
-            const excludedOpacity = toPercent(document.getElementById("excluded-opacity-slider").value);
-            const excludedSaturation = toPercent(document.getElementById("excluded-saturation-slider").value);
-            const excludedEffect = `blur(${excludedBlur}) opacity(${excludedOpacity}) saturate(${excludedSaturation})`;
-
-            const { minValue, maxValue } = document.getElementById("time-slider");
-
-            layerView.featureEffect = {
-              filter: {
-                timeExtent: {
-                  start: new Date(minValue, 0, 1),
-                  end: new Date(maxValue, 0, 1),
-                }
+          },
+          popupTemplate: {
+            title: "{place}",
+            content: [
+              {
+                type: "fields",
+                fieldInfos: [
+                  { label: "Id", fieldName: "id" },
+                  { label: "Time", fieldName: "time" },
+                  { label: "Latitude", fieldName: "latitude" },
+                  { label: "Longitude", fieldName: "longitude" },
+                  { label: "Depth", fieldName: "depth" },
+                  { label: "Magnitude", fieldName: "mag" },
+                  { label: "Type", fieldName: "type" },
+                ],
               },
-              includedEffect,
-              excludedEffect
-            };
-          }
+            ],
+          },
         });
+        map.add(layer);
+        const layerView = await view.whenLayerView(layer);
+
+        const sliders = [
+          "excluded-blur-slider",
+          "excluded-opacity-slider",
+          "excluded-saturation-slider",
+          "time-slider",
+        ];
+        for (const slider of sliders) {
+          const componment = document.getElementById(slider);
+          componment.addEventListener("calciteSliderInput", () => {
+            updateLayerView();
+          });
+
+          switch(slider) {
+            case "excluded-blur-slider":
+              componment.labelFormatter = (value, type) => {
+                return type === "value" ? toPixel(value) : value;
+              };
+              break;
+            case "excluded-opacity-slider":
+            case "excluded-saturation-slider":
+              componment.labelFormatter = (value, type) => {
+                return type === "value" ? toPercent(value) : value;
+              };
+              break;
+          }
+        }
+
+        document.getElementById("included-invert").addEventListener("calciteSwitchChange", () => {
+          updateLayerView();
+        });
+        document.getElementById("included-bloom").addEventListener("calciteSwitchChange", () => {
+          updateLayerView();
+        });
+        
+        function toDegree(value) {
+          return `${value}deg`
+        }
+
+        function toPixel(value) {
+          return `${value}px`
+        }
+
+        function toPercent(value) {
+          return `${value}%`
+        }
+        
+        function updateLayerView() {
+          const includedInvert = document.getElementById("included-invert").checked;
+          const includedBloom = document.getElementById("included-bloom").checked;
+          const includedEffect = includedInvert || includedBloom ?
+            `${includedInvert ? "invert()" : ""} ${includedBloom ? "bloom(1.5, 0.1px, 0)" : ""}` :
+            null;
+          
+          const excludedBlur = toPixel(document.getElementById("excluded-blur-slider").value);
+          const excludedOpacity = toPercent(document.getElementById("excluded-opacity-slider").value);
+          const excludedSaturation = toPercent(document.getElementById("excluded-saturation-slider").value);
+          const excludedEffect = `blur(${excludedBlur}) opacity(${excludedOpacity}) saturate(${excludedSaturation})`;
+
+          const { minValue, maxValue } = document.getElementById("time-slider");
+
+          layerView.featureEffect = {
+            filter: {
+              timeExtent: {
+                start: new Date(minValue, 0, 1),
+                end: new Date(maxValue, 0, 1),
+              }
+            },
+            includedEffect,
+            excludedEffect
+          };
+        }
       });
     </script>
   </body>
