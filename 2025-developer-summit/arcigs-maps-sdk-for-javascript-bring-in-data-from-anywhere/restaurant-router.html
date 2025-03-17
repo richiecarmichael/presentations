@@ -168,7 +168,7 @@
           parameters
         );
 
-        const { map, view } = target;
+        const { map, view } = document.querySelector("arcgis-map");
         const layer = map.layers.at(0);
         layer.stops = candidates
           .sort((candidate1, candidate2) => candidate1.attributes.ResultID
