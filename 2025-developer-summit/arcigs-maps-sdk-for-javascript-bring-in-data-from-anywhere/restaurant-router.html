@@ -103,10 +103,10 @@
     <script>
       document.querySelector("arcgis-map").addEventListener("arcgisViewReadyChange", async ({ target }) => {
         const [config, RouteLayer, WebStyleSymbol, SimpleLineSymbol] = await Promise.all([
-          $arcgis.import("esri/config"),
-          $arcgis.import("esri/layers/RouteLayer"),
-          $arcgis.import("esri/symbols/WebStyleSymbol"),
-          $arcgis.import("esri/symbols/SimpleLineSymbol"),
+          $arcgis.import("@arcgis/core/config"),
+          $arcgis.import("@arcgis/core/layers/RouteLayer"),
+          $arcgis.import("@arcgis/core/symbols/WebStyleSymbol"),
+          $arcgis.import("@arcgis/core/symbols/SimpleLineSymbol"),
         ]);
 
         config.apiKey = "AAPTxy8BH1VEsoebNVZXo8HurN76AlkTxVcO3CjwRvEspgQMs0rZ_je7DbPJqMbS8nn322GVRl5UfoQDgce6muDT0vXrJQBsUvC5rIHu1VfRrX9wWnQjeSddbZYX4c5PsaC7W2VxqFfp2qzk09X3iCohzaI3MC26TdxcUuc7pJQ9sOqHuN2XYHEaFqyz5dpMegPYZUk56RsJQpXepQ7L0xv2l0LIhPkZkB8gASv-R-x_IjE.AT1_XyGv4YP0";

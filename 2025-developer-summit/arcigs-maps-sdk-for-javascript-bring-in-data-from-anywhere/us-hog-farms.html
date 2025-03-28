@@ -117,7 +117,7 @@
       document
         .querySelector("arcgis-map")
         .addEventListener("arcgisViewReadyChange", async ({ target }) => {
-          const WFSLayer = await $arcgis.import("esri/layers/WFSLayer");
+          const WFSLayer = await $arcgis.import("@arcgis/core/layers/WFSLayer");
 
           const format = { digitSeparator: true };
           const layer = new WFSLayer({

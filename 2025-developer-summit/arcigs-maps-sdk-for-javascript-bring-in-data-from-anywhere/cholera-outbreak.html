@@ -109,9 +109,9 @@
     <script>
       document.querySelector("arcgis-map").addEventListener("arcgisViewReadyChange", async (event) => {
         const [MediaLayer, ImageElement, ControlPointsGeoreference] = await Promise.all([
-          $arcgis.import("esri/layers/MediaLayer"),
-          $arcgis.import("esri/layers/support/ImageElement"),
-          $arcgis.import("esri/layers/support/ControlPointsGeoreference")
+          $arcgis.import("@arcgis/core/layers/MediaLayer"),
+          $arcgis.import("@arcgis/core/layers/support/ImageElement"),
+          $arcgis.import("@arcgis/core/layers/support/ControlPointsGeoreference")
         ]);
 
         document.getElementById("add-cholera-map").addEventListener("click", async () => {

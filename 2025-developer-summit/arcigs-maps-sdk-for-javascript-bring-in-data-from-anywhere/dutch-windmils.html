@@ -81,7 +81,7 @@
     </calcite-shell>
     <script>
       document.querySelector("arcgis-map").addEventListener("arcgisViewReadyChange", async ({ target }) => {
-        const OGCFeatureLayer = await $arcgis.import("esri/layers/OGCFeatureLayer");
+        const OGCFeatureLayer = await $arcgis.import("@arcgis/core/layers/OGCFeatureLayer");
 
         const layer = new OGCFeatureLayer({
           url: "https://demo.pygeoapi.io/stable",

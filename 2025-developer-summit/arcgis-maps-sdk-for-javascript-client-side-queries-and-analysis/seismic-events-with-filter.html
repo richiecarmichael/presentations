@@ -134,7 +134,7 @@
     </calcite-shell>
     <script>
       document.querySelector("arcgis-map").addEventListener("arcgisViewReadyChange", async () => {
-        const FeatureLayer = await $arcgis.import("esri/layers/FeatureLayer");
+        const FeatureLayer = await $arcgis.import("@arcgis/core/layers/FeatureLayer");
 
         const { map, view } = document.querySelector("arcgis-map");
 

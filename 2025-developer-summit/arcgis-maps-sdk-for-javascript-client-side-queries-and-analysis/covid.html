@@ -121,9 +121,9 @@
     <script>
       document.querySelector("arcgis-map").addEventListener("arcgisViewReadyChange", async () => {
         const [FeatureLayer, Query, promiseUtils] = await Promise.all([
-          $arcgis.import("esri/layers/FeatureLayer"),
-          $arcgis.import("esri/rest/support/Query"),
-          $arcgis.import("esri/core/promiseUtils")
+          $arcgis.import("@arcgis/core/layers/FeatureLayer"),
+          $arcgis.import("@arcgis/core/rest/support/Query"),
+          $arcgis.import("@arcgis/core/core/promiseUtils")
         ]);
 
         const { map, view } = document.querySelector("arcgis-map");

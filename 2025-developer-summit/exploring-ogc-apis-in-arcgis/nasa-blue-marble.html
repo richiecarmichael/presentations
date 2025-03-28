@@ -83,7 +83,7 @@
       document
         .querySelector("arcgis-map")
         .addEventListener("arcgisViewReadyChange", async ({ target }) => {
-          const WebTileLayer = await $arcgis.import("esri/layers/WebTileLayer");
+          const WebTileLayer = await $arcgis.import("@arcgis/core/layers/WebTileLayer");
           const urlTemplate = "https://maps.ecere.com/ogcapi/collections/blueMarble/map/tiles/WebMercatorQuad/{level}/{row}/{col}.jpg";
           target.map.add(new WebTileLayer({ urlTemplate }));
         });
