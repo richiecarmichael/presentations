@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="initial-scale=1,maximum-scale=1,user-scalable=no"
+    />
+    <title>NASA Blue Marble</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+      }
+    </style>
+    <script type="module" src="https://js.arcgis.com/5.0/"></script>
+  </head>
+  <body>
+    <calcite-shell content-behind>
+      <calcite-navigation slot="header">
+        <calcite-navigation-logo
+          icon="image-layer"
+          slot="logo"
+          heading="From OGC Web Service to OGC API's | Displaying OGC API - Tiles"
+          description="2026 Esri Developer & Technology Summit"
+        />
+      </calcite-navigation>
+      <arcgis-map basemap="gray">
+        <arcgis-zoom slot="top-left"></arcgis-zoom>
+        <arcgis-legend slot="bottom-right"></arcgis-legend>
+      </arcgis-map>
+    </calcite-shell>
+    <script type="module">
+      const viewElement = document.querySelector("arcgis-map");
+
+      Promise.all([
+        $arcgis.import("@arcgis/core/layers/WebTileLayer.js"),
+        viewElement.viewOnReady(),
+      ]).then(([WebTileLayer]) => {
+        const urlTemplate = "https://maps.ecere.com/ogcapi/collections/blueMarble/map/tiles/WebMercatorQuad/{level}/{row}/{col}.jpg";
+        const layer = new WebTileLayer({ urlTemplate });
+        viewElement.map.add(layer);
+      });
+    </script>
+  </body>
+</html>

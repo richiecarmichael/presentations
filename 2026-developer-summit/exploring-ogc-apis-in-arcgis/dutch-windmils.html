@@ -1,0 +1,117 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="initial-scale=1,maximum-scale=1,user-scalable=no"
+    />
+    <title>Dutch Windmills</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+      }
+    </style>
+    <script type="module" src="https://js.arcgis.com/5.0/"></script>
+  </head>
+  <body>
+    <calcite-shell content-behind>
+      <calcite-navigation slot="header">
+        <calcite-navigation-logo
+          icon="image-layer"
+          slot="logo"
+          heading="From OGC Web Service to OGC API's | Dutch Windmills"
+          description="2026 Esri Developer & Technology Summit"
+        ></calcite-navigation-logo>
+      </calcite-navigation>
+      <arcgis-map basemap="gray" zoom="8" center="5.29,52.13">
+        <arcgis-zoom slot="top-left"></arcgis-zoom>
+        <arcgis-legend slot="top-right"></arcgis-legend>
+      </arcgis-map>
+    </calcite-shell>
+    <script type="module">
+      const viewElement = document.querySelector("arcgis-map");
+
+      Promise.all([
+        $arcgis.import("@arcgis/core/layers/OGCFeatureLayer.js"),
+        viewElement.viewOnReady(),
+      ]).then(([OGCFeatureLayer]) => {
+        const layer = new OGCFeatureLayer({
+          url: "https://demo.pygeoapi.io/stable",
+          collectionId: "dutch_windmills",
+          copyright: "Rijksdienst voor het Cultureel Erfgoed",
+          renderer: {
+            type: "simple",
+            symbol: {
+              type: "simple-marker",
+              size: 6,
+              color: "#ff9b00",
+              outline: null,
+            },
+          },
+          featureReduction: {
+            type: "cluster",
+            clusterRadius: "50px",
+            clusterMinSize: "24px",
+            clusterMaxSize: "60px",
+            labelingInfo: [
+              {
+                deconflictionStrategy: "none",
+                labelExpressionInfo: {
+                  expression: "$feature.cluster_count",
+                },
+                symbol: {
+                  type: "text",
+                  color: "black",
+                  font: {
+                    size: "12px",
+                  },
+                },
+                labelPlacement: "center-center",
+              },
+            ],
+            symbol: {
+              type: "simple-marker",
+              size: 4,
+              color: "#69dcff",
+              outline: {
+                color: "rgba(0, 139, 174, 0.5)",
+                width: 5,
+              },
+            },
+          },
+          popupTemplate: {
+            title: "{NAAM}",
+            content: [
+              {
+                type: "media",
+                mediaInfos: [
+                  {
+                    type: "image",
+                    value: {
+                      sourceURL: "{THUMBNAIL}",
+                      linkURL: "{FOTO_GROOT}",
+                    },
+                  },
+                ],
+              },
+              {
+                type: "fields",
+                fieldInfos: [
+                  { label: "Name", fieldName: "NAAM" },
+                  { label: "Location", fieldName: "PLAATS" },
+                  { label: "Type", fieldName: "TYPE" },
+                  { label: "State", fieldName: "STAAT" },
+                  { label: "Link", fieldName: "INFOLINK" },
+                ],
+              },
+            ],
+          },
+        });
+        viewElement.map.add(layer);
+      });
+    </script>
+  </body>
+</html>
